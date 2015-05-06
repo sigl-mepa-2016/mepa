@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+
+
+    <!-- Scans the classpath of this application for @Components to deploy as beans -->
+    <context:component-scan base-package="fr.epita.sigl.mepa.front" />
+
+    <mvc:annotation-driven />
+
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ 
+        directory -->
+    <mvc:resources location="/resources/css/" mapping="/css/**" />
+    <mvc:resources location="/resources/img/" mapping="/img/**" />
+    <mvc:resources location="/resources/js/" mapping="/js/**" />
+
+    <!-- Resource bundle used by spring (for validation errors, among other things) -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>
+                    i18n.messages
+                </value>
+                <value>
+                    i18n.validationMessages
+                </value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Tiles view resolver -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+        <property name="viewClass">
+            <value>
+                org.springframework.web.servlet.view.tiles3.TilesView
+            </value>
+        </property>
+    </bean>
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>classpath:tiles.xml</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
