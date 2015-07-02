@@ -6,17 +6,17 @@
         <title><fmt:message key="${titleKey}"/></title>
 
         <%-- Bootstrap CSS --%>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
 
         <%-- Application CSS --%>
         <c:url var="defaultCssUrl" value="/css/default.css" />
         <link rel="stylesheet" href="${defaultCssUrl}" type="text/css" />
 
         <%-- jQuery --%>
-        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <%-- Bootstrap JavaScript --%>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
         <%-- Header --%>
