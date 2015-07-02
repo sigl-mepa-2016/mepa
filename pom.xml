@@ -17,14 +17,12 @@
         <url>https://sigl.epita.fr/</url>
     </organization>
 
-    <!-- <url>TODO</url> -->
+    <url>http://mepa.sigl.epita.fr:6373/mepa-front/</url>
 
-    <!--
     <ciManagement>
         <system>Jenkins</system>
-        <url>TODO</url>
+        <url>http://mepa.sigl.epita.fr:6374/job/mepa/</url>
     </ciManagement>
-    -->
 
     <scm>
         <connection>scm:git:git@github.com/sigl-mepa-2016/mepa.git</connection>
@@ -43,11 +41,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <assertj.version>3.0.0</assertj.version>
+        <assertj.version>3.1.0</assertj.version>
         <commons-dbcp.version>2.1</commons-dbcp.version>
         <commons-lang.version>3.4</commons-lang.version>
         <h2.version>1.3.176</h2.version>
-        <hibernate.version>4.3.9.Final</hibernate.version>
+        <hibernate.version>4.3.10.Final</hibernate.version>
         <hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
         <jsp-api.version>2.2.1</jsp-api.version>
         <jstl.version>1.2</jstl.version>
@@ -57,7 +55,7 @@
         <mysql-connector-java.version>5.1.35</mysql-connector-java.version>
         <servlet-api.version>3.0.1</servlet-api.version>
         <slf4j.version>1.7.12</slf4j.version>
-        <spring.version>4.1.6.RELEASE</spring.version>
+        <spring.version>4.1.7.RELEASE</spring.version>
         <tiles.version>3.0.5</tiles.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
     </properties>
@@ -161,33 +159,6 @@
             <version>${hibernate-validator.version}</version>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <!-- From SLF4J FAQ: Declaring version 99-empty of commons-logging in the <dependencyManagement> section of your 
-            project will direct all transtive dependencies for commons-logging to import version 99-empty, thus nicely addressing the 
-            commons-logging exclusion problem. The classes for commons-logging will be provided by jcl-over-slf4j. The following lines 
-            declare commons-logging version 99-empty (in the dependency management section) and declare jcl-over-slf4j as a dependency. -->
-        <dependencies>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>99-empty</version>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>99-empty</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>version99</id>
-            <!-- highly available repository serving empty artifacts -->
-            <url>http://version99.qos.ch/</url>
-        </repository>
-    </repositories>
 
     <build>
         <plugins>
