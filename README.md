@@ -29,6 +29,7 @@ Members
 * LAFFAGE Clément
 * PANGAUD Guillaume
 * MEYER Ludovic
+* COSSON Sébastien
 
 Requirements
 ---------------
