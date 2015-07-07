@@ -15,6 +15,7 @@ Members
 * MARIN Florian
 * FRIDIERE Gauthier
 * PRUVOT Amaury
+* ROLAND Robin
 
 Requirements
 ---------------
