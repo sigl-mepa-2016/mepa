@@ -28,6 +28,7 @@ Members
 * COQUARD Benjamin
 * LAFFAGE Clément
 * PANGAUD Guillaume
+* MEYER Ludovic
 
 Requirements
 ---------------
