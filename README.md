@@ -18,6 +18,7 @@ Members
 * ROLAND Robin
 * MOIZAN Guillaume
 * FONTENAY Raphaël
+* BAUDRY Valentin
 
 Requirements
 ---------------
