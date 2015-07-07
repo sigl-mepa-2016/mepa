@@ -17,6 +17,7 @@ Members
 * PRUVOT Amaury
 * ROLAND Robin
 * MOIZAN Guillaume
+* FONTENAY Raphaël
 
 Requirements
 ---------------
