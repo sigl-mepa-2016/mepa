@@ -13,6 +13,7 @@ Members
 ---------------
 * BEAUFILS Damien
 * MARIN Florian
+* FRIDIERE Gauthier
 
 Requirements
 ---------------
