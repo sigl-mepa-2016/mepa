@@ -1,4 +1,4 @@
-SIGL MEPA 2016
+﻿SIGL MEPA 2016
 ====
 
 Jenkins CI
@@ -21,6 +21,7 @@ Members
 * BAUDRY Valentin
 * FONTENAY Raphaël
 * HASSINE Mariam
+* ANISS Imane
 
 Requirements
 ---------------
