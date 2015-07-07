@@ -16,6 +16,7 @@ Members
 * FRIDIERE Gauthier
 * PRUVOT Amaury
 * ROLAND Robin
+* MOIZAN Guillaume
 
 Requirements
 ---------------
