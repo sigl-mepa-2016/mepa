@@ -20,6 +20,7 @@ Members
 * BEAUFRETON Florent
 * BAUDRY Valentin
 * FONTENAY Raphaël
+* HASSINE Mariam
 
 Requirements
 ---------------
