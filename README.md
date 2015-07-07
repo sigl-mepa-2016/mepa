@@ -22,6 +22,7 @@ Members
 * FONTENAY Raphaël
 * HASSINE Mariam
 * ANISS Imane
+* LEPLAT Marine
 
 Requirements
 ---------------
