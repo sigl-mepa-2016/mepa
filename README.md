@@ -19,6 +19,7 @@ Members
 * MOIZAN Guillaume
 * BEAUFRETON Florent
 * BAUDRY Valentin
+* FONTENAY Raphaël
 
 Requirements
 ---------------
