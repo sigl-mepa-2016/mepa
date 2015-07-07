@@ -23,6 +23,7 @@ Members
 * HASSINE Mariam
 * ANISS Imane
 * LEPLAT Marine
+* BOHON Julien
 
 Requirements
 ---------------
