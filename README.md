@@ -14,6 +14,7 @@ Members
 * BEAUFILS Damien
 * MARIN Florian
 * FRIDIERE Gauthier
+* BOISSERIE Lucas
 * PRUVOT Amaury
 * ROLAND Robin
 * MOIZAN Guillaume
