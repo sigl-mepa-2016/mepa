@@ -14,6 +14,7 @@ Members
 * BEAUFILS Damien
 * MARIN Florian
 * FRIDIERE Gauthier
+* PRUVOT Amaury
 
 Requirements
 ---------------
