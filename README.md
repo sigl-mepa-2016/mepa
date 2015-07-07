@@ -24,6 +24,7 @@ Members
 * ANISS Imane
 * LEPLAT Marine
 * BOHON Julien
+* LAFFAGE Clément
 
 Requirements
 ---------------
