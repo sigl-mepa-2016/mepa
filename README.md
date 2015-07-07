@@ -27,6 +27,7 @@ Members
 * BOHON Julien
 * COQUARD Benjamin
 * LAFFAGE Clément
+* PANGAUD Guillaume
 
 Requirements
 ---------------
