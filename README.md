@@ -25,6 +25,7 @@ Members
 * LEPLAT Marine
 * BOHON Julien
 * COQUARD Benjamin
+* LAFFAGE Clément
 
 Requirements
 ---------------
