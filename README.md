@@ -32,6 +32,7 @@ Members
 * COSSON Sébastien
 * PIZZINI Alexandra
 * BES Emeline
+* MICHEL Nicolas
 
 Requirements
 ---------------
