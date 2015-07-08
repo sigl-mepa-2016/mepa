@@ -33,6 +33,7 @@ Members
 * PIZZINI Alexandra
 * BES Emeline
 * MICHEL Nicolas
+* HEYBERGER Thibaut
 
 Requirements
 ---------------
