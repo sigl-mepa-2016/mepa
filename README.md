@@ -35,6 +35,7 @@ Members
 * MICHEL Nicolas
 * HEYBERGER Thibaut
 * AMDOUNI Najla
+* MOREAU Diane
 
 Requirements
 ---------------
