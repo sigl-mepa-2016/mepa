@@ -34,6 +34,7 @@ Members
 * BES Emeline
 * MICHEL Nicolas
 * HEYBERGER Thibaut
+* AMDOUNI Najla
 
 Requirements
 ---------------
