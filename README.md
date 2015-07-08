@@ -36,6 +36,7 @@ Members
 * HEYBERGER Thibaut
 * AMDOUNI Najla
 * FAUCHILLE Florent
+* MOREAU Diane
 
 Requirements
 ---------------
