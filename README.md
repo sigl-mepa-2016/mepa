@@ -30,6 +30,7 @@ Members
 * PANGAUD Guillaume
 * MEYER Ludovic
 * COSSON Sébastien
+* PIZZINI Alexandra
 
 Requirements
 ---------------
