@@ -31,6 +31,7 @@ Members
 * MEYER Ludovic
 * COSSON Sébastien
 * PIZZINI Alexandra
+* BES Emeline
 
 Requirements
 ---------------
