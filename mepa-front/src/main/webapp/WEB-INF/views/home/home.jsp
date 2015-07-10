@@ -20,8 +20,7 @@
         </p>
 
         <p class="text-center well-done">
-            <c:url var="wellDoneImgUrl" value="/img/welldone.jpg"/>
-            <img src="${wellDoneImgUrl}" alt=""/>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/JP0eFOPzr50" frameborder="0" allowfullscreen></iframe>
         </p>
     </div>
 </div>
