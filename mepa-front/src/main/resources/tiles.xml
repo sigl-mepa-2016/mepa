@@ -27,4 +27,9 @@
         <put-attribute name="body" value="/WEB-INF/views/example/core/result.jsp" />
     </definition>
 
+    <!-- Cartography -->
+    <definition name="/cartography/core/map" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/cartography/core/map.jsp" />
+    </definition>
+
 </tiles-definitions>
