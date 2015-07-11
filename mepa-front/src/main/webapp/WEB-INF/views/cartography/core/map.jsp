@@ -4,7 +4,7 @@
 
     <c:url var="mapCssUrl" value="/css/map.css" />
     <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
-    
+
     <script>
         var map;
 
