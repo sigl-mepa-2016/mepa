@@ -1,4 +1,4 @@
-package fr.epita.sigl.mepa.front.pojo;
+package fr.epita.sigl.mepa.front.APIpojo;
 
 /**
  * Created by Calu on 11/07/2015.
