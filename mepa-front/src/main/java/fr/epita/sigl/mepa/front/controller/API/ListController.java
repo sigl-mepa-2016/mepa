@@ -1,6 +1,6 @@
 package fr.epita.sigl.mepa.front.controller.API;
 
-import fr.epita.sigl.mepa.front.pojo.ClassicObject;
+import fr.epita.sigl.mepa.front.APIpojo.ClassicObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
