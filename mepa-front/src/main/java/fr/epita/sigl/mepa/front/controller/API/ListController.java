@@ -10,29 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class NameController {
+public class ListController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NameController.class);
-
-    @RequestMapping("/api")
-    public String defaultPage()
-    {
-        return "/api/welcome";
-    }
-
-    @RequestMapping("/api/help")
-    public String HelpPage()
-    {
-        return "/api/help";
-    }
-
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
 
     @RequestMapping
     public List<ClassicObject> list()
     {
         List<ClassicObject> retunList = new ArrayList<>();
-
+        //
         return retunList;
     }
-
 }
