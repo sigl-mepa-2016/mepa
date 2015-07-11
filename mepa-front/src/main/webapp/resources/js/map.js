@@ -2,11 +2,12 @@ var map;
 
 function initialize() {
     var mapOptions = {
-        zoom: 6
+        zoom: 15
     };
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
+    // HTML5 geolocation
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = new google.maps.LatLng(position.coords.latitude,
@@ -37,8 +38,8 @@ function handleNoGeolocation(errorFlag) {
 
     var options = {
         map: map,
-        position: new google.maps.LatLng(60, 105),
-        content: content
+        position: new google.maps.LatLng(48.8586, 2.2945),
+        content : content
     };
 
     var infowindow = new google.maps.InfoWindow(options);
