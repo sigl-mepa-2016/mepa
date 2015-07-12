@@ -19,8 +19,8 @@
                         <c:url var="coreExampleUrl" value="/example/core/"/>
                         <li><a href="${coreExampleUrl}">Core module example</a></li>
 
-                        <c:url var="searhUrl" value="/search/core/search"/>
-                        <li><a href="${searhUrl}">Core module example</a></li>
+                        <c:url var="searchUrl" value="/search/core"/>
+                        <li><a href="${searchUrl}">Search module</a></li>
                     </ul>
                 </div>
             </div>
