@@ -17,6 +17,8 @@
         <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <%-- Bootstrap JavaScript --%>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <%-- ChartJS JavaScript --%>
+        <script src="https://www.google.com/jsapi"></script>
     </head>
     <body>
         <%-- Header --%>
