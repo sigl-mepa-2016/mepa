@@ -18,6 +18,9 @@
                         <li><a href="${homeUrl}">Home page</a></li>
                         <c:url var="coreExampleUrl" value="/example/core/"/>
                         <li><a href="${coreExampleUrl}">Core module example</a></li>
+
+                        <c:url var="searhUrl" value="/search/core/search"/>
+                        <li><a href="${searhUrl}">Core module example</a></li>
                     </ul>
                 </div>
             </div>
