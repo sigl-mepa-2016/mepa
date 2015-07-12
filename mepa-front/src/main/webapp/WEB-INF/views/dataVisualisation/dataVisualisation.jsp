@@ -15,7 +15,7 @@
         <option></option>
         <option value="height">Height</option>
         <option value="birthdate">Birth Date</option>
-        <option value="birthdate">Average Grade</option>
+        <option value="average_grade">Average Grade</option>
     </select>
 
     <strong> - Graph Type :</strong>
