@@ -28,7 +28,10 @@
     </definition>
 
     <!-- Cartography -->
-    <definition name="/cartography/core/map" extends="base.definition">
+    <definition name="cartography.definition" extends="base.definition">
+        <put-attribute name="title" value="cartography.title" />
+    </definition>
+    <definition name="/cartography/core/map" extends="cartography.definition">
         <put-attribute name="body" value="/WEB-INF/views/cartography/core/map.jsp" />
     </definition>
 

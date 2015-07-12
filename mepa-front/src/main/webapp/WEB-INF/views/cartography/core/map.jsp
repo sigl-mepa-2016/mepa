@@ -1,7 +1,6 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <head>
-
     <c:url var="mapCssUrl" value="/css/map.css" />
     <c:url var="mapJsUrl" value="/js/map.js" />
 
@@ -10,5 +9,10 @@
 
 </head>
 <body>
-<div id="map-canvas" class="canvas"></div>
+<div class="container">
+    <div class="page-header">
+        <h1>Want to see your localization ?</h1>
+    </div>
+    <div id="map-canvas" class="canvas"></div>
+</div>
 </body>

@@ -1,4 +1,6 @@
 var map;
+var latitude;
+var longitude;
 
 function initialize() {
     var mapOptions = {
@@ -10,6 +12,9 @@ function initialize() {
     // HTML5 geolocation
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
+
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
 
