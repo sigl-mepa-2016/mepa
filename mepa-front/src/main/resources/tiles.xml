@@ -40,4 +40,9 @@
         <put-attribute name="body" value="/WEB-INF/views/cartography/core/map.jsp" />
     </definition>
 
+    <!-- Data Visualisation tabulaire -->
+    <definition name="/dataVisualisationTab/dataVisualisationTab" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisationTab.jsp" />
+    </definition>
+
 </tiles-definitions>
