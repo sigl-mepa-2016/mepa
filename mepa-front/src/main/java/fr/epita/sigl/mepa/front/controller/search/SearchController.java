@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.search;
 
 import fr.epita.sigl.mepa.core.domain.Model;
 import fr.epita.sigl.mepa.core.service.ModelService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class SearchController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     protected static final String MODELS_SEARCH_MODEL_ATTRIBUTE = "models";
+    protected static final String TABLE_NAME = "tableName";
+    protected static final String SEARCHBAR_CONTENT = "searchBar";
     private static final String SEARCH = "searchFormAction";
 
     @Autowired
@@ -35,14 +38,15 @@ public class SearchController {
 
     @RequestMapping(value = { "/", "/search" })
     public String showSearch(HttpServletRequest request, ModelMap modelMap) {
-        /*for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 15; i++) {
             createSearchModel();
         }
         // Get models data from database
         List<Model> models = this.modelService.getAllModels();
         LOG.info("There are {} models in database", models.size());
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, models);
-        */
+        modelMap.addAttribute(TABLE_NAME, "List of all the models in database :");
+        modelMap.addAttribute(SEARCHBAR_CONTENT, "search bar");
         return "/search/core/search";
     }
 
@@ -51,40 +55,42 @@ public class SearchController {
      * @return
      */
     @RequestMapping(value = { "/searchAction" }, method = { RequestMethod.POST })
-    public String processForm(HttpServletRequest request, SearchForm parSearchForm) {
+    public String processForm(HttpServletRequest request, SearchForm parSearchForm, ModelMap modelMap) {
         String searchString = parSearchForm.getSearch();
         LOG.info(searchString);
         // Get models data from database
-        //List<Model> models = this.modelService.getAllModels();
-        //search(models, searchString);
-        return "/search/core/result";
+        List<Model> models = this.modelService.getAllModels();
+        List<Model> modelsResult = new ArrayList<>();
+        modelsResult = search(models, searchString, modelsResult);
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
+
+        modelMap.addAttribute(TABLE_NAME, "List of all the result of your search :");
+        modelMap.addAttribute(SEARCHBAR_CONTENT, searchString);
+        return "/search/core/search";
     }
 
-    private List<Model> search(List<Model> models, String searchString) {
-        /*Integer i = 0;
+    private List<Model> search(List<Model> models, String searchString, List<Model> modelResult) {
+
         for (Model model : models) {
-            LOG.info(i.toString());
-            i++;
-        }*/
+            String data = model.getData();
+            for (String s : data.split(" ")) {
+                if (s.equalsIgnoreCase(searchString)) {
+                    modelResult.add(model);
+                    break;
+                }
+            }
+        }
         LOG.info("search");
-        return null;
+        return modelResult;
     }
 
     /**
      * Create a ramdom search model and add it in database.
      */
     private void createSearchModel() {
-        /*SearchModel searchModel = new SearchModel();
-        RandomStringUtils stringUtils = new RandomStringUtils();
-        String title = stringUtils.randomAlphabetic(3) + " " + stringUtils.randomAlphabetic(15);
-        searchModel.setTitle(title);
-        List<String> content = new ArrayList<>(5);
-        for (int j = 0; j < 5; j++) {
-            content.set(j, stringUtils.randomAlphabetic(15));
-        }
-        searchModel.setContent(content);
-        this.modelService.createModel(searchModel);*/
-        LOG.info("createSearchModel");
+        Model newModel = new Model();
+        newModel.setData(RandomStringUtils.randomAlphabetic(10) + " " + RandomStringUtils.randomAlphabetic(10));
+        this.modelService.createModel(newModel);
     }
 
     /**
@@ -98,37 +104,3 @@ public class SearchController {
     }
 }
 
-/**
- * Created by emeline on 13/07/2015.
- */
-/*
-@Entity
-public class SearchModel extends Model{
-
-    @NotNull
-    private List<String> content;
-
-    @NotNull
-    private String title;
-
-    public List<String> getContent() {
-        return content;
-    }
-
-    public void setContent(List<String> content) {
-        this.content = content;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-}*/
