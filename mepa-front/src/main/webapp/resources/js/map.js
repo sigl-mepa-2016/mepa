@@ -41,9 +41,12 @@ function handleNoGeolocation(errorFlag) {
         var content = 'Error: Your browser doesn\'t support geolocation.';
     }
 
+    latitude = 48.8586;
+    longitude = 2.2945;
+
     var options = {
         map: map,
-        position: new google.maps.LatLng(48.8586, 2.2945),
+        position: new google.maps.LatLng(latitude, longitude),
         content : content
     };
 
