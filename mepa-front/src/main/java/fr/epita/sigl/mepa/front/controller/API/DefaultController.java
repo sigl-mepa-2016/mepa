@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//Replace RestController by controler when web page welcome and help are done
 @RestController
 public class DefaultController {
 
