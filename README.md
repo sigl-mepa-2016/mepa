@@ -37,6 +37,7 @@ Members
 * AMDOUNI Najla
 * FAUCHILLE Florent
 * MOREAU Diane
+* TROUVE Sébastien
 
 Requirements
 ---------------
