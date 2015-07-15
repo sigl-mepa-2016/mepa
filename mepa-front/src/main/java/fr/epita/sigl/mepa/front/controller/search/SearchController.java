@@ -47,8 +47,9 @@ public class SearchController {
     public String showSearch(HttpServletRequest request, ModelMap modelMap) {
        //creation de 15 model avec un contenu random
         for (int i = 0; i < 15; i++) {
-            createSearchModel();
+            createSearchModel(false);
         }
+        createSearchModel(true);
         // Get models data from database
         List<Model> models = this.modelService.getAllModels();
         LOG.info("There are {} models in database", models.size());
@@ -116,10 +117,16 @@ public class SearchController {
     /**
      * Create a ramdom search model and add it in database.
      */
-    private void createSearchModel() {
+    private void createSearchModel(boolean generateTwo) {
+
         Model newModel = new Model();
         newModel.setData(RandomStringUtils.randomAlphabetic(10) + " " + RandomStringUtils.randomAlphabetic(10));
         this.modelService.createModel(newModel);
+        if (generateTwo) {
+            Model newOtherModel = new Model();
+            newOtherModel.setData(newModel.getData());
+            this.modelService.createModel(newOtherModel);
+        }
     }
 
     /**
