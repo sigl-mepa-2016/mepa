@@ -36,6 +36,14 @@
             </tr>
             </thead>
             <tbody>
+            <c:forEach items="${datasets}" var="dataset" varStatus="loop">
+                <tr>
+                    <td>${dataset.theme}</td>
+                    <td>${dataset.name}</td>
+                    <td>${dataset.owner}</td>
+                    <td><fmt:formatDate value="${dataset.last_modified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                </tr>
+            </c:forEach>
             <!-- Visualization -->
             </tbody>
         </table>
