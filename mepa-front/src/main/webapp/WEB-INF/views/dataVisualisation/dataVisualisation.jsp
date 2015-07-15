@@ -103,8 +103,6 @@
                {
                    return data2;
                }
-
-               if (verticalAxe.value = "Average_Grade")
                    return data3;
            }
 

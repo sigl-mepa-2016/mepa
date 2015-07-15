@@ -18,6 +18,10 @@
                         <li><a href="${homeUrl}">Home page</a></li>
                         <c:url var="dataVisualisation" value="/dataVisualisation/"/>
                         <li><a href="${dataVisualisation}">Data Visualisation</a></li>
+                        <c:url var="cartographyUrl" value="/cartography/core/map"/>
+                        <li><a href="${cartographyUrl}">Cartography module</a></li>
+                        <c:url var="dataVisualisationTab" value="/dataVisualisationTab/"/>
+                        <li><a href="${dataVisualisationTab}">Data Visualisation Tabulaire</a></li>
                         <c:url var="coreExampleUrl" value="/example/core/"/>
                         <li><a href="${coreExampleUrl}">Core module example</a></li>
                         <c:url var="dataSet" value="/dataSet/"/>

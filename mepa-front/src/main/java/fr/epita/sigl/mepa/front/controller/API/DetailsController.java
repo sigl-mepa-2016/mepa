@@ -10,10 +10,10 @@ public class DetailsController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DetailsController.class);
 
-    @RequestMapping
+    /*@RequestMapping
     public Object detailsObject()
     {
         return new Object();
-    }
+    }*/
 
 }
