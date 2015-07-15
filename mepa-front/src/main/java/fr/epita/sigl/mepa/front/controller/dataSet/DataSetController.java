@@ -57,6 +57,7 @@ public class DataSetController {
     @RequestMapping(value = { "/add" }, method = { RequestMethod.POST })
     public String processForm(HttpServletRequest request, ModelMap modelMap,
                               @Valid AddCustomDataSetFormBean addCustomDataSetFormBean, BindingResult result) {
+
         if (result.hasErrors()) {
             // Error(s) in form bean validation
             return "/dataSet/form";

@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="alert alert-success">
-    A new dataset has been added!
+    The dataset '${dataset.name}' has been added!
   </div>
   <p>
     <c:url var="dataSetUrl" value="/dataSet/"/>

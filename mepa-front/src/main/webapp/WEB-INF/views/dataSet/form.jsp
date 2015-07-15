@@ -3,7 +3,7 @@
 <div class="container">
     <h2>DataSets</h2>
 
-    <c:url var="addCustomDataSetFormActionUrl" value="/dataset/add"/>
+    <c:url var="addCustomDataSetFormActionUrl" value="/dataSet/add"/>
     <form:form role="form" action="${addCustomDataSetFormActionUrl}" modelAttribute="addCustomDataSetFormBean" method="post">
         <div class="form-group">
             <p class="help-block">Create a new dataset</p>
@@ -36,14 +36,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${datasets}" var="dataset" varStatus="loop">
-                <tr>
-                    <td>${dataset.theme}</td>
-                    <td>${dataset.name}</td>
-                    <td>${dataset.owner}</td>
-                    <td><fmt:formatDate value="${dataset.last_modified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
-                </tr>
-            </c:forEach>
+            <!-- Visualization -->
             </tbody>
         </table>
     </div>
