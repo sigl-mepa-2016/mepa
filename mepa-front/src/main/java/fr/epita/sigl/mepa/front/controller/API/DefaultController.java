@@ -6,18 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 //Replace RestController by controler when web page welcome and help are done
+//TODO: faire 2 pages web pour welcome et help
 @RestController
+@RequestMapping("/api")
 public class DefaultController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
 
-    @RequestMapping("/api")
+    @RequestMapping("/")
     public String defaultPage()
     {
         return "/api/welcome";
     }
 
-    @RequestMapping("/api/help")
+    @RequestMapping("/help")
     public String HelpPage()
     {
         return "/api/help";
