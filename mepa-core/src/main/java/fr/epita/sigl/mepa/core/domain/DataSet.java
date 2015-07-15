@@ -33,9 +33,6 @@ public class DataSet {
     @Column(name = "last_modified", nullable = false)
     private Date last_modified;
 
-    @NotNull
-    private String data;
-
     public Long getId() {
         return this.id;
     }
@@ -74,21 +71,6 @@ public class DataSet {
 
     public void setLastModified(Date last_modified) {
         this.last_modified = last_modified;
-    }
-
-    /**
-     * @return the data
-     */
-    public String getData() {
-        return this.data;
-    }
-
-    /**
-     * @param data
-     *            the data to set
-     */
-    public void setData(String data) {
-        this.data = data;
     }
 
     @Override
