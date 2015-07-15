@@ -30,8 +30,8 @@ public class DataSet {
     private String theme;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_modified", nullable = false)
-    private Date last_modified;
+    @Column(name = "lastModified", nullable = false)
+    private Date lastModified;
 
     public Long getId() {
         return this.id;
@@ -65,12 +65,12 @@ public class DataSet {
         this.theme = theme;
     }
 
-    public Date getLastModifed() {
-        return this.last_modified;
+    public Date getLastModified() {
+        return this.lastModified;
     }
 
-    public void setLastModified(Date last_modified) {
-        this.last_modified = last_modified;
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 
     @Override

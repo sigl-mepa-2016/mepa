@@ -41,7 +41,7 @@
                     <td>${dataset.theme}</td>
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
-                    <td><fmt:formatDate value="${dataset.last_modified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                    <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
                 </tr>
             </c:forEach>
             <!-- Visualization -->

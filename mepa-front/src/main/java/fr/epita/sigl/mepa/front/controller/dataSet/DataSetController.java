@@ -38,7 +38,8 @@ public class DataSetController {
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
         if (LOG.isDebugEnabled()) {
-            LOG.debug("There are {} datasets in database", datasets.size());
+            for (int i = 0; i < datasets.size(); ++i)
+                LOG.debug("There is {} in database", datasets.get(i));
         }
 
         // Update model attribute "datasets", to use it in JSP
