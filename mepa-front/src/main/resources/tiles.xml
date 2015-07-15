@@ -27,6 +27,7 @@
         <put-attribute name="body" value="/WEB-INF/views/example/core/result.jsp" />
     </definition>
 
+
     <!-- Data Visualisation -->
     <definition name="/dataVisualisation/dataVisualisation" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisation/dataVisualisation.jsp" />
@@ -43,6 +44,15 @@
     <!-- Data Visualisation tabulaire -->
     <definition name="/dataVisualisationTab/dataVisualisationTab" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisationTab.jsp" />
+    </definition>
+
+    <!-- Search -->
+    <definition name="/search/core/search" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/search/core/search.jsp" />
+    </definition>
+
+    <definition name="/search/core/result" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/search/core/result.jsp" />
     </definition>
 
 </tiles-definitions>

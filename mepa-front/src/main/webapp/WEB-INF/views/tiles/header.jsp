@@ -24,6 +24,9 @@
                         <li><a href="${dataVisualisationTab}">Data Visualisation Tabulaire</a></li>
                         <c:url var="coreExampleUrl" value="/example/core/"/>
                         <li><a href="${coreExampleUrl}">Core module example</a></li>
+
+                        <c:url var="searchUrl" value="/search/core/search"/>
+                        <li><a href="${searchUrl}">Search module</a></li>
                     </ul>
                 </div>
             </div>

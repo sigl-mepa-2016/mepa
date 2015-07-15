@@ -11,3 +11,27 @@
         </a>
     </p>
 </div>
+<div class="container">
+    <h2>Models in database</h2>
+    <div class="alert alert-warning">
+        Results of your search
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${models}" var="model" varStatus="loop">
+                    <tr>
+                        <td><fmt:formatDate value="${model.created}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                        <td>${model.data}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
