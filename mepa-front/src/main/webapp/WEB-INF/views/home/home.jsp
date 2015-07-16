@@ -20,15 +20,38 @@
 
     <!-- Search bar to change-->
         <div align="center">
-            <form>
-        		<input type="text" size="21" placeholder="Find Data"><input type="submit" value="search" class="submit-button">
-        	</form>
-         </div>
+            <c:url var="searchFormActionUrl" value="/search/core/searchAction"/>
+            <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
+                <input type="text" size="21" placeholder="Find Data"><input type="submit" value="search" class="submit-button">
+            </form:form>
+        </div>
 
-    <!-- Exemple cat image to delete-->
-        <!--<p class="text-center well-done">
-            <c:url var="wellDoneImgUrl" value="/img/welldone.jpg"/>
-             <img src="${wellDoneImgUrl}" alt=""/>
-        </p>-->
+    <!-- Datasets -->
+    <h2>Datasets in database</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Theme</th>
+                <th>Name</th>
+                <th>Producer</th>
+                <th>Last modified</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${datasets}" var="dataset" varStatus="loop">
+                <tr>
+                    <td>${dataset.theme}</td>
+                    <td>${dataset.name}</td>
+                    <td>${dataset.owner}</td>
+                    <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                </tr>
+            </c:forEach>
+            <!-- Visualization -->
+            </tbody>
+        </table>
+    </div>
+
 
 </div>
+

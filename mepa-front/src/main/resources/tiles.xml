@@ -56,11 +56,8 @@
 
     <!-- Search -->
     <definition name="/search/core/search" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/search/core/search.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/search/core/home.jsp" />
     </definition>
 
-    <definition name="/search/core/result" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/search/core/result.jsp" />
-    </definition>
 
 </tiles-definitions>
