@@ -25,7 +25,7 @@ import java.util.List;
  * Controleur de la searchBar
  */
 @Controller
-@RequestMapping("/search/core")
+@RequestMapping("/search")
 public class SearchController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
@@ -57,7 +57,6 @@ public class SearchController {
 
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
-
         return "/home/home";
     }
 

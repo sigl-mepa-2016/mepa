@@ -18,13 +18,15 @@
             <a class="btn btn-lg btn-primary" href="${coreExampleUrl}" role="button">View Core (Database) module and form validation example</a>
         </p>-->
 
-    <!-- Search bar to change-->
-        <div align="center">
-            <c:url var="searchFormActionUrl" value="/search/core/searchAction"/>
-            <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
-                <input type="text" size="21" placeholder="Find Data"><input type="submit" value="search" class="submit-button">
-            </form:form>
-        </div>
+    <!-- Search bar -->
+     <div align="center">
+        <c:url var="searchFormActionUrl" value="/search/searchAction"/>
+        <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
+            <form:errors path="search" cssStyle="color: #FF0000;" htmlEscape="false"/>
+            <form:input id="search" path="search" type="text" maxlength="20" placeholder="Search data"/>
+            <button type="submit" class="submit-button">Search</button>
+        </form:form>
+      </div>
 
     <!-- Datasets -->
     <h2>Datasets in database</h2>
