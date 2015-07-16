@@ -29,7 +29,10 @@
 
 
     <!-- Data Visualisation -->
-    <definition name="/dataVisualisation/dataVisualisation" extends="base.definition">
+    <definition name="visualisation.definition" extends="base.definition">
+        <put-attribute name="title" value="visualisation.title" />
+    </definition>
+    <definition name="/dataVisualisation/dataVisualisation" extends="visualisation.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisation/dataVisualisation.jsp" />
     </definition>
 
