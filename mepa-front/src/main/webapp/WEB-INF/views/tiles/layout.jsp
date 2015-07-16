@@ -25,7 +25,11 @@
         <script src="https://www.google.com/jsapi"></script>
 
     </head>
-    <body>
+
+    <!-- Define the background image -->
+    <c:url var="headerURL" value="/img/header.jpg"/>
+    <body background="${headerURL}" style="background-repeat:no-repeat; background-attachment:fixed; background-position:center">
+
         <%-- Header --%>
         <tiles:insertAttribute name="header" />
         <%-- Body content --%>

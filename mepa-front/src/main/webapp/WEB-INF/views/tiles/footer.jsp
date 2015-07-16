@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 <footer>
     <div class="container">
-        <div class="alert alert-info">Hey, this is the footer! Maybe you could use me?</div>
+        <div class="footer">Developed by SIGL 2016
+        <c:url var="logoEpitaURL" value="/img/logo_epita.png"/>
+                     <img src="${logoEpitaURL}" alt=""/></div>
     </div>
 </footer>
