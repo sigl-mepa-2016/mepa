@@ -22,7 +22,6 @@
     <select id="graph-type">
         <option value="LineChart">LineChart</option>
         <option value="ColumnChart">ColumnChart</option>
-        <option value="Table">Table</option>
     </select>
     <br/><br/>
    <div  id="visualization_div" width="400" height="400"></div>
@@ -46,7 +45,6 @@
                if(verticalAxe.value != "" && horizontalAxe.value != "") {
                    var data = getDatas(verticalAxe.value, horizontalAxe.value);
                    chart.setChartType(graphType.value);
-                   chart.setDataTable(data);
                    chart.draw();
                }
            }
@@ -89,12 +87,6 @@
                    ['Sarah', 8]
                ]);
 
-               if (graphType.value == "Table")
-               {
-                   data = google.visualization.data.join(data,data2,'inner',[[0,0]],[1],[1]);
-                   data = google.visualization.data.join(data,data3,'inner',[[0,0]],[1,2],[1]);
-                   return data;
-               }
                if(verticalAxe.value == "height")
                {
                     return data;
@@ -103,7 +95,7 @@
                {
                    return data2;
                }
-                   return data3;
+               return data3;
            }
 
            graphType.onchange = function () {
@@ -119,8 +111,5 @@
            }
        }
 
-       function drawTable(){
-
-       }
    </script>
 </div>
