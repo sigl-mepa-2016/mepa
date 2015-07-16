@@ -19,10 +19,8 @@ public class APIControler {
     private DataSetService dataSetService;
 
     @RequestMapping("/list")
-    public ListSimpleObject list()
+        public ListSimpleObject list()
     {
-
-
         ListSimpleObject items = new ListSimpleObject();
 
         for(DataSet data: dataSetService.getAllDataSets())
@@ -30,20 +28,6 @@ public class APIControler {
         return items;
     }
 
-    @RequestMapping("/listexemple")
-    public ListSimpleObject listexemple()
-    {
-        ListSimpleObject items = new ListSimpleObject();
-        items.addSimpleObject("1", "toto");
-        items.addSimpleObject("2", "toto");
-        items.addSimpleObject("3", "toto");
-        items.addSimpleObject("4", "toto");
-        items.addSimpleObject("5", "toto");
-        items.addSimpleObject("6", "toto");
-        items.addSimpleObject("7", "toto");
-
-        return items;
-    }
 
     @RequestMapping
     public Object detailsObject()
