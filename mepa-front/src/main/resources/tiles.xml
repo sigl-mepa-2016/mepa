@@ -54,10 +54,5 @@
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisationTab.jsp" />
     </definition>
 
-    <!-- Search -->
-    <definition name="/search/core/search" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/search/core/search.jsp" />
-    </definition>
-
 
 </tiles-definitions>

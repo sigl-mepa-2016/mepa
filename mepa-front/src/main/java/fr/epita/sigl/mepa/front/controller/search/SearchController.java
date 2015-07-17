@@ -55,6 +55,12 @@ public class SearchController {
         List<DataSet> modelsResult = new ArrayList<>();
         modelsResult = search(dataSets, searchString, modelsResult);
 
+        //A faire lorsque les datasets seront finis
+        /*
+        String[] searchStringList = searchString.split(" ");
+        List<DataSet> modelsResult = this.modelService.searchInTitle(searchStringList);
+        */
+
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
         return "/home/home";
@@ -68,17 +74,19 @@ public class SearchController {
      * @return
      */
     private List<DataSet> search(List<DataSet> models, String searchString, List<DataSet> modelResult) {
-        //Parcours de la liste de modèles
-        for (DataSet model : models) {
-            //ici on récupère la data, lorsque on aura les bon modèles il faudra chercher dans le titre
-            String data = model.getName();
-
-            //séparation en toker séparés par des espaces
-            for (String s : data.split(" ")) {
-                //recherche sans faire attention à la case
-                if (s.contains(searchString)) {
-                    modelResult.add(model);
-                    break;
+        String[] searchStringList = searchString.split(" ");
+        if (searchStringList.length == 1) {
+            //Parcours de la liste de modèles
+            for (DataSet model : models) {
+                //ici on récupère la data, lorsque on aura les bon modèles il faudra chercher dans le titre
+                String data = model.getName();
+                //séparation en token séparés par des espaces
+                for (String s : data.split(" ")) {
+                    //recherche sans faire attention à la case
+                    if (s.contains(searchString)) {
+                        modelResult.add(model);
+                        break;
+                    }
                 }
             }
         }

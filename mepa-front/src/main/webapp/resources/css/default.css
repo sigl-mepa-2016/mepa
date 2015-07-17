@@ -26,6 +26,17 @@
     color: rgb(239, 89, 57);
 }
 
+.filtre-content {
+    float: left;
+    width: 20%;
+}
+
+.form{
+
+ padding:3px;
+ width:60%;
+ }
+
 .footer {
     width: 65%;
     text-align: center;

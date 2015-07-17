@@ -17,17 +17,37 @@
             <c:url var="coreExampleUrl" value="/example/core/"/>
             <a class="btn btn-lg btn-primary" href="${coreExampleUrl}" role="button">View Core (Database) module and form validation example</a>
         </p>-->
+</div>
+
+<div class="container">
+    <!-- Filter -->
+    <div class="filtre-content">
+        <h2>Filters</h2>
+        <div class="css-treeview">
+            <ul>
+                <li>
+                    <p>filtre par vue </p>
+                    <ul>
+                        <li><a href="./">Cartographie</a></li>
+                        <li><a href="./">Graphique</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 
     <!-- Search bar -->
-     <div align="center">
-        <c:url var="searchFormActionUrl" value="/search/searchAction"/>
-        <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
-            <form:errors path="search" cssStyle="color: #FF0000;" htmlEscape="false"/>
-            <form:input id="search" path="search" type="text" maxlength="20" placeholder="Search data"/>
-            <button type="submit" class="submit-button">Search</button>
-        </form:form>
-      </div>
+    <c:url var="searchFormActionUrl" value="/search/searchAction"/>
+    <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
+        <form:errors path="search" cssStyle="color: #FF0000;" htmlEscape="false"/>
+        <form:input id="search" path="search" type="text" placeholder="Search data" class="form"/>
+        <button type="submit" class="submit-button">Search</button>
+    </form:form>
+</div>
 
+
+<div class="container">
     <!-- Datasets -->
     <h2>Datasets in database</h2>
     <div class="table-responsive">
@@ -53,7 +73,5 @@
             </tbody>
         </table>
     </div>
-
-
 </div>
 
