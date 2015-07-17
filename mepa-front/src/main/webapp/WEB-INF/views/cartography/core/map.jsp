@@ -78,7 +78,7 @@
 <body>
 <div class="container">
     <div class="page-header">
-        <h1>Want to see your localization ?</h1>
+        <h1 class="white">Want to see your localization ?</h1>
     </div>
     <div id="map-canvas" class="canvas"></div>
 </div>

@@ -49,7 +49,7 @@
 
 <div class="container">
     <!-- Datasets -->
-    <h2>Datasets in database</h2>
+    <h2 class="white">Datasets in database</h2>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
