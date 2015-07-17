@@ -9,7 +9,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
         <%-- Bootstrap CSS --%>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
 
         <%-- Application CSS --%>
