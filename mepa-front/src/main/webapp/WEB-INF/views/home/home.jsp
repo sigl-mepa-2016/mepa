@@ -44,10 +44,7 @@
         <form:input id="search" path="search" type="text" placeholder="Search data" class="form"/>
         <button type="submit" class="submit-button">Search</button>
     </form:form>
-</div>
 
-
-<div class="container">
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>
     <div class="table-responsive">

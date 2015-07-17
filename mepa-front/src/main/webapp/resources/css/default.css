@@ -18,6 +18,9 @@
 .welcome-content .welcome-content-inner hr {
     margin: 30px auto;
 }
+a:link {color: black;}
+a:visited {color: gray;}
+a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
 
 .welcome-content .welcome-content-inner p {
     margin-bottom: 50px;
@@ -34,7 +37,7 @@
 .form{
 
  padding:3px;
- width:60%;
+ width:72%;
  }
 
 .footer {
