@@ -18,11 +18,5 @@ public class DefaultController {
     {
         return "/api/welcome";
     }
-
-    @RequestMapping("/help")
-    public String HelpPage()
-    {
-        return "/api/help";
-    }
-
+    
 }
