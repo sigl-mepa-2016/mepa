@@ -59,5 +59,10 @@
         <put-attribute name="body" value="/WEB-INF/views/search/core/search.jsp" />
     </definition>
 
+    <!-- API -->
+    <definition name="/api/welcome" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/api/welcome.jsp" />
+    </definition>
+
 
 </tiles-definitions>
