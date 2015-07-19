@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class DataSetDaoImpl implements DataSetDao{
+public class DataSetDaoImpl implements DataSetDao {
 
     private MongoCollection datasetCollection;
     private DB db;
@@ -34,7 +34,9 @@ public class DataSetDaoImpl implements DataSetDao{
         credentials.add(credential);
         MongoClient mongoclient = new MongoClient(new ServerAddress(url, port));
 
+
         db = mongoclient.getDB("mepa");
+
 
         Jongo jongo = new Jongo(db);
         this.datasetCollection = jongo.getCollection("dataset");

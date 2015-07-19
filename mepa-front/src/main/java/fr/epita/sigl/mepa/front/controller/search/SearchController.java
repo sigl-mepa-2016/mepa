@@ -1,10 +1,7 @@
 package fr.epita.sigl.mepa.front.controller.search;
 
 import fr.epita.sigl.mepa.core.domain.DataSet;
-import fr.epita.sigl.mepa.core.domain.Model;
 import fr.epita.sigl.mepa.core.service.DataSetService;
-import fr.epita.sigl.mepa.core.service.ModelService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
