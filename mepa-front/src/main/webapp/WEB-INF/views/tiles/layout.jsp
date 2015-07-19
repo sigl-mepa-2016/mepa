@@ -9,7 +9,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
         <%-- Bootstrap CSS --%>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
 
         <%-- Application CSS --%>
@@ -20,12 +20,16 @@
         <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <%-- Bootstrap JavaScript --%>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-]
+        
         <%-- ChartJS JavaScript --%>
         <script src="https://www.google.com/jsapi"></script>
 
     </head>
-    <body>
+
+    <!-- Define the background image -->
+    <c:url var="headerURL" value="/img/header.jpg"/>
+    <body background="${headerURL}" style="background-repeat:no-repeat; background-attachment:fixed; background-position:center">
+
         <%-- Header --%>
         <tiles:insertAttribute name="header" />
         <%-- Body content --%>

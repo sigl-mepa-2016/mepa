@@ -1,26 +1,74 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
+
 <div class="container">
-    <div class="jumbotron">
 
-        <h1>Hello SIGL, this is the home page!</h1>
+    <!-- Home message-->
+        <div class="welcome-content">
+                    <div class="welcome-content-inner">
+                        <h1>WELCOME TO EpiData!</h1>
+                        <hr>
+                        <p>Data accessible and useable by everyone</p>
+                    </div>
+                </div>
 
-        <p class="alert alert-success">Seems to be working? Good!</p>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget mauris a lacus commodo placerat.
-            Pellentesque commodo, nisl mollis cursus ultrices, dui tellus molestie purus, ac lobortis lectus elit ac mi.
-            Pellentesque tristique nisi nec massa auctor in interdum nisl mattis. Aenean convallis dignissim eleifend. Morbi
-            quis tortor odio. Quisque at lectus sed arcu consectetur venenatis ac nec sem. Nulla vehicula eleifend iaculis.
-            Donec libero purus, aliquet et volutpat porta, bibendum vel enim. Proin tempus rutrum iaculis. Proin vulputate
-            dignissim lobortis. Aenean ante elit, condimentum sed fringilla nec, sagittis in magna.</p>
-
-        <p class="text-center">
+    <!-- Exemple button to delete-->
+        <!--<p class="text-center">
             <c:url var="coreExampleUrl" value="/example/core/"/>
             <a class="btn btn-lg btn-primary" href="${coreExampleUrl}" role="button">View Core (Database) module and form validation example</a>
-        </p>
+        </p>-->
+</div>
 
-        <p class="text-center well-done">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/JP0eFOPzr50" frameborder="0" allowfullscreen></iframe>
-        </p>
+<div class="container">
+    <!-- Filter -->
+    <div class="filtre-content">
+        <h2>Filters</h2>
+        <div class="css-treeview">
+            <ul>
+                <li>
+                    <p>filtre par vue </p>
+                    <ul>
+                        <li><a href="./">Cartographie</a></li>
+                        <li><a href="./">Graphique</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Search bar -->
+    <c:url var="searchFormActionUrl" value="/search/searchAction"/>
+    <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
+        <form:errors path="search" cssStyle="color: #FF0000;" htmlEscape="false"/>
+        <form:input id="search" path="search" type="text" placeholder="Search data" class="form"/>
+        <button type="submit" class="submit-button">Search</button>
+    </form:form>
+
+    <!-- Datasets -->
+    <h2 class="white">Datasets in database</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Theme</th>
+                <th>Name</th>
+                <th>Producer</th>
+                <th>Last modified</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${datasets}" var="dataset" varStatus="loop">
+                <tr>
+                    <td>${dataset.theme}</td>
+                    <td>${dataset.name}</td>
+                    <td>${dataset.owner}</td>
+                    <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                </tr>
+            </c:forEach>
+            <!-- Visualization -->
+            </tbody>
+        </table>
     </div>
 </div>
+

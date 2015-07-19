@@ -27,9 +27,21 @@
         <put-attribute name="body" value="/WEB-INF/views/example/core/result.jsp" />
     </definition>
 
+
     <!-- Data Visualisation -->
-    <definition name="/dataVisualisation/dataVisualisation" extends="base.definition">
+    <definition name="visualisation.definition" extends="base.definition">
+        <put-attribute name="title" value="visualisation.title" />
+    </definition>
+    <definition name="/dataVisualisation/dataVisualisation" extends="visualisation.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisation/dataVisualisation.jsp" />
+    </definition>
+
+    <!-- DataSet -->
+    <definition name="/dataSet/form" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/form.jsp" />
+    </definition>
+    <definition name="/dataSet/result" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/result.jsp" />
     </definition>
 
     <!-- Cartography -->
@@ -39,5 +51,16 @@
     <definition name="/cartography/core/map" extends="cartography.definition">
         <put-attribute name="body" value="/WEB-INF/views/cartography/core/map.jsp" />
     </definition>
+
+    <!-- Data Visualisation tabulaire -->
+    <definition name="/dataVisualisationTab/dataVisualisationTab" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisationTab.jsp" />
+    </definition>
+
+    <!-- API -->
+    <definition name="/api/welcome" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/api/welcome.jsp" />
+    </definition>
+
 
 </tiles-definitions>
