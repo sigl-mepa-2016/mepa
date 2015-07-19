@@ -22,6 +22,12 @@
 
         <button type="submit" class="btn btn-default">Submit</button>
     </form:form>
+    <div>
+        <c:url var="homeUrl" value="/home/"/>
+        <a href="${homeUrl}">
+            <span class="glyphicon glyphicon-arrow-left"></span> Back to home
+        </a>
+    </div>
 </div>
 
 
