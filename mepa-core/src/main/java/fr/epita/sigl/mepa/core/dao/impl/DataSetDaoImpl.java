@@ -1,21 +1,38 @@
 package fr.epita.sigl.mepa.core.dao.impl;
 
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import fr.epita.sigl.mepa.core.dao.DataSetDao;
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import org.bson.types.ObjectId;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import fr.epita.sigl.mepa.core.dao.DataSetDao;
-
+import java.net.UnknownHostException;
 import java.util.List;
 
 @Repository
 public class DataSetDaoImpl implements DataSetDao{
 
+    private MongoCollection datasetCollection;
+    private DB db;
     @Autowired
     private SessionFactory sessionFactory;
+
+    public DataSetDaoImpl() throws UnknownHostException {
+
+        db = new MongoClient("mepa.sigl.epita.fr", 6375).getDB("mepa");
+
+
+        Jongo jongo = new Jongo(db);
+        this.datasetCollection = jongo.getCollection("dataset");
+    }
 
     private Session getSession() {
         return this.sessionFactory.getCurrentSession();
@@ -23,6 +40,7 @@ public class DataSetDaoImpl implements DataSetDao{
 
     @Override
     public void create(DataSet dataSet) {
+        this.datasetCollection.insert(dataSet);
         this.getSession().save(dataSet);
     }
 
@@ -38,9 +56,7 @@ public class DataSetDaoImpl implements DataSetDao{
 
     @Override
     public DataSet getById(Long id) {
-        Query query = this.getSession().getNamedQuery("DataSet.findById");
-        query.setParameter("id", id);
-        return (DataSet) query.uniqueResult();
+        return this.datasetCollection.findOne(ObjectId.massageToObjectId(id)).as(DataSet.class);
     }
 
     @Override
