@@ -55,6 +55,7 @@
                 <th>Name</th>
                 <th>Producer</th>
                 <th>Last modified</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -64,6 +65,8 @@
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
                     <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                    <c:url var="dataSetUrl" value="/home/"/>
+                    <td><a href="${dataSetUrl}">Details</a></td>
                 </tr>
             </c:forEach>
             <!-- Visualization -->
