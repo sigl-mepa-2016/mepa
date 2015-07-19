@@ -42,7 +42,8 @@ public class APIControler {
      */
     @RequestMapping("/dataSet/{dataSetID}")
     public Object schemaDataSet(@PathVariable Long dataSetID) {
-        return "datasetID = " + dataSetID;
+       return dataSetService.getDataSetById(dataSetID);
+
     }
 
     /**
