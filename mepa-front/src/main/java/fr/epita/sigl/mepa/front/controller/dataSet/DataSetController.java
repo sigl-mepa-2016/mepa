@@ -32,7 +32,7 @@ public class DataSetController {
     @Autowired
     private DataSetService dataSetService;
 
-    @RequestMapping(value = {"/", "/form"})
+    @RequestMapping(value = {"/form"})
     public String showForm(HttpServletRequest request, ModelMap modelMap) {
 
         // Get models data from database
@@ -72,6 +72,25 @@ public class DataSetController {
         modelMap.addAttribute("dataset", newDataSet);
 
         return "/home/";
+    }
+
+    /**
+     * @param request
+     * @param modelMap
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = { "/details" })
+    public String showDetails(HttpServletRequest request, ModelMap modelMap) {
+
+        if (LOG.isDebugEnabled()) {
+                LOG.debug("Call to details");
+        }
+        /*String datasetId = request.getParameter("datasetId").toString();
+        DataSet dataSet = this.dataSetService.getDataSetById(Long.parseLong(datasetId));
+        modelMap.addAttribute("dataset", dataSet);*/
+
+        return "/dataSet/details/";
     }
 
     /**

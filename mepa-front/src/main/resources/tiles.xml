@@ -43,6 +43,9 @@
     <definition name="/dataSet/result" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataSet/result.jsp" />
     </definition>
+    <definition name="/dataSet/details" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/details.jsp" />
+    </definition>
 
     <!-- Cartography -->
     <definition name="cartography.definition" extends="base.definition">
