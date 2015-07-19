@@ -19,19 +19,17 @@ public class APIControler {
     private DataSetService dataSetService;
 
     @RequestMapping("/list")
-        public ListSimpleObject list()
-    {
+    public ListSimpleObject list() {
         ListSimpleObject items = new ListSimpleObject();
 
-        for(DataSet data: dataSetService.getAllDataSets())
-            items.addSimpleObject(data.getId().toString(), data.getName());
+        for (DataSet data : dataSetService.getAllDataSets())
+            items.addSimpleObject(data.getId().intValue(), data.getName());
+
         return items;
     }
 
-
     @RequestMapping
-    public Object detailsObject()
-    {
+    public Object detailsObject() {
         return new Object();
     }
 }
