@@ -5,12 +5,12 @@
 
     <!-- Home message-->
         <div class="welcome-content">
-                    <div class="welcome-content-inner">
-                        <h1>WELCOME TO EpiData!</h1>
-                        <hr>
-                        <p>Data accessible and useable by everyone</p>
-                    </div>
-                </div>
+            <div class="welcome-content-inner">
+                <h1>WELCOME TO EpiData!</h1>
+                <hr>
+                <p>Data accessible and usable by everyone</p>
+            </div>
+        </div>
 
     <!-- Exemple button to delete-->
         <!--<p class="text-center">
@@ -47,6 +47,8 @@
 
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>
+    <c:url var="dataSetFormUrl" value="/dataSet/form/"/>
+    <a class="btn btn-primary" href="${dataSetFormUrl}" role="button">Create a new dataset</a>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -69,7 +71,6 @@
                     <td><a href="${dataSetUrl}">Details</a></td>
                 </tr>
             </c:forEach>
-            <!-- Visualization -->
             </tbody>
         </table>
     </div>

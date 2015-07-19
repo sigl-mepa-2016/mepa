@@ -71,7 +71,7 @@ public class DataSetController {
 
         modelMap.addAttribute("dataset", newDataSet);
 
-        return "/dataSet/result";
+        return "/home/";
     }
 
     /**
