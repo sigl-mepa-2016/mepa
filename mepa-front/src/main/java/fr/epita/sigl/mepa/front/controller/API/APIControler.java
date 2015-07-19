@@ -6,6 +6,7 @@ import fr.epita.sigl.mepa.front.APIpojo.ListSimpleObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +19,13 @@ public class APIControler {
     @Autowired
     private DataSetService dataSetService;
 
-    @RequestMapping("/list")
-    public ListSimpleObject list() {
+    /**
+     * List of DataSet in database
+     *
+     * @return
+     */
+    @RequestMapping("/dataSet")
+    public ListSimpleObject listDataSet() {
         ListSimpleObject items = new ListSimpleObject();
 
         for (DataSet data : dataSetService.getAllDataSets())
@@ -28,8 +34,42 @@ public class APIControler {
         return items;
     }
 
-    @RequestMapping
-    public Object detailsObject() {
-        return new Object();
+    /**
+     * schema of specific DataSet
+     *
+     * @param dataSetID
+     * @return
+     */
+    @RequestMapping("/dataSet/{dataSetID}")
+    public Object schemaDataSet(@PathVariable Long dataSetID) {
+        return "datasetID = " + dataSetID;
+    }
+
+    /**
+     * @return
+     */
+    @RequestMapping("/dataSet/add")
+    public boolean addDataSet() {
+        return true;
+    }
+
+    /**
+     * @param dataSetID
+     * @return
+     */
+    @RequestMapping("/dataSet/delete/{dataSetID}")
+    public boolean deleteDataSet(@PathVariable Long dataSetID) {
+        return true;
+    }
+
+    /**
+     * Data of a specific DataSet
+     *
+     * @param dataSetID
+     * @return
+     */
+    @RequestMapping("/dataSet/{dataSetID}/data")
+    public Object detailsDataSet(@PathVariable Long dataSetID) {
+        return "datasetID = " + dataSetID;
     }
 }
