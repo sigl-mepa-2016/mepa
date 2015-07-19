@@ -90,7 +90,7 @@ public class DataSetController {
         DataSet dataSet = this.dataSetService.getDataSetById(Long.parseLong(datasetId));
         modelMap.addAttribute("dataset", dataSet);*/
 
-        return "/dataSet/details/";
+        return "/dataSet/details";
     }
 
     /**
