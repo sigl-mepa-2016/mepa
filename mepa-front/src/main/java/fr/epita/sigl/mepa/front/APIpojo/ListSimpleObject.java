@@ -1,9 +1,11 @@
 package fr.epita.sigl.mepa.front.APIpojo;
 
-
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement(name = "Items")
 public class ListSimpleObject {
     private List<SimpleObject> items;
 
@@ -11,37 +13,45 @@ public class ListSimpleObject {
         items = new ArrayList<>();
     }
 
-    public void addSimpleObject(String id, String name)
-    {
+    public void addSimpleObject(int id, String name) {
         items.add(new SimpleObject(id, name));
     }
 
+    @XmlElement
     public List<SimpleObject> getItems() {
         return items;
     }
 }
-class SimpleObject{
-    private String id;
+
+class SimpleObject {
+    private int id;
     private String name;
 
-    public SimpleObject(String id, String name) {
+    public SimpleObject(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public SimpleObject() {
+    }
+
+    @XmlElement
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name;
     }
 }
+

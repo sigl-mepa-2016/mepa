@@ -91,7 +91,7 @@
             <version>${tiles.version}</version>
         </dependency>
 
-        <!-- jackson -->
+        <!-- jJackson JSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -102,6 +102,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.4.1.1</version>
         </dependency>
+        
     </dependencies>
 
     <build>
