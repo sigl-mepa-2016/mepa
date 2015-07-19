@@ -1,12 +1,10 @@
 package fr.epita.sigl.mepa.core.domain;
 
-import java.util.Date;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @NamedQueries({

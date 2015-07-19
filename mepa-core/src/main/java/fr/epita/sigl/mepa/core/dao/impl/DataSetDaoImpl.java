@@ -1,7 +1,6 @@
 package fr.epita.sigl.mepa.core.dao.impl;
 
 import com.mongodb.DB;
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import fr.epita.sigl.mepa.core.dao.DataSetDao;
 import fr.epita.sigl.mepa.core.domain.DataSet;
@@ -18,7 +17,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 @Repository
-public class DataSetDaoImpl implements DataSetDao{
+public class DataSetDaoImpl implements DataSetDao {
 
     private MongoCollection datasetCollection;
     private DB db;
@@ -28,7 +27,6 @@ public class DataSetDaoImpl implements DataSetDao{
     public DataSetDaoImpl() throws UnknownHostException {
 
         db = new MongoClient("mepa.sigl.epita.fr", 6375).getDB("mepa");
-
 
         Jongo jongo = new Jongo(db);
         this.datasetCollection = jongo.getCollection("dataset");
