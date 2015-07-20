@@ -9,6 +9,6 @@
     <div id="map-canvas" class="canvas"></div>
 </div>
 
-Acces to dataSet list : <a href="list" target="_blank">mepa.sigl.epita.fr:6373/mepa-front/api/list/</a>
+Acces to dataSet list : <a href="/mepa-front/api/dataSet" target="_blank">mepa.sigl.epita.fr:6373/mepa-front/api/dataSet/</a>
 </body>
 </div>

@@ -6,12 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api")
 public class DefaultController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
 
-    @RequestMapping("/")
+    @RequestMapping("/api")
     public String defaultPage()
     {
         return "/api/welcome";
