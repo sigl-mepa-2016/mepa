@@ -29,14 +29,8 @@ public class DataSetDaoImpl implements DataSetDao {
     private SessionFactory sessionFactory;
 
     public DataSetDaoImpl() throws UnknownHostException {
-        MongoCredential credential = MongoCredential.createCredential("mepa", "admin", "Sigl2016".toCharArray());
         MongoClient mongoclient = new MongoClient(url, port);
-        //MongoClient mongoclient = new MongoClient(new ServerAddress(url, port), Arrays.asList(credential));
-
-
         db = mongoclient.getDB("mepa");
-
-
         Jongo jongo = new Jongo(db);
         this.datasetCollection = jongo.getCollection("dataset");
     }
