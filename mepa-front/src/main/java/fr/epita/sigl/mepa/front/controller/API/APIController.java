@@ -6,10 +6,8 @@ import fr.epita.sigl.mepa.front.APIpojo.ListSimpleObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import java.util.Map;
 
@@ -27,7 +25,7 @@ public class APIController {
      *
      * @return
      */
-    @RequestMapping("/dataSet")
+    @RequestMapping(value = "/dataSet", method = RequestMethod.GET)
     public ListSimpleObject listDataSet() {
         ListSimpleObject items = new ListSimpleObject();
 
@@ -44,15 +42,16 @@ public class APIController {
      * @return
      */
     @RequestMapping("/dataSet/{dataSetID}")
-    public Object schemaDataSet(@PathVariable String dataSetID) {
-       return dataSetService.getDataSetById(dataSetID);
-
+    public DataSet schemaDataSet(@PathVariable String dataSetID) {
+        LOG.debug("get dataSet details id: {}", dataSetID);
+        DataSet toto =  dataSetService.getDataSetById(dataSetID);
+        return toto;
     }
 
     /**
      * @return
      */
-    @RequestMapping("/dataSet/add")
+    @RequestMapping(value = "/dataSet", method = RequestMethod.PUT)
     public boolean addDataSet() {
         return true;
     }
@@ -61,28 +60,28 @@ public class APIController {
      * @param dataSetID
      * @return
      */
-    @RequestMapping("/dataSet/delete/{dataSetID}")
+    @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
     public boolean deleteDataSet(@PathVariable String dataSetID) {
         return true;
     }
 
-    /**
-     * Data of a specific DataSet
-     *
-     * @param dataSetID
-     * @return
-     */
-    @RequestMapping("/dataSet/{dataSetID}/data")
-    public Object detailsDataSet(@PathVariable String dataSetID, @RequestParam Map<String,String> allRequestParams) {
+    @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.GET)
+    public Object detailsDataSet(@PathVariable String dataSetID) {
 
-        if (allRequestParams.isEmpty())
-        {
+        return "datasetID = " + dataSetID;
+    }
 
-        }
-        else
-        {
+
+    @RequestMapping(value = "/dataSet/{dataSetID}/specificData", method = RequestMethod.GET)
+    public Object detailsSpecificDataSet(@PathVariable String dataSetID, @RequestParam Map<String, String> allRequestParams) {
+
+        if (allRequestParams.isEmpty()) {
+
+        } else {
 
         }
         return "datasetID = " + dataSetID;
     }
+
+
 }
