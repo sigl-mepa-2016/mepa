@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -61,8 +62,15 @@ public class APIController {
     /**
      * @return
      */
-    @RequestMapping(value = "/dataSet", method = RequestMethod.PUT)
-    public boolean addDataSet() {
+    @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
+    public boolean addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
+        DataSet newdataSet = new DataSet();
+        newdataSet.setName(dataSet.getName());
+        newdataSet.setOwner(dataSet.getOwner());
+        newdataSet.setTheme(dataSet.getTheme());
+        newdataSet.setLastModified(new Date());
+        // set field map
+        this.dataSetService.createDataSet(newdataSet);
         return true;
     }
 
