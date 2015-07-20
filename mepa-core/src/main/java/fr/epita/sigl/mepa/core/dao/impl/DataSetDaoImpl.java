@@ -3,8 +3,6 @@ package fr.epita.sigl.mepa.core.dao.impl;
 import com.google.common.collect.Lists;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
 import fr.epita.sigl.mepa.core.dao.DataSetDao;
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import org.hibernate.Session;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
