@@ -25,8 +25,8 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public void deleteData(Data data) {
-        this.dataDao.delete(data);
+    public void deleteData(String dataId) {
+        this.dataDao.delete(dataId);
     }
 
     @Override

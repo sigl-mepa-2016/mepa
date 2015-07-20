@@ -66,6 +66,6 @@ public class DataSetServiceImpl implements DataSetService {
 
     private boolean isValidToUpdate(DataSet dataSet) {
 
-        return isValidToInsert(dataSet) && (dataSet.get_id() != null && !dataSet.get_id().isEmpty());
+        return isValidToInsert(dataSet) && (dataSet.get_id().toString() != null && !dataSet.get_id().toString().isEmpty());
     }
 }
