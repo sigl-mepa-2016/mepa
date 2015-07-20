@@ -146,11 +146,11 @@
 
         function initializeMultiple() {
 
-            generatePoints(100);
+            generatePoints(1000);
             initializePoints();
 
             var mapOptions = {
-                zoom: 10,
+                zoom: 3,
                 center: center
             };
 
