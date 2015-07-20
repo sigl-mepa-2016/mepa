@@ -2,12 +2,13 @@ package fr.epita.sigl.mepa.front.controller.API;
 
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
-import fr.epita.sigl.mepa.front.APIpojo.ListSimpleObject;
+import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
+import fr.epita.sigl.mepa.front.APIpojo.Impl.ListSimpleDataSet;
+import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.runtime.Log;
 
 import java.util.Map;
 
@@ -26,8 +27,8 @@ public class APIController {
      * @return
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.GET)
-    public ListSimpleObject listDataSet() {
-        ListSimpleObject items = new ListSimpleObject();
+    public Pojo listDataSet() {
+        ListSimpleDataSet items = new ListSimpleDataSet();
 
         for (DataSet data : dataSetService.getAllDataSets())
             items.addSimpleObject(data.get_id(), data.getName());
@@ -42,10 +43,19 @@ public class APIController {
      * @return
      */
     @RequestMapping("/dataSet/{dataSetID}")
-    public DataSet schemaDataSet(@PathVariable String dataSetID) {
-        LOG.debug("get dataSet details id: {}", dataSetID);
-        DataSet toto =  dataSetService.getDataSetById(dataSetID);
-        return toto;
+    public Pojo schemaDataSet(@PathVariable String dataSetID) {
+        DataSet dataSet;
+        try
+        {
+             dataSet = dataSetService.getDataSetById(dataSetID);
+        }catch (IllegalArgumentException e)
+        {
+            return new ErrorMessage("Invalid ID");
+        }
+        if (dataSet == null)
+            return new ErrorMessage("No DataSet found");
+        else
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified());
     }
 
     /**
