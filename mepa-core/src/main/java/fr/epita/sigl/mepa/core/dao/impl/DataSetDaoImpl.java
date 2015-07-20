@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.net.UnknownHostException;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -29,10 +29,9 @@ public class DataSetDaoImpl implements DataSetDao {
     private SessionFactory sessionFactory;
 
     public DataSetDaoImpl() throws UnknownHostException {
-        MongoCredential credential = MongoCredential.createCredential("Ludo", "mepa", "1234".toCharArray());
-        List<MongoCredential> credentials = new LinkedList<MongoCredential>();
-        credentials.add(credential);
-        MongoClient mongoclient = new MongoClient(new ServerAddress(url, port));
+        MongoCredential credential = MongoCredential.createCredential("mepa", "mepa", "Sigl2016".toCharArray());
+
+        MongoClient mongoclient = new MongoClient(new ServerAddress(url, port), Arrays.asList(credential));
 
 
         db = mongoclient.getDB("mepa");
