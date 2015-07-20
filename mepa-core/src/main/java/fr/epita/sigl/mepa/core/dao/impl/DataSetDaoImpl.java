@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.core.dao.impl;
 import com.google.common.collect.Lists;
 import fr.epita.sigl.mepa.core.dao.DataSetDao;
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import org.bson.types.ObjectId;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.springframework.stereotype.Repository;
@@ -39,16 +40,11 @@ public class DataSetDaoImpl extends Dao implements DataSetDao {
 
     @Override
     public DataSet getById(String id) {
-        return this.datasetCollection.findOne("{_id: #}", id).as(DataSet.class);
-
-//        return this.datasetCollection.findOne(ObjectId.messageToObjectId(id)).as(DataSet.class);
+        return this.datasetCollection.findOne("{_id: #}", new ObjectId(id)).as(DataSet.class);
     }
 
     @Override
     public List<DataSet> getAll() {
-//        Query query = this.getSession().getNamedQuery("DataSet.findAll");
-//        return query.list();
-
         Iterable<DataSet> sets = this.datasetCollection.find().as(DataSet.class);
         return Lists.newArrayList(sets);
     }
