@@ -21,7 +21,7 @@
                         <c:url var="cartographyUrl" value="/cartography/core/map"/>
                         <li><a href="${cartographyUrl}">Cartography module</a></li>
                         <c:url var="dataVisualisationTab" value="/dataVisualisationTab/"/>
-                        <li><a href="${dataVisualisationTab}">Data Visualisation Tabulaire</a></li>
+                        <li><a href="${dataVisualisationTab}">Tableau</a></li>
                         <c:url var="dataSet" value="/dataSet/"/>
                         <li><a href="${dataSet}">Dataset</a></li>
                         <c:url var="api" value="/api/"/>
