@@ -166,6 +166,7 @@
                 addMarker(googleMapPoints[i], pointsToDisplay[i].info);
             }
 
+            var mc = new MarkerClusterer(map, markers);
             google.maps.event.addListener(map, 'click', function() {
                 infowindow.close(map, this);
             });
