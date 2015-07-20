@@ -36,7 +36,7 @@ public class DataSetServiceImpl implements DataSetService {
 
     @Override
     @Transactional(readOnly = true)
-    public DataSet getDataSetById(Long id) {
+    public DataSet getDataSetById(String id) {
         return this.dataSetDao.getById(id);
     }
 

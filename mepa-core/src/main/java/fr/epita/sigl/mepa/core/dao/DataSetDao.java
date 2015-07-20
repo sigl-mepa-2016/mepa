@@ -12,7 +12,7 @@ public interface DataSetDao {
 
     void delete(DataSet dataSet);
 
-    DataSet getById(Long id);
+    DataSet getById(String id);
 
     List<DataSet> getAll();
 
