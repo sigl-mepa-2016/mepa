@@ -27,6 +27,12 @@ public class DataSet {
     @Column(name = "theme", nullable = false)
     private String theme;
 
+    @Column(name = "isCarto", nullable = false)
+    private Boolean isCarto;
+
+    @Column(name = "isGraphic", nullable = false)
+    private Boolean isGraphic;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "lastModified", nullable = false)
     private Date lastModified;
@@ -41,6 +47,22 @@ public class DataSet {
 
     public String getName() {
         return this.name;
+    }
+
+    public Boolean getIsCarto() {
+        return isCarto;
+    }
+
+    public void setIsCarto(Boolean isCarto) {
+        this.isCarto = isCarto;
+    }
+
+    public Boolean getIsGraphic() {
+        return isGraphic;
+    }
+
+    public void setIsGraphic(Boolean isGraphic) {
+        this.isGraphic = isGraphic;
     }
 
     public void setName(String name) {

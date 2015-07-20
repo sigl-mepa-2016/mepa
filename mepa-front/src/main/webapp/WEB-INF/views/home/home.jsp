@@ -28,7 +28,9 @@
                 <li>
                     <p>filtre par vue </p>
                     <ul>
+                        <c:url var="searchFormActionUrl" value="/search/FilterCarto"/>
                         <li><a href="./">Cartographie</a> ${resFilterCarto}</li>
+                        <c:url var="searchFormActionUrl" value="/search/FilterGraphic"/>
                         <li><a href="./">Graphique</a> ${resFilterGraph}</li>
                     </ul>
                 </li>
@@ -57,6 +59,8 @@
                 <th>Name</th>
                 <th>Producer</th>
                 <th>Last modified</th>
+                <th>is Carto</th>
+                <th>is Graphique</th>
                 <th></th>
             </tr>
             </thead>
@@ -67,6 +71,8 @@
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
                     <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                    <td>${dataset.isCarto}</td>
+                    <td>${dataset.isGraphic}</td>
                     <c:url var="dataSetUrl" value="/dataSet/details?datasetId=${dataset.id}"/>
                     <td><a href="${dataSetUrl}">Details</a></td>
                 </tr>
