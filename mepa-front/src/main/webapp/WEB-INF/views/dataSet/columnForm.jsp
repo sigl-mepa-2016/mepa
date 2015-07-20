@@ -3,7 +3,7 @@
 <div class="container">
   <h2 class="white">Dataset creation</h2>
 
-  <c:set var="id" value="${dataset.id}"/>
+  <c:set var="id" value="${dataset._id}"/>
   <c:url var="addCustomColumnFormActionUrl" value="/dataSet/addColumn?datasetId=${id}"/>
   <form:form role="form" action="${addCustomColumnFormActionUrl}" modelAttribute="addCustomColumnFormBean" method="post">
     <div class="form-group">
@@ -14,13 +14,13 @@
       <br/>
       <label for="owner">Enter the type of the field below:</label>
       <br/>
-      <form:input id="type" path="type" type="text" maxlength="32" placeholder="Producer"/>
+      <form:input id="type" path="type" type="text" maxlength="32" placeholder="Type"/>
     </div>
 
     <button type="submit" class="btn btn-default">Submit</button>
   </form:form>
 
-  <c:set var="id" value="${dataset.id}"/>
+  <c:set var="id" value="${dataset._id}"/>
   <c:url var="detailsUrl" value="/dataSet/details?datasetId=${id}"/>
   <a href="${detailsUrl}">
     <span class="glyphicon glyphicon-arrow-left"></span> Back to dataset details

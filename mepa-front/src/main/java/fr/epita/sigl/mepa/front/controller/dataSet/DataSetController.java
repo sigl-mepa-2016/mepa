@@ -94,7 +94,7 @@ public class DataSetController {
     public String showDetails(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(Long.parseLong(datasetId));
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
 
         List<Columns> columns = this.columnsService.getAllColumns();
@@ -112,7 +112,7 @@ public class DataSetController {
     public String showColumnForm(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(Long.parseLong(datasetId));
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
 
         return "/dataSet/columnForm";
@@ -124,13 +124,13 @@ public class DataSetController {
                                     BindingResult result) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(Long.parseLong(datasetId));
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
 
         Columns newColumns = new Columns();
         newColumns.setName(addCustomColumnFormBean.getName());
         newColumns.setType(addCustomColumnFormBean.getType());
-        newColumns.setDataSetId(dataSet.getId());
+        newColumns.setDataSetId(dataSet.get_id());
         this.columnsService.createColumns(newColumns);
 
         modelMap.addAttribute("columns", newColumns);

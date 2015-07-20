@@ -24,7 +24,7 @@ public class Columns {
     private String type;
 
     @Column(name = "dataSetId", nullable = false)
-    private Long dataSetId;
+    private String dataSetId;
 
     public Long getId() {
         return id;
@@ -50,11 +50,11 @@ public class Columns {
         this.type = type;
     }
 
-    public Long getDataSetId() {
+    public String getDataSetId() {
         return dataSetId;
     }
 
-    public void setDataSetId(Long dataSetId) {
+    public void setDataSetId(String dataSetId) {
         this.dataSetId = dataSetId;
     }
 

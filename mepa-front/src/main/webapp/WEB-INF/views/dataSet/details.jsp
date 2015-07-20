@@ -2,7 +2,7 @@
 
 <div class="container">
 
-    <c:set var="id" value="${dataset.id}"/>
+    <c:set var="id" value="${dataset._id}"/>
     <c:url var="dataSetFormUrl" value="/dataSet/columnForm?datasetId=${id}"/>
     <a class="btn btn-primary" href="${dataSetFormUrl}" role="button">Add a new field to the dataset</a>
 
