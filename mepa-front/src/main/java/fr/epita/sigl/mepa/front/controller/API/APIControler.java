@@ -46,7 +46,6 @@ public class APIControler {
     @RequestMapping("/dataSet/{dataSetID}")
     public Object schemaDataSet(@PathVariable Long dataSetID) {
        return dataSetService.getDataSetById(dataSetID);
-
     }
 
     /**
@@ -73,6 +72,7 @@ public class APIControler {
      * @return
      */
     @RequestMapping("/dataSet/{dataSetID}/data")
+<<<<<<< HEAD
     public Object detailsDataSet(@PathVariable Long dataSetID, @RequestParam Map<String,String> allRequestParams) {
         if (allRequestParams.isEmpty())
         {
@@ -82,6 +82,9 @@ public class APIControler {
         {
 
         }
+=======
+    public Object detailsDataSet(@PathVariable Long dataSetID) {
+>>>>>>> add new controller
         return "datasetID = " + dataSetID;
     }
 }
