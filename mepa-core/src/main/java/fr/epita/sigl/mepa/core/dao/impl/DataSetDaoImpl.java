@@ -1,21 +1,39 @@
 package fr.epita.sigl.mepa.core.dao.impl;
 
+import com.google.common.collect.Lists;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+import fr.epita.sigl.mepa.core.dao.DataSetDao;
 import fr.epita.sigl.mepa.core.domain.DataSet;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import fr.epita.sigl.mepa.core.dao.DataSetDao;
-
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
-public class DataSetDaoImpl implements DataSetDao{
+public class DataSetDaoImpl implements DataSetDao {
 
+    private MongoCollection datasetCollection;
+    private DB db;
+    private static String url = "127.0.0.1";
+    private static int port = 27017;
     @Autowired
     private SessionFactory sessionFactory;
+
+    public DataSetDaoImpl() throws UnknownHostException {
+        MongoClient mongoclient = new MongoClient(url, port);
+        db = mongoclient.getDB("mepa");
+        Jongo jongo = new Jongo(db);
+        this.datasetCollection = jongo.getCollection("dataset");
+    }
 
     private Session getSession() {
         return this.sessionFactory.getCurrentSession();
@@ -23,7 +41,7 @@ public class DataSetDaoImpl implements DataSetDao{
 
     @Override
     public void create(DataSet dataSet) {
-        this.getSession().save(dataSet);
+        this.datasetCollection.insert(dataSet);
     }
 
     @Override
@@ -38,15 +56,18 @@ public class DataSetDaoImpl implements DataSetDao{
 
     @Override
     public DataSet getById(Long id) {
-        Query query = this.getSession().getNamedQuery("DataSet.findById");
-        query.setParameter("id", id);
-        return (DataSet) query.uniqueResult();
+//        new ObjectId().;
+//        return this.datasetCollection.findOne(ObjectId.messageToObjectId(id)).as(DataSet.class);
+        return null;
     }
 
     @Override
     public List<DataSet> getAll() {
-        Query query = this.getSession().getNamedQuery("DataSet.findAll");
-        return query.list();
+//        Query query = this.getSession().getNamedQuery("DataSet.findAll");
+//        return query.list();
+
+        Iterable<DataSet> sets = this.datasetCollection.find().as(DataSet.class);
+        return Lists.newArrayList(sets);
     }
 
 }
