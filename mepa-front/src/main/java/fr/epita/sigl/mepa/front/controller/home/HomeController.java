@@ -27,35 +27,17 @@ public class HomeController {
 
     @RequestMapping(value = {"/", "/home"})
     public String home(ModelMap modelMap) {
-        initDatasets(modelMap);
+        initFilter(modelMap);
         return "/home/home";
     }
 
-    private void initDatasets(ModelMap modelMap) {
-        DataSet newDataSet = new DataSet();
-        newDataSet.setName("Etudiants SIGL 2015");
-        newDataSet.setOwner("SIGL");
-        newDataSet.setTheme("Etudiants");
-        this.dataSetService.createDataSet(newDataSet);
+    private void initFilter(ModelMap modelMap) {
 
-
-        DataSet newDataSet2 = new DataSet();
-        newDataSet2.setName("Etudiants TCOM 2015");
-        newDataSet2.setOwner("TCOM");
-        newDataSet2.setTheme("Etudiants");
-        this.dataSetService.createDataSet(newDataSet2);
-
-
-        DataSet newDataSet3 = new DataSet();
-        newDataSet3.setName("Cours SIGL 2015");
-        newDataSet3.setOwner("SIGL");
-        newDataSet3.setTheme("Cours");
-        this.dataSetService.createDataSet(newDataSet3);
-        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, this.dataSetService.getAllDataSets());
+        modelMap.addAttribute("resFilterGraph", "1");
+        modelMap.addAttribute("resFilterCarto", "2");
     }
 
-
-
+   
     /**
      * Initialize "SearchForm" model attribute
      *

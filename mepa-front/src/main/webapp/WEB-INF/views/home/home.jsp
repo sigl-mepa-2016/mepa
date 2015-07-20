@@ -28,8 +28,8 @@
                 <li>
                     <p>filtre par vue </p>
                     <ul>
-                        <li><a href="./">Cartographie</a></li>
-                        <li><a href="./">Graphique</a></li>
+                        <li><a href="./">Cartographie</a> ${resFilterCarto}</li>
+                        <li><a href="./">Graphique</a> ${resFilterGraph}</li>
                     </ul>
                 </li>
             </ul>
