@@ -13,7 +13,7 @@ public class ListSimpleObject {
         items = new ArrayList<>();
     }
 
-    public void addSimpleObject(int id, String name) {
+    public void addSimpleObject(String id, String name) {
         items.add(new SimpleObject(id, name));
     }
 
@@ -24,10 +24,10 @@ public class ListSimpleObject {
 }
 
 class SimpleObject {
-    private int id;
+    private String id;
     private String name;
 
-    public SimpleObject(int id, String name) {
+    public SimpleObject(String id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -36,11 +36,11 @@ class SimpleObject {
     }
 
     @XmlElement
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
