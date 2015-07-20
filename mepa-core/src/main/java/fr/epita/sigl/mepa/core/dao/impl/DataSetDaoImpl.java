@@ -24,7 +24,7 @@ public class DataSetDaoImpl implements DataSetDao {
     private MongoCollection datasetCollection;
     private DB db;
     private static String url = "127.0.0.1";
-    private static int port = 6375;
+    private static int port = 27017;
     @Autowired
     private SessionFactory sessionFactory;
 
