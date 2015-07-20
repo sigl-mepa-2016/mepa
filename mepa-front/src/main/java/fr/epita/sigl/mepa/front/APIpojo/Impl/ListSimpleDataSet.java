@@ -1,4 +1,6 @@
-package fr.epita.sigl.mepa.front.APIpojo;
+package fr.epita.sigl.mepa.front.APIpojo.Impl;
+
+import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -6,33 +8,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "Items")
-public class ListSimpleObject {
-    private List<SimpleObject> items;
+public class ListSimpleDataSet implements Pojo {
+    private List<SimpleDataSet> items;
 
-    public ListSimpleObject() {
+    public ListSimpleDataSet() {
         items = new ArrayList<>();
     }
 
     public void addSimpleObject(String id, String name) {
-        items.add(new SimpleObject(id, name));
+        items.add(new SimpleDataSet(id, name));
     }
 
     @XmlElement
-    public List<SimpleObject> getItems() {
+    public List<SimpleDataSet> getItems() {
         return items;
     }
 }
 
-class SimpleObject {
+class SimpleDataSet {
     private String id;
     private String name;
 
-    public SimpleObject(String id, String name) {
+    public SimpleDataSet(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public SimpleObject() {
+    public SimpleDataSet() {
     }
 
     @XmlElement
