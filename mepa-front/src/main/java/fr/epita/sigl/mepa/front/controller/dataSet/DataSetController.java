@@ -6,6 +6,7 @@ import fr.epita.sigl.mepa.core.service.ColumnsService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataSetFormBean;
+import fr.epita.sigl.mepa.front.model.search.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class DataSetController {
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
     private static final String ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataSetFormBean";
     protected static final String COLUMNS_MODEL_ATTRIBUTE = "columns";
+    private static final String SEARCH = "searchFormAction";
     private static final String ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomColumnFormBean";
 
     @Autowired
@@ -165,5 +167,10 @@ public class DataSetController {
     @ModelAttribute(ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE)
     public AddCustomColumnFormBean initAddCustomColumnFormBean() {
         return new AddCustomColumnFormBean();
+    }
+
+    @ModelAttribute(SEARCH)
+    public SearchForm initSearchForm() {
+        return new SearchForm();
     }
 }
