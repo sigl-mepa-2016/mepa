@@ -11,6 +11,7 @@ import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class APIController {
         ListSimpleDataSet listSimpleDataSet = new ListSimpleDataSet();
 
         for (DataSet data : dataSetService.getAllDataSets())
-            listSimpleDataSet.addSimpleObject(data.get_id(), data.getName());
+            listSimpleDataSet.addSimpleObject(data.get_id().toString(), data.getName());
 
         return listSimpleDataSet;
     }
@@ -70,6 +71,7 @@ public class APIController {
      * @return Message Pojo
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
 
         DataSet newdataSet = new DataSet(dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
@@ -77,7 +79,7 @@ public class APIController {
             if (!newdataSet.addField(entry.getKey(), entry.getValue()))
                 return new ErrorMessage("Invalid Type in DataSet, only Text and Int are accepted");
 
-        return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("Success add DataSet") : new ErrorMessage("Missing Field");
+        return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("id: " + newdataSet.get_id().toString()) : new ErrorMessage("Missing Field");
     }
 
     @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.PUT)
