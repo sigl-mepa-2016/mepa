@@ -44,7 +44,7 @@ public class APIController {
      * @return
      */
     @RequestMapping("/dataSet/{dataSetID}")
-    public Object schemaDataSet(@PathVariable Long dataSetID) {
+    public Object schemaDataSet(@PathVariable String dataSetID) {
        return dataSetService.getDataSetById(dataSetID);
     }
 
@@ -61,7 +61,7 @@ public class APIController {
      * @return
      */
     @RequestMapping("/dataSet/delete/{dataSetID}")
-    public boolean deleteDataSet(@PathVariable Long dataSetID) {
+    public boolean deleteDataSet(@PathVariable String dataSetID) {
         return true;
     }
 
@@ -72,8 +72,7 @@ public class APIController {
      * @return
      */
     @RequestMapping("/dataSet/{dataSetID}/data")
-<<<<<<< HEAD
-    public Object detailsDataSet(@PathVariable Long dataSetID, @RequestParam Map<String,String> allRequestParams) {
+    public Object detailsDataSet(@PathVariable String dataSetID, @RequestParam Map<String,String> allRequestParams) {
         if (allRequestParams.isEmpty())
         {
 
@@ -82,9 +81,6 @@ public class APIController {
         {
 
         }
-=======
-    public Object detailsDataSet(@PathVariable Long dataSetID) {
->>>>>>> add new controller
         return "datasetID = " + dataSetID;
     }
 }

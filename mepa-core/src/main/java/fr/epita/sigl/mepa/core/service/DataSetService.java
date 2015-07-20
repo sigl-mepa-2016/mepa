@@ -12,7 +12,7 @@ public interface DataSetService {
 
     void deleteDataSet(DataSet dataSet);
 
-    DataSet getDataSetById(Long id);
+    DataSet getDataSetById(String id);
 
     List<DataSet> getAllDataSets();
 
