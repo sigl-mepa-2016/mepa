@@ -15,9 +15,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class APIControler {
+public class APIController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(APIControler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(APIController.class);
 
     @Autowired
     private DataSetService dataSetService;
@@ -32,7 +32,7 @@ public class APIControler {
         ListSimpleObject items = new ListSimpleObject();
 
         for (DataSet data : dataSetService.getAllDataSets())
-            items.addSimpleObject(data.getId().intValue(), data.getName());
+            items.addSimpleObject(data.get_id(), data.getName());
 
         return items;
     }
