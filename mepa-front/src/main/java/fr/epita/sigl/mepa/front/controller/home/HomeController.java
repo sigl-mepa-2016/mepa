@@ -27,9 +27,17 @@ public class HomeController {
 
     @RequestMapping(value = {"/", "/home"})
     public String home(ModelMap modelMap) {
+
+        initFilter(modelMap);
         return "/home/home";
     }
-    
+
+    private void initFilter(ModelMap modelMap) {
+
+        modelMap.addAttribute("resFilterGraph", "1");
+        modelMap.addAttribute("resFilterCarto", "2");
+    }
+
     /**
      * Initialize "SearchForm" model attribute
      *
