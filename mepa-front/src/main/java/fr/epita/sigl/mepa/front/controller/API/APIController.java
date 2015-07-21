@@ -116,6 +116,14 @@ public class APIController {
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
     public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data data, @PathVariable String dataSetID)
     {
+        Pojo dataSet = schemaDataSet(dataSetID);
+        if (dataSet instanceof ErrorMessage)
+            return new ErrorMessage("invalid id");
+
+        if (!data.checkDataType((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
+            return new ErrorMessage("invalid type");
+
+        this.dataService.createData(new Data(dataSetID, data.getData()));
         return new SuccessMessage("Success add Data in DataSet");
     }
 

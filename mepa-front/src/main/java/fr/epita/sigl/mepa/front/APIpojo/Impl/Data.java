@@ -31,6 +31,11 @@ public class Data implements Pojo {
         this.data = data;
     }
 
+    public boolean checkDataType(DataSet dataSet)
+    {
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
