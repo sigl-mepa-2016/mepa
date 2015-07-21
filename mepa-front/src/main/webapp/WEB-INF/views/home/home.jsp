@@ -59,8 +59,6 @@
                 <th>Name</th>
                 <th>Producer</th>
                 <th>Last modified</th>
-                <th>is Carto</th>
-                <th>is Graphique</th>
                 <th></th>
             </tr>
             </thead>
@@ -71,8 +69,6 @@
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
                     <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
-                    <td>${dataset.isCarto}</td>
-                    <td>${dataset.isGraphic}</td>
                     <c:url var="dataSetUrl" value="/dataSet/details?datasetId=${dataset._id}"/>
                     <td><a href="${dataSetUrl}">Details</a></td>
                 </tr>
