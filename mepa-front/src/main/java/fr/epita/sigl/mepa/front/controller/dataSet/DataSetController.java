@@ -1,8 +1,6 @@
 package fr.epita.sigl.mepa.front.controller.dataSet;
 
-import fr.epita.sigl.mepa.core.domain.Columns;
 import fr.epita.sigl.mepa.core.domain.DataSet;
-import fr.epita.sigl.mepa.core.service.ColumnsService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataSetFormBean;
@@ -26,7 +24,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/dataSet")
-@SessionAttributes({ DataSetController.DATASETS_MODEL_ATTRIBUTE })
+@SessionAttributes({DataSetController.DATASETS_MODEL_ATTRIBUTE})
 public class DataSetController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataSetController.class);
@@ -40,8 +38,6 @@ public class DataSetController {
     @Autowired
     private DataSetService dataSetService;
 
-    @Autowired
-    private ColumnsService columnsService;
 
     @RequestMapping(value = {"/form"})
     public String showForm(HttpServletRequest request, ModelMap modelMap) {
@@ -66,7 +62,7 @@ public class DataSetController {
      * @param result
      * @return
      */
-    @RequestMapping(value = { "/add" }, method = { RequestMethod.POST })
+    @RequestMapping(value = {"/add"}, method = {RequestMethod.POST})
     public String processForm(HttpServletRequest request, ModelMap modelMap,
                               @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
                               BindingResult result) {
@@ -91,25 +87,18 @@ public class DataSetController {
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = { "/details" })
+    @RequestMapping(value = {"/details"})
     public String showDetails(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
 
-        List<Columns> columns = this.columnsService.getAllColumns();
-        if (LOG.isDebugEnabled()) {
-            for (int i = 0; i < columns.size(); ++i)
-                LOG.debug("There is {} in dataset", columns.get(i));
-        }
-
-        modelMap.addAttribute(COLUMNS_MODEL_ATTRIBUTE, columns);
 
         return "/dataSet/details";
     }
 
-    @RequestMapping(value = { "/columnForm"})
+    @RequestMapping(value = {"/columnForm"})
     public String showColumnForm(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
@@ -119,7 +108,7 @@ public class DataSetController {
         return "/dataSet/columnForm";
     }
 
-    @RequestMapping(value = { "/addColumn" }, method = { RequestMethod.POST })
+    @RequestMapping(value = {"/addColumn"}, method = {RequestMethod.POST})
     public String processColumnForm(HttpServletRequest request, ModelMap modelMap,
                                     @Valid AddCustomColumnFormBean addCustomColumnFormBean,
                                     BindingResult result) {
@@ -135,7 +124,7 @@ public class DataSetController {
             return "/home/home";
 
         for (int i = 0; i < nameValues.length; ++i) {
-            if (false == nameValues[i].isEmpty() && false == typeValues[i].isEmpty())
+            if (!nameValues[i].isEmpty() && !typeValues[i].isEmpty())
                 dataSet.addField(nameValues[i], typeValues[i]);
         }
         this.dataSetService.updateDataSet(dataSet);
@@ -163,11 +152,6 @@ public class DataSetController {
     @ModelAttribute(ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE)
     public AddCustomDataSetFormBean initAddCustomDataSetFormBean() {
         return new AddCustomDataSetFormBean();
-    }
-
-    @ModelAttribute(COLUMNS_MODEL_ATTRIBUTE)
-    public List<Columns> initColumns() {
-        return new ArrayList<Columns>();
     }
 
     @ModelAttribute(ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE)
