@@ -172,7 +172,7 @@ public class DataSetController {
                 dataList.add(fieldsValues[i]);
                 data.getData().put(column, dataList);
             }
-            this.dataService.updateDataSet(data);
+            this.dataService.updateData(data);
         } else {
             Map<String, List<String>> dataMap = new HashMap<>();
             for (int i = 0; i < fields.length; ++i) {
@@ -181,7 +181,7 @@ public class DataSetController {
                 dataMap.put(fields[i].toString(), value);
             }
             Data toCreate = new Data(datasetId, dataMap);
-            this.dataService.createDataSet(toCreate);
+            this.dataService.createData(toCreate);
         }
 
         return "/home/home";
