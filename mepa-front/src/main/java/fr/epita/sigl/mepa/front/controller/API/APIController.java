@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
@@ -46,11 +47,9 @@ public class APIController {
     @RequestMapping("/dataSet/{dataSetID}")
     public Pojo schemaDataSet(@PathVariable String dataSetID) {
         DataSet dataSet;
-        try
-        {
-             dataSet = dataSetService.getDataSetById(dataSetID);
-        }catch (IllegalArgumentException e)
-        {
+        try {
+            dataSet = dataSetService.getDataSetById(dataSetID);
+        } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
         if (dataSet == null)
@@ -60,16 +59,21 @@ public class APIController {
     }
 
     /**
+     * Specific application/json in Content-type
+     * @param dataSet
      * @return
+     * @throws IOException
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
-    public boolean addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
+    public boolean addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) throws IOException {
+
         DataSet newdataSet = new DataSet();
         newdataSet.setName(dataSet.getName());
         newdataSet.setOwner(dataSet.getOwner());
         newdataSet.setTheme(dataSet.getTheme());
         newdataSet.setLastModified(new Date());
-        // set field map
+        for (Map.Entry<String, String> entri : dataSet.getFieldMap().entrySet())
+            newdataSet.addField(entri.getKey(), entri.getValue());
         this.dataSetService.createDataSet(newdataSet);
         return true;
     }
