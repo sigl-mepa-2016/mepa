@@ -122,7 +122,13 @@ public class APIController {
         if (!data.checkDataType((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
             return new ErrorMessage("invalid type");
 
-        this.dataService.createData(new Data(dataSetID, data.getData()));
+        try {
+            this.dataService.createData(new Data(dataSetID, data.getData()));
+        }
+        catch (Exception e)
+        {
+            return new ErrorMessage("Data already in database");
+        }
         return new SuccessMessage("Success add Data in DataSet");
     }
 
