@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
-    <h2>DataSets</h2>
+    <h2 class="white">Dataset creation</h2>
 
     <c:url var="addCustomDataSetFormActionUrl" value="/dataSet/add"/>
     <form:form role="form" action="${addCustomDataSetFormActionUrl}" modelAttribute="addCustomDataSetFormBean" method="post">
@@ -19,33 +19,15 @@
             <br/>
             <form:input id="theme" path="theme" type="text" maxlength="32" placeholder="Theme"/>
         </div>
+        
         <button type="submit" class="btn btn-default">Submit</button>
     </form:form>
-</div>
-
-<div class="container">
-    <h2>Datasets in database</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Theme</th>
-                <th>Name</th>
-                <th>Producer</th>
-                <th>Last modified</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${datasets}" var="dataset" varStatus="loop">
-                <tr>
-                    <td>${dataset.theme}</td>
-                    <td>${dataset.name}</td>
-                    <td>${dataset.owner}</td>
-                    <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
-                </tr>
-            </c:forEach>
-            <!-- Visualization -->
-            </tbody>
-        </table>
+    <div>
+        <c:url var="homeUrl" value="/home/"/>
+        <a href="${homeUrl}">
+            <span class="glyphicon glyphicon-arrow-left"></span> Back to home
+        </a>
     </div>
 </div>
+
+

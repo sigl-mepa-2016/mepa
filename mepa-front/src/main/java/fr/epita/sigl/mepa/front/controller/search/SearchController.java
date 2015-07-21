@@ -50,7 +50,7 @@ public class SearchController {
 
         //lancement de l'algo de recherche
         List<DataSet> modelsResult = new ArrayList<>();
-        modelsResult = search(dataSets, searchString, modelsResult);
+        modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
 
         //A faire lorsque les datasets seront finis
         /*
@@ -63,6 +63,35 @@ public class SearchController {
         return "/home/home";
     }
 
+    @RequestMapping(value = { "/FilterCarto" })
+    public String getCarto(HttpServletRequest request, ModelMap modelMap) {
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        List<DataSet> allCartoDatasets = new ArrayList<>();
+        for (DataSet dataSet : dataSets) {
+            if (dataSet.getIsCarto()){
+                allCartoDatasets.add(dataSet);
+            }
+        }
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allCartoDatasets);
+        return "/home/home";
+    }
+
+    @RequestMapping(value = { "/FilterGraphic" })
+    public String getGraphic(HttpServletRequest request, ModelMap modelMap) {
+
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        List<DataSet> allGraphicDatasets = new ArrayList<>();
+        for (DataSet dataSet : dataSets) {
+            if (dataSet.getIsGraphic()){
+                allGraphicDatasets.add(dataSet);
+            }
+        }
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allGraphicDatasets);
+        return "/home/home";
+    }
+
     /**
      * Fonction de recherche d'une string dans une autre string
      * @param models
@@ -70,26 +99,37 @@ public class SearchController {
      * @param modelResult
      * @return
      */
-    private List<DataSet> search(List<DataSet> models, String searchString, List<DataSet> modelResult) {
+    private List<DataSet> searchMultiWord(List<DataSet> models, String searchString, List<DataSet> modelResult) {
         String[] searchStringList = searchString.split(" ");
-        if (searchStringList.length == 1) {
-            //Parcours de la liste de modèles
-            for (DataSet model : models) {
-                //ici on récupère la data, lorsque on aura les bon modèles il faudra chercher dans le titre
-                String data = model.getName();
-                //séparation en token séparés par des espaces
-                for (String s : data.split(" ")) {
-                    //recherche sans faire attention à la case
-                    if (s.contains(searchString)) {
-                        modelResult.add(model);
-                        break;
-                    }
+        //Parcours de la liste de modèles
+        for (DataSet model : models) {
+            boolean isFind = false;
+            //ici on récupère la data, lorsque on aura les bon modèles il faudra chercher dans le titre
+            String data = model.getName();
+            //on regarde si chaque mot existe dans le nom
+            for (String word : searchStringList) {
+                isFind = searchWord(data, word); // test si le mot est présent
+                if (!isFind){
+                    break;
                 }
+            }
+            if (isFind) {
+                modelResult.add(model);
             }
         }
         return modelResult;
     }
 
+    private boolean searchWord(String data, String searchWord) {
+        //séparation en token séparés par des espaces
+        for (String s : data.split(" ")) {
+            //recherche sans faire attention à la case
+            if (s.contains(searchWord)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Initialize "SearchForm" model attribute

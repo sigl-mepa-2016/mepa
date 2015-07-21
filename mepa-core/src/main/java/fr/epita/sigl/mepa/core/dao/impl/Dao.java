@@ -6,9 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * Created by Calu on 20/07/2015.
- */
 public abstract class Dao {
 
     protected DB db;

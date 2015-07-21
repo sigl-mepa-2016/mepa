@@ -10,7 +10,7 @@ public interface DataSetService {
 
     void updateDataSet(DataSet dataSet);
 
-    void deleteDataSet(DataSet dataSet);
+    void deleteDataSet(String id);
 
     DataSet getDataSetById(String id);
 

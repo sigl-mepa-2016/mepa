@@ -30,8 +30,8 @@ public class DataSetServiceImpl implements DataSetService {
     }
 
     @Override
-    public void deleteDataSet(DataSet dataSet) {
-        this.dataSetDao.delete(dataSet);
+    public void deleteDataSet(String id) {
+        this.dataSetDao.delete(id);
     }
 
     @Override

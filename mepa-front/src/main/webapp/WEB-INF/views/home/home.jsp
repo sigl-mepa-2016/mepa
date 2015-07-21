@@ -5,12 +5,12 @@
 
     <!-- Home message-->
         <div class="welcome-content">
-                    <div class="welcome-content-inner">
-                        <h1>WELCOME TO EpiData!</h1>
-                        <hr>
-                        <p>Data accessible and useable by everyone</p>
-                    </div>
-                </div>
+            <div class="welcome-content-inner">
+                <h1>WELCOME TO EpiData!</h1>
+                <hr>
+                <p>Data accessible and usable by everyone</p>
+            </div>
+        </div>
 
     <!-- Exemple button to delete-->
         <!--<p class="text-center">
@@ -28,7 +28,9 @@
                 <li>
                     <p>filtre par vue </p>
                     <ul>
+                        <c:url var="searchFormActionUrl" value="/search/FilterCarto"/>
                         <li><a href="./">Cartographie</a> ${resFilterCarto}</li>
+                        <c:url var="searchFormActionUrl" value="/search/FilterGraphic"/>
                         <li><a href="./">Graphique</a> ${resFilterGraph}</li>
                     </ul>
                 </li>
@@ -47,6 +49,8 @@
 
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>
+    <c:url var="dataSetFormUrl" value="/dataSet/form/"/>
+    <a class="btn btn-primary" href="${dataSetFormUrl}" role="button">Create a new dataset</a>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -55,6 +59,9 @@
                 <th>Name</th>
                 <th>Producer</th>
                 <th>Last modified</th>
+                <th>Cartography</th>
+                <th>Graphic</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -64,9 +71,12 @@
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
                     <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                    <td>${dataset.isCarto}</td>
+                    <td>${dataset.isGraphic}</td>
+                    <c:url var="dataSetUrl" value="/dataSet/details?datasetId=${dataset._id}"/>
+                    <td><a href="${dataSetUrl}">Details</a></td>
                 </tr>
             </c:forEach>
-            <!-- Visualization -->
             </tbody>
         </table>
     </div>
