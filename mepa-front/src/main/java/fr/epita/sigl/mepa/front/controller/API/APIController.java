@@ -32,23 +32,23 @@ public class APIController {
     /**
      * List of DataSet in database
      *
-     * @return
+     * @return Pojo of List of DataSet
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.GET)
     public Pojo listDataSet() {
-        ListSimpleDataSet items = new ListSimpleDataSet();
+        ListSimpleDataSet listSimpleDataSet = new ListSimpleDataSet();
 
         for (DataSet data : dataSetService.getAllDataSets())
-            items.addSimpleObject(data.get_id(), data.getName());
+            listSimpleDataSet.addSimpleObject(data.get_id(), data.getName());
 
-        return items;
+        return listSimpleDataSet;
     }
 
     /**
      * schema of specific DataSet
      *
-     * @param dataSetID
-     * @return
+     * @param dataSetID = ID of DataSet
+     * @return Pojo of DataSet
      */
     @RequestMapping("/dataSet/{dataSetID}")
     public Pojo schemaDataSet(@PathVariable String dataSetID) {
@@ -68,8 +68,7 @@ public class APIController {
      * Specific application/json in Content-type
      *
      * @param dataSet
-     * @return
-     * @throws IOException
+     * @return Message Pojo
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
@@ -86,8 +85,9 @@ public class APIController {
     }
 
     /**
-     * @param dataSetID
-     * @return
+     * Not Ready
+     * @param dataSetID = Id Of DataSet
+     * @return Message Pojo
      */
     @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
     public Pojo deleteDataSet(@PathVariable String dataSetID) {
@@ -99,6 +99,11 @@ public class APIController {
         return new SuccessMessage("Success Remove");
     }
 
+    /**
+     * Get Data In dataSet
+     * @param dataSetID = Id Of DataSet
+     * @return Data Pojo
+     */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.GET)
     public Pojo dataOfDataSet(@PathVariable String dataSetID) {
         Data data;
@@ -113,6 +118,12 @@ public class APIController {
             return new fr.epita.sigl.mepa.front.APIpojo.Impl.Data(data.getData());
     }
 
+    /**
+     * add Data in DataSet
+     * @param data = Data to add in database
+     * @param dataSetID = Id of DataSet
+     * @return Pojo Message
+     */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
     public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data data, @PathVariable String dataSetID) {
         Pojo dataSet = schemaDataSet(dataSetID);
@@ -132,6 +143,12 @@ public class APIController {
         return new SuccessMessage("Success add Data in DataSet");
     }
 
+    /**
+     * Not Ready
+     * @param dataSetID
+     * @param allRequestParams
+     * @return
+     */
     @RequestMapping(value = "/dataSet/{dataSetID}/specificData", method = RequestMethod.GET)
     public Object dataOfSpecificDataSet(@PathVariable String dataSetID, @RequestParam Map<String, String> allRequestParams) {
 
