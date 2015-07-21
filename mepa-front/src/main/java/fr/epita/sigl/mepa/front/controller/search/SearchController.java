@@ -63,6 +63,26 @@ public class SearchController {
         return "/home/home";
     }
 
+    @RequestMapping(value = { "/FilterCarto" })
+    public String getCarto(HttpServletRequest request, ModelMap modelMap) {
+
+        /*List<DataSet> allCartoDatasets = this.modelService.getAllCarto();
+
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allCartoDatasets);*/
+        return "/home/home";
+    }
+
+    @RequestMapping(value = { "/FilterGraphic" })
+    public String getGraphic(HttpServletRequest request, ModelMap modelMap) {
+
+        /*
+        List<DataSet> allGraphicDatasets = this.modelService.getAllGraphic();
+
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allGraphicDatasets);*/
+        return "/home/home";
+    }
     /**
      * Fonction de recherche d'une string dans une autre string
      * @param models

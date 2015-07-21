@@ -13,6 +13,8 @@ public class DataSet {
     private String name;
     private String owner;
     private String theme;
+    private Boolean isCarto;
+    private Boolean isGraphic;
     private Date lastModified;
     private Map<String, String> fieldMap;
 
@@ -47,6 +49,22 @@ public class DataSet {
 
     public String getName() {
         return this.name;
+    }
+
+    public Boolean getIsCarto() {
+        return isCarto;
+    }
+
+    public void setIsCarto(Boolean isCarto) {
+        this.isCarto = isCarto;
+    }
+
+    public Boolean getIsGraphic() {
+        return isGraphic;
+    }
+
+    public void setIsGraphic(Boolean isGraphic) {
+        this.isGraphic = isGraphic;
     }
 
     public void setName(String name) {

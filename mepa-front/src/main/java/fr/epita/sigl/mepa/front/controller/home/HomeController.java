@@ -28,11 +28,24 @@ public class HomeController {
     @RequestMapping(value = {"/", "/home"})
     public String home(ModelMap modelMap) {
 
+        // Get models data from database
+        List<DataSet> datasets = this.dataSetService.getAllDataSets();
+        if (LOG.isDebugEnabled()) {
+           LOG.debug("There is {} in database", datasets.size());
+        }
+
+        // Update model attribute "datasets", to use it in JSP
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
+
         initFilter(modelMap);
         return "/home/home";
     }
 
     private void initFilter(ModelMap modelMap) {
+       /* List<DataSet> allCartoDatasets = this.dataSetService.getAllCarto();
+        List<DataSet> allGraphicDatasets = this.dataSetService.getAllGraphic();
+        modelMap.addAttribute("resFilterGraph", allCartoDatasets.size());
+        modelMap.addAttribute("resFilterCarto", allGraphicDatasets.size());*/
 
         modelMap.addAttribute("resFilterGraph", "1");
         modelMap.addAttribute("resFilterCarto", "2");
