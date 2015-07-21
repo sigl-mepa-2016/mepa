@@ -125,20 +125,20 @@ public class APIController {
      * @return Pojo Message
      */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
-    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data data, @PathVariable String dataSetID) {
+    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID) {
         Pojo dataSet = schemaDataSet(dataSetID);
         if (dataSet instanceof ErrorMessage)
             return new ErrorMessage("invalid id");
 
-        if (!data.checkDataType((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
+        if (!dataInput.checkDataType((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
             return new ErrorMessage("invalid type");
 
-        try {
-            this.dataService.createData(new Data(dataSetID, data.getData()));
-        }
-        catch (Exception e)
-        {
-            return new ErrorMessage("Data already in database");
+        Pojo data = dataOfDataSet(dataSetID);
+        if (data instanceof ErrorMessage)
+            this.dataService.createData(new Data(dataSetID, dataInput.getData()));
+        else {
+//            Update
+//            this.dataService.createData(new Data(dataSetID, dataInput.getData()));
         }
         return new SuccessMessage("Success add Data in DataSet");
     }
