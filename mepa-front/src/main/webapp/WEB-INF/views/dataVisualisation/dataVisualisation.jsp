@@ -1,16 +1,16 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
-    <h2>Data Visualisation</h2>
+    <h2 class="white">Data Visualisation</h2>
 
     <br/>
-   <strong>Horizontal Axe :</strong>
+   <strong class="white">Horizontal Axe :</strong>
     <select id="horizontal-axe">
         <option></option>
        <option value="student_name">Student's Name</option>
    </select>
 
-    <strong> - Vertical Axe :</strong>
+    <strong class="white"> - Vertical Axe :</strong>
     <select id="vertical-axe">
         <option></option>
         <option value="height">Height</option>
@@ -18,7 +18,7 @@
         <option value="average_grade">Average Grade</option>
     </select>
 
-    <strong> - Graph Type :</strong>
+    <strong class="white"> - Graph Type :</strong>
     <select id="graph-type">
         <option value="LineChart">LineChart</option>
         <option value="ColumnChart">ColumnChart</option>

@@ -8,7 +8,7 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
-    <h2>Data Visualisation</h2>
+    <h2 class="white">Data Visualisation</h2>
 
 
     <br/><br/>

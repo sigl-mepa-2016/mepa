@@ -1,44 +1,45 @@
 package fr.epita.sigl.mepa.core.domain;
 
+import org.jongo.marshall.jackson.oid.MongoObjectId;
+
 import java.util.Date;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-@Entity
-@NamedQueries({
-        @NamedQuery(name = "DataSet.findById", query = "FROM DataSet o WHERE o.id=:id"),
-        @NamedQuery(name = "DataSet.findAll", query = "FROM DataSet o") })
+import java.util.Map;
 
 public class DataSet {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @Column(name = "name", nullable = false)
+    @MongoObjectId
+    private String _id;
     private String name;
-
-    @Column(name = "owner", nullable = false)
     private String owner;
-
-    @Column(name = "theme", nullable = false)
     private String theme;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "lastModified", nullable = false)
     private Date lastModified;
+    private Map<String, DataSetType> fieldMap;
 
-    public Long getId() {
-        return this.id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public DataSet() {
+    }
+
+    public DataSet(String name, String owner, String theme, Date lastModified) {
+        this.name = name;
+        this.owner = owner;
+        this.theme = theme;
+        this.lastModified = lastModified;
+    }
+
+    public boolean addField(String name, String type) {
+        try {
+            fieldMap.put(name, DataSetType.valueOf(type));
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -73,9 +74,28 @@ public class DataSet {
         this.lastModified = lastModified;
     }
 
+    public Map<String, DataSetType> getFieldMap() {
+        return fieldMap;
+    }
+
+    public void setFieldMap(Map<String, DataSetType> fieldMap) {
+        this.fieldMap = fieldMap;
+    }
+
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return "DataSet{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", owner='" + owner + '\'' +
+                ", theme='" + theme + '\'' +
+                ", lastModified=" + lastModified +
+                ", fieldMap=" + fieldMap +
+                '}';
     }
+}
+
+enum DataSetType {
+    TEXT,INT,DATE;
 
 }
