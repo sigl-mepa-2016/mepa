@@ -1,11 +1,12 @@
 package fr.epita.sigl.mepa.front.controller.API;
 
-import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.domain.Data;
+import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ListSimpleDataSet;
+import fr.epita.sigl.mepa.front.APIpojo.Impl.SuccessMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,7 @@ public class APIController {
         if (dataSet == null)
             return new ErrorMessage("No DataSet found");
         else
-            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic() );
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic());
     }
 
     /**
@@ -71,7 +72,7 @@ public class APIController {
      * @throws IOException
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
-    public boolean addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) throws IOException {
+    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
 
         DataSet newdataSet = new DataSet();
         newdataSet.setName(dataSet.getName());
@@ -81,11 +82,25 @@ public class APIController {
         for (Map.Entry<String, String> entri : dataSet.getFieldMap().entrySet())
             newdataSet.addField(entri.getKey(), entri.getValue());
         this.dataSetService.createDataSet(newdataSet);
-        return true;
+        return new SuccessMessage("Success add DataSet");
+    }
+
+    /**
+     * @param dataSetID
+     * @return
+     */
+    @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
+    public Pojo deleteDataSet(@PathVariable String dataSetID) {
+        try {
+            this.dataSetService.deleteDataSet(dataSetID);
+        } catch (IllegalArgumentException e) {
+            return new ErrorMessage("Invalid ID");
+        }
+        return new SuccessMessage("Success Remove");
     }
 
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.GET)
-    public Object detailsDataSet(@PathVariable String dataSetID) {
+    public Pojo dataOfDataSet(@PathVariable String dataSetID) {
         Data data;
         try {
             data = dataService.getById(dataSetID);
@@ -95,12 +110,18 @@ public class APIController {
         if (data == null)
             return new ErrorMessage("No DataSet found");
         else
-            return new fr.epita.sigl.mepa.front.APIpojo.Impl.Data(data.get_id(), data.getData());
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.Data(data.getData());
+    }
+
+    @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
+    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data data, @PathVariable String dataSetID)
+    {
+        return new SuccessMessage("Success add Data in DataSet");
     }
 
 
     @RequestMapping(value = "/dataSet/{dataSetID}/specificData", method = RequestMethod.GET)
-    public Object detailsSpecificDataSet(@PathVariable String dataSetID, @RequestParam Map<String, String> allRequestParams) {
+    public Object dataOfSpecificDataSet(@PathVariable String dataSetID, @RequestParam Map<String, String> allRequestParams) {
 
         if (allRequestParams.isEmpty()) {
 
@@ -110,11 +131,4 @@ public class APIController {
         return "datasetID = " + dataSetID;
     }
 
-    /**
-     * @param dataSetID
-     * @return
-     */
-    @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
-    public boolean deleteDataSet(@PathVariable String dataSetID) {
-        return true;
-    }}
+}
