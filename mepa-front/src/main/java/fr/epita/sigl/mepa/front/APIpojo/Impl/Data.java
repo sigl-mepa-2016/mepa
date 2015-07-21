@@ -31,6 +31,7 @@ public class Data implements Pojo {
 
     public boolean checkDataType(DataSet dataSet)
     {
+        //TODO
         return true;
     }
 
