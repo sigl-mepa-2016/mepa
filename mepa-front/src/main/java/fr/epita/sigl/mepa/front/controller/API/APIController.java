@@ -61,7 +61,7 @@ public class APIController {
         if (dataSet == null)
             return new ErrorMessage("No DataSet found");
         else
-            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic());
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic(), dataSet.getFieldMap());
     }
 
     /**
@@ -114,8 +114,7 @@ public class APIController {
     }
 
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
-    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data data, @PathVariable String dataSetID)
-    {
+    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data data, @PathVariable String dataSetID) {
         Pojo dataSet = schemaDataSet(dataSetID);
         if (dataSet instanceof ErrorMessage)
             return new ErrorMessage("invalid id");
@@ -126,7 +125,6 @@ public class APIController {
         this.dataService.createData(new Data(dataSetID, data.getData()));
         return new SuccessMessage("Success add Data in DataSet");
     }
-
 
     @RequestMapping(value = "/dataSet/{dataSetID}/specificData", method = RequestMethod.GET)
     public Object dataOfSpecificDataSet(@PathVariable String dataSetID, @RequestParam Map<String, String> allRequestParams) {
