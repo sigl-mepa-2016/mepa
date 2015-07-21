@@ -6,42 +6,43 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
-
 <div class="container">
     <h2 class="white">Data Visualisation</h2>
 
-
     <br/><br/>
-    <div  id="visualization_div" width="400" height="400"></div>
+    <div  id="visualization_div"></div>
     <br/><br/>
-    <script type="application/javascript">
 
-        google.load('visualization', '1.0');
-        google.setOnLoadCallback(initialize);
+<script type="application/javascript">
 
-        function initialize() {
-
-            var chart = new google.visualization.ChartWrapper({
-                containerId: 'visualization_div'
-            });
+    google.load('visualization', '1.0',{packages:["table"]});
+    google.setOnLoadCallback(initialize);
+    function initialize() {
 
             function drawTable() {
                 {
+                    var div = document.getElementById('visualization_div');
                     var data = getData();
-                    chart.setChartType("Table");
-                    chart.setDataTable(data);
-                    chart.draw();
+                    var table = new google.visualization.Table(div);
+                    table.draw(data,{width:'100%'});
                 }
             }
-
             function getData() {
                 //Still Sample datas, need to be get on DataBase...
-                var jsonData = $.ajax({
-                    url: "${}",
-                    dataType:"json",
-                    async:false
-                }).responseText;
-                var data = new google.visualization.DataTable(jsonData);
+
+                var jsondataset = $.ajax({
+                    dataType: "json",
+                    url :'/mepa-front/api/dataSet.json',
+                    async : false}) ;
+                var b = JSON.parse(jsondataset.responseText);
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Name');
+                data.addColumn('string', 'id');
+                for (var i = 0; i < ${datasets.size()};i++){
+                    data.addRows([[b.items[i].name, b.items[i].id]]);
+                }
+
                 return data;
             }
             drawTable()
