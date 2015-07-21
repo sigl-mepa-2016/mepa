@@ -76,9 +76,11 @@ public class DataSetController {
         newDataSet.setOwner(addCustomDataSetFormBean.getOwner());
         newDataSet.setTheme(addCustomDataSetFormBean.getTheme());
         this.dataSetService.createDataSet(newDataSet);
-
+        // FIX redirection vers home et maj de la liste de dataset
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute("datasets", allDataSets);
+        //END FIX
         modelMap.addAttribute("dataset", newDataSet);
-
         return "/home/home";
     }
 
