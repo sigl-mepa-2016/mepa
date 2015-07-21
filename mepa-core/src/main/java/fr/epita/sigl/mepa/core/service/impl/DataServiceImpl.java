@@ -15,17 +15,17 @@ public class DataServiceImpl implements DataService {
     private DataDao dataDao;
 
     @Override
-    public void createDataSet(Data data) {
+    public void createData(Data data) {
         this.dataDao.create(data);
     }
 
     @Override
-    public void updateDataSet(Data data) {
+    public void updateData(Data data) {
         this.dataDao.update(data);
     }
 
     @Override
-    public void deleteDataSet(Data data) {
+    public void deleteData(Data data) {
         this.dataDao.delete(data);
     }
 

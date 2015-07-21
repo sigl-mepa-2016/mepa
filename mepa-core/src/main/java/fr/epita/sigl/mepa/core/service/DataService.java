@@ -4,11 +4,11 @@ import fr.epita.sigl.mepa.core.domain.Data;
 
 public interface DataService {
 
-    void createDataSet(Data data);
+    void createData(Data data);
 
-    void updateDataSet(Data data);
+    void updateData(Data data);
 
-    void deleteDataSet(Data data);
+    void deleteData(Data data);
 
     Data getById(String id);
 }

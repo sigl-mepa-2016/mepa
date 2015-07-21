@@ -23,7 +23,7 @@ public class DataSet implements Pojo {
         this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(String _id, String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic) {
+    public DataSet(String _id, String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic, Map<String, String> fieldMap) {
         this._id = _id;
         this.name = name;
         this.owner = owner;
@@ -31,7 +31,7 @@ public class DataSet implements Pojo {
         this.lastModified = lastModified;
         this.isCarto = isCarto;
         this.isGraphic = isGraphic;
-        this.fieldMap = new HashMap<>();
+        this.fieldMap = fieldMap;
     }
 
     @XmlElement
