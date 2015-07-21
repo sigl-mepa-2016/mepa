@@ -27,27 +27,21 @@
 
             function drawTable() {
                 {
-                    var data = getDatas();
+                    var data = getData();
                     chart.setChartType("Table");
                     chart.setDataTable(data);
                     chart.draw();
                 }
             }
 
-            function getDatas() {
+            function getData() {
                 //Still Sample datas, need to be get on DataBase...
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Student\'s name');
-                data.addColumn('number', 'Height');
-                data.addColumn('date', 'Birth Date');
-                data.addColumn('number', 'Average Grade');
-                data.addRows([
-                    ['Rosa', 180, new Date(1993, 2, 28), 18],
-                    ['Carla', 160, new Date(1994, 5, 17), 16],
-                    ['Joe', 190, new Date(1990, 10, 18), 9],
-                    ['Linda', 170, new Date(1950, 11, 14), 10],
-                    ['Sarah', 175, new Date(2008, 1, 10), 8]
-                ]);
+                var jsonData = $.ajax({
+                    url: "${}",
+                    dataType:"json",
+                    async:false
+                }).responseText;
+                var data = new google.visualization.DataTable(jsonData);
                 return data;
             }
             drawTable()

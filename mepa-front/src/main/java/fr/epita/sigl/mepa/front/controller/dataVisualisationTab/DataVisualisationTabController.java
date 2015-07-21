@@ -1,5 +1,6 @@
 package fr.epita.sigl.mepa.front.controller.dataVisualisationTab;
 
+import fr.epita.sigl.mepa.core.domain.DataSet;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/dataVisualisationTab")
-public class dataVisualisationTab {
+public class DataVisualisationTabController {
     @RequestMapping(value = {"/", "/dataVisualisationTab"})
     public String dataVisualisationTab() {
         return "/dataVisualisationTab/dataVisualisationTab";
