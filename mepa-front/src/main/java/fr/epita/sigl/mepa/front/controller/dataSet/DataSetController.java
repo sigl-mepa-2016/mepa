@@ -93,6 +93,7 @@ public class DataSetController {
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
+        modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
 
         return "/dataSet/details";
