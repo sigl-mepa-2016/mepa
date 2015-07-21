@@ -56,4 +56,40 @@ public class DataSet implements Pojo {
     public Map<String, String> getFieldMap() {
         return fieldMap;
     }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public void setFieldMap(Map<String, String> fieldMap) {
+        this.fieldMap = fieldMap;
+    }
+
+    @Override
+    public String toString() {
+        return "DataSet{" +
+                "fieldMap=" + fieldMap +
+                ", lastModified=" + lastModified +
+                ", theme='" + theme + '\'' +
+                ", owner='" + owner + '\'' +
+                ", name='" + name + '\'' +
+                ", _id='" + _id + '\'' +
+                '}';
+    }
 }
