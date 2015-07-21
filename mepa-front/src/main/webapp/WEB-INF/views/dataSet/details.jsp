@@ -17,17 +17,19 @@
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
-                    <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
-                        <tr>
+                    <tr>
+                        <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
                             <th>${column}</th>
-                        </tr>
-                    </c:forEach>
+                        </c:forEach>
+                    </tr>
                     </thead>
                     <tbody>
                     <!--
-                    <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
+                    <c:forEach items="${datas}" var="colums" varStatus="loop">
                         <tr>
-                            <td>${column}</td>
+                            <c:forEach items="${columns}" var="data" varStatus="loop">
+                                <td>${data}</td>
+                            </c:forEach>
                         </tr>
                     </c:forEach>
                     -->
@@ -37,11 +39,6 @@
 
         </c:otherwise>
     </c:choose>
-    <!--
-    <c:set var="id" value="${dataset._id}"/>
-    <c:url var="dataSetFormUrl" value="/dataSet/columnForm?datasetId=${id}"/>
-    <a class="btn btn-primary" href="${dataSetFormUrl}" role="button">Add a new field to the dataset</a>
-    -->
 
     <c:url var="homeUrl" value="/home"/>
     <a href="${homeUrl}">
