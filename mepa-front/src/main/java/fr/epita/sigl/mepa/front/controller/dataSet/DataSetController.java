@@ -83,7 +83,7 @@ public class DataSetController {
 
         modelMap.addAttribute("dataset", newDataSet);
 
-        return "/home/";
+        return "/home/home";
     }
 
     /**
@@ -132,7 +132,7 @@ public class DataSetController {
         String[] typeValues = paramMap.get("type");
 
         if (nameValues.length != typeValues.length)
-            return "/home/";
+            return "/home/home";
 
         for (int i = 0; i < nameValues.length; ++i) {
             if (false == nameValues[i].isEmpty() && false == typeValues[i].isEmpty())
@@ -141,7 +141,7 @@ public class DataSetController {
         this.dataSetService.updateDataSet(dataSet);
         modelMap.addAttribute("dataset", dataSet);
 
-        return "/home/";
+        return "/home/home";
     }
 
 
