@@ -10,6 +10,9 @@ public class ErrorMessage implements Pojo {
 
     private String errorName;
 
+    public ErrorMessage() {
+    }
+
     public ErrorMessage(String errorName) {
         this.errorName = errorName;
     }
