@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.core.domain;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataSet {
@@ -13,13 +14,14 @@ public class DataSet {
     private String owner;
     private String theme;
     private Date lastModified;
-    private Map<String, DataSetType> fieldMap;
+    private Map<String, String> fieldMap;
 
     public String get_id() {
         return _id;
     }
 
     public DataSet() {
+        this.fieldMap = new HashMap<>();
     }
 
     public DataSet(String name, String owner, String theme, Date lastModified) {
@@ -27,11 +29,12 @@ public class DataSet {
         this.owner = owner;
         this.theme = theme;
         this.lastModified = lastModified;
+        this.fieldMap = new HashMap<>();
     }
 
     public boolean addField(String name, String type) {
         try {
-            fieldMap.put(name, DataSetType.valueOf(type));
+            fieldMap.put(name, type);
         } catch (Exception e) {
             return false;
         }
@@ -74,11 +77,11 @@ public class DataSet {
         this.lastModified = lastModified;
     }
 
-    public Map<String, DataSetType> getFieldMap() {
+    public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
-    public void setFieldMap(Map<String, DataSetType> fieldMap) {
+    public void setFieldMap(Map<String, String> fieldMap) {
         this.fieldMap = fieldMap;
     }
 
