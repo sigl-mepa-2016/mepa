@@ -26,10 +26,13 @@ public class DataSet {
         this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(String name, String owner, String theme, Date lastModified) {
+    public DataSet(String _id, String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
+        this._id = _id;
         this.name = name;
         this.owner = owner;
         this.theme = theme;
+        this.isCarto = isCarto;
+        this.isGraphic = isGraphic;
         this.lastModified = lastModified;
         this.fieldMap = new HashMap<>();
     }
@@ -43,60 +46,60 @@ public class DataSet {
         return true;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public String getName() {
+        return name;
     }
 
-    public String getName() {
-        return this.name;
+    public String getOwner() {
+        return owner;
+    }
+
+    public String getTheme() {
+        return theme;
     }
 
     public Boolean getIsCarto() {
         return isCarto;
     }
 
-    public void setIsCarto(Boolean isCarto) {
-        this.isCarto = isCarto;
-    }
-
     public Boolean getIsGraphic() {
         return isGraphic;
     }
 
-    public void setIsGraphic(Boolean isGraphic) {
-        this.isGraphic = isGraphic;
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public Map<String, String> getFieldMap() {
+        return fieldMap;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getOwner() {
-        return this.owner;
-    }
-
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public String getTheme() {
-        return this.theme;
     }
 
     public void setTheme(String theme) {
         this.theme = theme;
     }
 
-    public Date getLastModified() {
-        return this.lastModified;
+    public void setIsCarto(Boolean isCarto) {
+        this.isCarto = isCarto;
+    }
+
+    public void setIsGraphic(Boolean isGraphic) {
+        this.isGraphic = isGraphic;
     }
 
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
-    }
-
-    public Map<String, String> getFieldMap() {
-        return fieldMap;
     }
 
     public void setFieldMap(Map<String, String> fieldMap) {
@@ -110,6 +113,8 @@ public class DataSet {
                 ", name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", theme='" + theme + '\'' +
+                ", isCarto=" + isCarto +
+                ", isGraphic=" + isGraphic +
                 ", lastModified=" + lastModified +
                 ", fieldMap=" + fieldMap +
                 '}';

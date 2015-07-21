@@ -5,6 +5,7 @@ import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @XmlRootElement
@@ -14,17 +15,23 @@ public class DataSet implements Pojo {
     private String owner;
     private String theme;
     private Date lastModified;
+    private Boolean isCarto = false;
+    private Boolean isGraphic = false;
     private Map<String, String> fieldMap;
 
     public DataSet() {
+        this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(String _id, String name, String owner, String theme, Date lastModified) {
+    public DataSet(String _id, String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic) {
         this._id = _id;
         this.name = name;
         this.owner = owner;
         this.theme = theme;
         this.lastModified = lastModified;
+        this.isCarto = isCarto;
+        this.isGraphic = isGraphic;
+        this.fieldMap = new HashMap<>();
     }
 
     @XmlElement
@@ -57,6 +64,16 @@ public class DataSet implements Pojo {
         return fieldMap;
     }
 
+    @XmlElement
+    public Boolean getIsCarto() {
+        return isCarto;
+    }
+
+    @XmlElement
+    public Boolean getIsGraphic() {
+        return isGraphic;
+    }
+
     public void set_id(String _id) {
         this._id = _id;
     }
@@ -81,15 +98,25 @@ public class DataSet implements Pojo {
         this.fieldMap = fieldMap;
     }
 
+    public void setIsCarto(Boolean isCarto) {
+        this.isCarto = isCarto;
+    }
+
+    public void setIsGraphic(Boolean isGraphic) {
+        this.isGraphic = isGraphic;
+    }
+
     @Override
     public String toString() {
         return "DataSet{" +
-                "fieldMap=" + fieldMap +
-                ", lastModified=" + lastModified +
-                ", theme='" + theme + '\'' +
-                ", owner='" + owner + '\'' +
+                "_id='" + _id + '\'' +
                 ", name='" + name + '\'' +
-                ", _id='" + _id + '\'' +
+                ", owner='" + owner + '\'' +
+                ", theme='" + theme + '\'' +
+                ", lastModified=" + lastModified +
+                ", isCarto=" + isCarto +
+                ", isGraphic=" + isGraphic +
+                ", fieldMap=" + fieldMap +
                 '}';
     }
 }
