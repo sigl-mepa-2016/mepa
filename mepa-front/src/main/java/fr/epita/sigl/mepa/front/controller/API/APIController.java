@@ -55,11 +55,12 @@ public class APIController {
         if (dataSet == null)
             return new ErrorMessage("No DataSet found");
         else
-            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified());
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic() );
     }
 
     /**
      * Specific application/json in Content-type
+     *
      * @param dataSet
      * @return
      * @throws IOException
