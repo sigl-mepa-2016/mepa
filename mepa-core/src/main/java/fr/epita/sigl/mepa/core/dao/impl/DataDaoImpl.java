@@ -1,24 +1,40 @@
 package fr.epita.sigl.mepa.core.dao.impl;
 
-import java.util.List;
-import java.util.Map;
+import fr.epita.sigl.mepa.core.dao.DataDao;
+import fr.epita.sigl.mepa.core.domain.Data;
+import org.bson.types.ObjectId;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
+import org.springframework.stereotype.Repository;
 
-public class DataDaoImpl extends Dao {
+@Repository
+public class DataDaoImpl extends Dao implements DataDao {
 
-    private Map<String, List<?>> data;
+    private MongoCollection dataCollection;
 
     public DataDaoImpl() {
+        super();
+        Jongo jongo = new Jongo(this.db);
+        this.dataCollection = jongo.getCollection("data");
     }
 
-    public DataDaoImpl(Map<String, List<?>> data) {
-        this.data = data;
+    @Override
+    public void create(Data data) {
+        this.dataCollection.insert(data);
     }
 
-    public Map<String, List<?>> getData() {
-        return data;
+    @Override
+    public void update(Data data) {
+
     }
 
-    public void setData(Map<String, List<?>> data) {
-        this.data = data;
+    @Override
+    public void delete(Data data) {
+
+    }
+
+    @Override
+    public Data getById(String id) {
+        return this.dataCollection.findOne("{_id: #}", new ObjectId(id)).as(Data.class);
     }
 }
