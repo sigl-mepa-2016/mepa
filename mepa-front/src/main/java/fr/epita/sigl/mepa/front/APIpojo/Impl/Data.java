@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@XmlRootElement
 public class Data implements Pojo {
 
     private Map<String, List<String>> data;
@@ -21,7 +20,6 @@ public class Data implements Pojo {
         this.data = data;
     }
 
-    @XmlElement
     public Map<String, List<String>> getData() {
         return data;
     }
