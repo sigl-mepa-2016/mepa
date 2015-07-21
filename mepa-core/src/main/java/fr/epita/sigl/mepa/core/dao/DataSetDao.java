@@ -10,7 +10,7 @@ public interface DataSetDao {
 
     void update(DataSet dataSet);
 
-    void delete(DataSet dataSet);
+    void delete(String id);
 
     DataSet getById(String id);
 

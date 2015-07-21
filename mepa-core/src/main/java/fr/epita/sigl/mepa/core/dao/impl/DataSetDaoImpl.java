@@ -34,8 +34,8 @@ public class DataSetDaoImpl extends Dao implements DataSetDao {
     }   
 
     @Override
-    public void delete(DataSet dataSet) {
-        this.datasetCollection.remove(new ObjectId(dataSet.get_id()));
+    public void delete(String id) {
+        this.datasetCollection.remove(new ObjectId(id));
     }
 
     @Override
