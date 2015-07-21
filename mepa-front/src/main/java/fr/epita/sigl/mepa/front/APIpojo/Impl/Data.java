@@ -2,43 +2,44 @@ package fr.epita.sigl.mepa.front.APIpojo.Impl;
 
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@XmlRootElement
 public class Data implements Pojo {
 
-    private String _id;
     private Map<String, List<String>> data;
 
     public Data() {
+        this.data = new HashMap<>();
     }
 
-    public Data(String _id, Map<String, List<String>> data) {
-        this._id = _id;
+    public Data(Map<String, List<String>> data) {
         this.data = data;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
+    @XmlElement
     public Map<String, List<String>> getData() {
         return data;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 
     public void setData(Map<String, List<String>> data) {
         this.data = data;
     }
 
+    public boolean checkDataType(DataSet dataSet)
+    {
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
-                "_id='" + _id + '\'' +
-                ", data=" + data +
+                "data=" + data +
                 '}';
     }
 }
