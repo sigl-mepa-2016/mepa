@@ -49,6 +49,9 @@
     <definition name="/dataSet/columnForm" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataSet/columnForm.jsp" />
     </definition>
+    <definition name="/dataSet/dataForm" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/dataForm.jsp" />
+    </definition>
 
     <!-- Cartography -->
     <definition name="cartography.definition" extends="base.definition">

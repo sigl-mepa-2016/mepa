@@ -1,8 +1,11 @@
 package fr.epita.sigl.mepa.front.controller.dataSet;
 
+import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
+import fr.epita.sigl.mepa.front.dataSet.AddCustomDataFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataSetFormBean;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 import org.slf4j.Logger;
@@ -18,9 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/dataSet")
@@ -30,13 +31,17 @@ public class DataSetController {
     private static final Logger LOG = LoggerFactory.getLogger(DataSetController.class);
 
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
-    private static final String ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataSetFormBean";
     protected static final String COLUMNS_MODEL_ATTRIBUTE = "columns";
     private static final String SEARCH = "searchFormAction";
+    private static final String ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataSetFormBean";
     private static final String ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomColumnFormBean";
+    private static final String ADD_CUSTOM_DATA_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataFormBean";
 
     @Autowired
     private DataSetService dataSetService;
+
+    @Autowired
+    private DataService dataService;
 
 
     @RequestMapping(value = {"/form"})
@@ -95,7 +100,6 @@ public class DataSetController {
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
-
         return "/dataSet/details";
     }
 
@@ -134,6 +138,52 @@ public class DataSetController {
         return "/home/home";
     }
 
+    @RequestMapping(value = {"/dataForm"})
+    public String showDataForm(HttpServletRequest request, ModelMap modelMap) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        modelMap.addAttribute("dataset", dataSet);
+        modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
+
+        return "/dataSet/dataForm";
+    }
+
+    @RequestMapping(value = {"/addData"}, method = {RequestMethod.POST})
+    public String processDataForm(HttpServletRequest request, ModelMap modelMap,
+                                    @Valid AddCustomDataFormBean addCustomDataFormBean,
+                                    BindingResult result) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        Map<String, String[]> paramMap = request.getParameterMap();
+
+        String[] fieldsValues = paramMap.get("fields");
+        Object[] fields = dataSet.getFieldMap().keySet().toArray();
+
+        Data data = this.dataService.getById(datasetId);
+        if (null != data)
+        {
+            for (int i = 0; i < fields.length; ++i) {
+                String column = fields[i].toString();
+                List<String> dataList = data.getData().get(column);
+                dataList.add(fieldsValues[i]);
+                data.getData().put(column, dataList);
+            }
+            this.dataService.updateDataSet(data);
+        } else {
+            Map<String, List<String>> dataMap = new HashMap<>();
+            for (int i = 0; i < fields.length; ++i) {
+                List<String> value = new ArrayList<>();
+                value.add(fieldsValues[i]);
+                dataMap.put(fields[i].toString(), value);
+            }
+            Data toCreate = new Data(datasetId, dataMap);
+            this.dataService.createDataSet(toCreate);
+        }
+
+        return "/home/home";
+    }
 
     /**
      * Initialize "datasets" model attribute
@@ -158,6 +208,11 @@ public class DataSetController {
     @ModelAttribute(ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE)
     public AddCustomColumnFormBean initAddCustomColumnFormBean() {
         return new AddCustomColumnFormBean();
+    }
+
+    @ModelAttribute(ADD_CUSTOM_DATA_FORM_BEAN_MODEL_ATTRIBUTE)
+    public AddCustomDataFormBean initAddCustomDataFormBean() {
+        return new AddCustomDataFormBean();
     }
 
     @ModelAttribute(SEARCH)

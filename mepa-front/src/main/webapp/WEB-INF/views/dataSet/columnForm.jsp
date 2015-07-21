@@ -9,11 +9,11 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">Name</label>
             <div class="col-sm-4">
-                <form:input path="name" type="text" class="form-control" name="option[]" />
+                <form:input path="name" type="text" class="form-control" name="option[]" placeholder="Name"/>
             </div>
             <label class="col-sm-1 control-label">Type</label>
             <div class="col-sm-4">
-                <form:input path="type" type="text" class="form-control" name="option[]" />
+                <form:input path="type" type="text" class="form-control" name="option[]" placeholder="Type"/>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-default addButton">+</button>
@@ -23,10 +23,10 @@
         <!-- The option field template containing an option field and a Remove button -->
         <div class="form-group hide" id="optionTemplate">
             <div class="col-sm-offset-1 col-sm-4">
-                <form:input path="name" class="form-control" type="text" name="option[]" />
+                <form:input path="name" class="form-control" type="text" name="option[]" placeholder="Name"/>
             </div>
             <div class="col-sm-offset-1 col-sm-4">
-                <form:input path="type" class="form-control" type="text" name="option[]" />
+                <form:input path="type" class="form-control" type="text" name="option[]" placeholder="Type"/>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-default removeButton">-</button>
