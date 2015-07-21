@@ -81,10 +81,10 @@ public class DataSetController {
         newDataSet.setOwner(addCustomDataSetFormBean.getOwner());
         newDataSet.setTheme(addCustomDataSetFormBean.getTheme());
         this.dataSetService.createDataSet(newDataSet);
-        // FIX redirection vers home et maj de la liste de dataset
+
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute("datasets", allDataSets);
-        //END FIX
+
         modelMap.addAttribute("dataset", newDataSet);
         return "/home/home";
     }
@@ -124,6 +124,9 @@ public class DataSetController {
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         Map<String, String[]> paramMap = request.getParameterMap();
 
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
+
         String[] nameValues = paramMap.get("name");
         String[] typeValues = paramMap.get("type");
 
@@ -136,6 +139,9 @@ public class DataSetController {
         }
         this.dataSetService.updateDataSet(dataSet);
         modelMap.addAttribute("dataset", dataSet);
+
+        allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
         return "/home/home";
     }
@@ -183,6 +189,9 @@ public class DataSetController {
             Data toCreate = new Data(datasetId, dataMap);
             this.dataService.createData(toCreate);
         }
+
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
         return "/home/home";
     }
