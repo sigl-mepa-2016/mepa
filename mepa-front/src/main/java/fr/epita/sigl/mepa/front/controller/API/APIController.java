@@ -1,6 +1,8 @@
 package fr.epita.sigl.mepa.front.controller.API;
 
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import fr.epita.sigl.mepa.core.domain.Data;
+import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ListSimpleDataSet;
@@ -22,6 +24,9 @@ public class APIController {
 
     @Autowired
     private DataSetService dataSetService;
+
+    @Autowired
+    private DataService dataService;
 
     /**
      * List of DataSet in database
@@ -79,19 +84,18 @@ public class APIController {
         return true;
     }
 
-    /**
-     * @param dataSetID
-     * @return
-     */
-    @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
-    public boolean deleteDataSet(@PathVariable String dataSetID) {
-        return true;
-    }
-
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.GET)
     public Object detailsDataSet(@PathVariable String dataSetID) {
-
-        return "datasetID = " + dataSetID;
+        Data data;
+        try {
+            data = dataService.getById(dataSetID);
+        } catch (IllegalArgumentException e) {
+            return new ErrorMessage("Invalid ID");
+        }
+        if (data == null)
+            return new ErrorMessage("No DataSet found");
+        else
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.Data(data.get_id(), data.getData());
     }
 
 
@@ -106,5 +110,11 @@ public class APIController {
         return "datasetID = " + dataSetID;
     }
 
-
-}
+    /**
+     * @param dataSetID
+     * @return
+     */
+    @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
+    public boolean deleteDataSet(@PathVariable String dataSetID) {
+        return true;
+    }}
