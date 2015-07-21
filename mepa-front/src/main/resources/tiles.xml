@@ -58,9 +58,13 @@
     </definition>
 
     <!-- API -->
-    <definition name="/api/welcome" extends="base.definition">
+    <definition name="api.definition" extends="base.definition">
+        <put-attribute name="title" value="api.title" />
+    </definition>
+    <definition name="/api/welcome" extends="api.definition">
         <put-attribute name="body" value="/WEB-INF/views/api/welcome.jsp" />
     </definition>
+
 
 
 </tiles-definitions>

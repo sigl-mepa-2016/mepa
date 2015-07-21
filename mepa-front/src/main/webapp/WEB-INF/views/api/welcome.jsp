@@ -1,4 +1,14 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1 class="white">API documentation</h1>
+    </div>
+    <div id="map-canvas" class="canvas"></div>
+</div>
+
+Acces to dataSet list : <a href="/mepa-front/api/dataSet" target="_blank">mepa.sigl.epita.fr:6373/mepa-front/api/dataSet/</a>
+</body>
 </div>
