@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/dataSet")
@@ -82,7 +83,7 @@ public class DataSetController {
 
         modelMap.addAttribute("dataset", newDataSet);
 
-        return "/home/home";
+        return "/home/";
     }
 
     /**
@@ -125,17 +126,22 @@ public class DataSetController {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        Map<String, String[]> paramMap = request.getParameterMap();
+
+        String[] nameValues = paramMap.get("name");
+        String[] typeValues = paramMap.get("type");
+
+        if (nameValues.length != typeValues.length)
+            return "/home/";
+
+        for (int i = 0; i < nameValues.length; ++i) {
+            if (false == nameValues[i].isEmpty() && false == typeValues[i].isEmpty())
+                dataSet.addField(nameValues[i], typeValues[i]);
+        }
+        this.dataSetService.updateDataSet(dataSet);
         modelMap.addAttribute("dataset", dataSet);
 
-        Columns newColumns = new Columns();
-        newColumns.setName(addCustomColumnFormBean.getName());
-        newColumns.setType(addCustomColumnFormBean.getType());
-        newColumns.setDataSetId(dataSet.get_id());
-        this.columnsService.createColumns(newColumns);
-
-        modelMap.addAttribute("columns", newColumns);
-
-        return "/home";
+        return "/home/";
     }
 
 
