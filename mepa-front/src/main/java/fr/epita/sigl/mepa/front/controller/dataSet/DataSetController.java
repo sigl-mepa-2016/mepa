@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.dataSet;
 
 import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import fr.epita.sigl.mepa.core.domain.DataSetType;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
@@ -239,6 +240,11 @@ public class DataSetController {
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
+
+        Map<String, String> typeValueList = new LinkedHashMap<>();
+        for (DataSetType dataSetType : DataSetType.values())
+            typeValueList.put(dataSetType.name(), dataSetType.name());
+        modelMap.addAttribute("typeValueList", typeValueList);
 
         return "/dataSet/columnForm";
     }
