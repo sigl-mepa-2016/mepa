@@ -1,3 +1,5 @@
+<%@ page import="fr.epita.sigl.mepa.core.service.impl.DataServiceImpl" %>
+<%@ page import="fr.epita.sigl.mepa.core.domain.Data" %>
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
@@ -14,15 +16,45 @@
 
 
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
                             <th>${column}</th>
                         </c:forEach>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
+                            <td>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                    <c:forEach begin="0" end="${size}" var="index" varStatus="loop1">
+                        <tr>
+                            <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
+                                <td>
+                                        ${data.getData().get(column).get(index)}
+                                </td>
+                            </c:forEach>
+                            <td>
+                                <c:url var="deleteDataUrl" value="/dataSet/deleteData?datasetId=${id}"/>
+                                <form action="${deleteDataUrl}" method="post">
+                                    <input type="hidden" name="index" value="${size}"/>
+                                    <input type="submit" value="Delete"/>
+                                </form>
+                            </td>
+                            <td>
+                                <c:url var="updateDataUrl" value="/dataSet/updateDataForm?datasetId=${id}"/>
+                                <form action="${updateDataUrl}" method="post">
+                                    <input type="submit" value="Update">
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     <!--
                     Display data when existing
                     -->

@@ -102,6 +102,19 @@ public class DataSetController {
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
+        Data data = this.dataService.getById(datasetId);
+        if (null != data) {
+            List<List<String>> dataList = new ArrayList<>();
+            for (String column : data.getData().keySet()) {
+                dataList.add(data.getData().get(column));
+            }
+
+            modelMap.addAttribute("dataList", dataList);
+            modelMap.addAttribute("data", data);
+            modelMap.addAttribute("size", dataList.get(0).size() - 1);
+        }
+
+
         return "/dataSet/details";
     }
 
@@ -113,6 +126,26 @@ public class DataSetController {
         modelMap.addAttribute("dataset", dataSet);
 
         this.dataSetService.deleteDataSet(datasetId);
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
+
+        return "/home/home";
+    }
+
+    @RequestMapping(value = {"/deleteData"})
+    public String showDeleteData(HttpServletRequest request, ModelMap modelMap) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        Map<String, String[]> paramMap = request.getParameterMap();
+        modelMap.addAttribute("dataset", dataSet);
+
+        Data data = this.dataService.getById(datasetId);
+        for (String column : data.getData().keySet()) {
+            data.getData().get(column).remove(Integer.parseInt(paramMap.get("index")[0]));
+        }
+        this.dataService.updateData(data);
+
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
