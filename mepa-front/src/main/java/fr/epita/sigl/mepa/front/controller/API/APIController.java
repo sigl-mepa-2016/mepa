@@ -77,6 +77,8 @@ public class APIController {
         newdataSet.setOwner(dataSet.getOwner());
         newdataSet.setTheme(dataSet.getTheme());
         newdataSet.setLastModified(new Date());
+        newdataSet.setIsCarto(dataSet.getIsCarto());
+        newdataSet.setIsGraphic(dataSet.getIsGraphic());
         for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
             newdataSet.addField(entry.getKey(), entry.getValue());
 
