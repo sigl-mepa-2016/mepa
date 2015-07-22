@@ -24,6 +24,9 @@
         <%-- ChartJS JavaScript --%>
         <script src="https://www.google.com/jsapi"></script>
 
+        <%-- prettify JavaScript --%>
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+
     </head>
 
     <!-- Define the background image -->
