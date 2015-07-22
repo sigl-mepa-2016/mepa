@@ -80,6 +80,9 @@ public class DataSetController {
         newDataSet.setName(addCustomDataSetFormBean.getName());
         newDataSet.setOwner(addCustomDataSetFormBean.getOwner());
         newDataSet.setTheme(addCustomDataSetFormBean.getTheme());
+        newDataSet.setIsCarto(false);
+        newDataSet.setIsGraphic(false);
+        newDataSet.setLastModified(new Date());
         this.dataSetService.createDataSet(newDataSet);
 
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
