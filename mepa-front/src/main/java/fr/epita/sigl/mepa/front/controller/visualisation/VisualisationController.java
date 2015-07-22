@@ -35,6 +35,8 @@ public class VisualisationController {
         try {
 
             String datasetId = request.getParameter("datasetId");
+            String dataType = request.getParameter("dataType");
+            int data_type = Integer.parseInt(dataType);
             DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
             Data data = this.dataService.getById(datasetId);
             List<List<String>> dataList = new ArrayList<>();
@@ -48,12 +50,14 @@ public class VisualisationController {
                 active_col.add(column);
             }
 
-            System.out.println(active_col);
+            /*System.out.println(active_col);*/
             modelMap.addAttribute("dataset", dataSet);
             modelMap.addAttribute("fieldKeys", active_col);
             modelMap.addAttribute("data", data);
             modelMap.addAttribute("fieldValues", data.getData());
             modelMap.addAttribute("size", dataList.get(0).size() - 1);
+            modelMap.addAttribute("viewType", data_type);
+            System.out.println("data type = " + dataType);
             // add attrivute list<"nom_colonne", bool:actif/inactif>
         } catch(Exception E) {
 

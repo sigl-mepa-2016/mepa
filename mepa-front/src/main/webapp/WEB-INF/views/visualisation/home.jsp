@@ -12,7 +12,7 @@
         </div>
         <div class="tab-content">
                 <%-- Tabular view --%>
-                <div class="tab-pane fade in active" id="table-view">
+                    <div class="tab-pane fade in active" id="table-view">
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
 
