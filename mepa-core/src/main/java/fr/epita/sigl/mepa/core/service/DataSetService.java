@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface DataSetService {
 
-    void createDataSet(DataSet dataSet);
+    Boolean createDataSet(DataSet dataSet);
 
-    void updateDataSet(DataSet dataSet);
+    Boolean updateDataSet(DataSet dataSet);
 
     void deleteDataSet(String id);
 

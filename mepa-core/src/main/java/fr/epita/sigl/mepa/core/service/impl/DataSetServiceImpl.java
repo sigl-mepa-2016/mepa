@@ -18,15 +18,24 @@ public class DataSetServiceImpl implements DataSetService {
     private DataSetDao dataSetDao;
 
     @Override
-    public void createDataSet(DataSet dataSet) {
+    public Boolean createDataSet(DataSet dataSet) {
         dataSet.setLastModified(new Date());
+
+        if (!dataSet.isValidToInsert())
+            return false;
+
         this.dataSetDao.create(dataSet);
+        return true;
     }
 
     @Override
-    public void updateDataSet(DataSet dataSet) {
+    public Boolean updateDataSet(DataSet dataSet) {
         dataSet.setLastModified(new Date());
+        if (!dataSet.isValidToUpdate())
+            return false;
+
         this.dataSetDao.update(dataSet);
+        return true;
     }
 
     @Override
