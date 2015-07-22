@@ -35,7 +35,7 @@ function initialize() {
     verticalAxe2 = document.getElementById('vertical-axe2');
 
     graphType = document.getElementById('graph-type');
-    pointsQuantity = document.getElementById('points-quantity');
+    //pointsQuantity = document.getElementById('points-quantity');
 
     $('.color-box1').colpick({
         colorScheme:'dark',
@@ -65,10 +65,10 @@ function initialize() {
         drawGraph();
     }
 
-    pointsQuantity.onchange = function () {
+    /*pointsQuantity.onchange = function () {
         //restreindre le nombre de points puis draw le graph
         drawGraph();
-    }
+    }*/
 
     verticalAxe1.onchange = function () {
         BuildDataTable();

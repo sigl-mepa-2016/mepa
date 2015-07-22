@@ -17,18 +17,6 @@
                 </select>
             </td>
             <td>
-                <strong>Quantity of points :</strong>
-                <select id="points-quantity">
-                    <option value="0">All Displayed</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                </select>
-            </td>
-            <td>
                 <strong>Graph Type :</strong>
                 <select id="graph-type">
                     <option value="LineChart">LineChart</option>
