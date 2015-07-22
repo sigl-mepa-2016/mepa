@@ -30,12 +30,11 @@
                     var div = document.getElementById('visualization_div');
                     var data = getData();
                     var table = new google.visualization.Table(div);
-                    table.draw(data,{width:'100%'});
+                    table.draw(data,{width:'100%', allowHtml: true});
                     document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
                 }
             }
             function getData() {
-                //Still Sample datas, need to be get on DataBase...
 
                 var jsondataset = $.ajax({
                     dataType: "json",
@@ -46,10 +45,9 @@
 
                 data.addColumn('string', 'Name');
                 data.addColumn('string', 'id');
-                for (var i = 0; i < ${datasets.size()};i++){
-                    data.addRows([[b.items[i].name, b.items[i].id]]);
+                for (var i = 0; i < b.items.length;i++){
+                    data.addRows([['<a href="/mepa-front/dataVisualisationTab/dataVisualisation?value='+b.items[i].id+'">'+b.items[i].name+'</a>', b.items[i].id]]);
                 }
-
                 return data;
             }
             drawTable()

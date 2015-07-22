@@ -75,6 +75,9 @@
     <definition name="/dataVisualisationTab/customVisualisationTab" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/customVisualisationTab.jsp"/>
     </definition>
+    <definition name="/dataVisualisationTab/dataVisualisation" extends="base.definition">
+    <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisation.jsp"/>
+    </definition>
 
     <!-- API -->
     <definition name="api.definition" extends="base.definition">
