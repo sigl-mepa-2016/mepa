@@ -50,6 +50,7 @@
                             <td>
                                 <c:url var="updateDataUrl" value="/dataSet/updateDataForm?datasetId=${id}"/>
                                 <form action="${updateDataUrl}" method="post">
+                                    <input type="hidden" name="index" value="${size}"/>
                                     <input type="submit" value="Update">
                                 </form>
                             </td>

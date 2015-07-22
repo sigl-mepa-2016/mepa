@@ -182,6 +182,52 @@ public class DataSetController {
         return "/home/home";
     }
 
+    @RequestMapping(value = {"/updateDataForm"})
+    public String showUpdateDataForm(HttpServletRequest request, ModelMap modelMap) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        Map<String, String[]> paramMap = request.getParameterMap();
+        modelMap.addAttribute("dataset", dataSet);
+
+        Data data = this.dataService.getById(datasetId);
+        Map<String, String> columnToValueMap = new LinkedHashMap<>();
+        for (String column : data.getData().keySet()) {
+            columnToValueMap.put(column, data.getData().get(column).get(Integer.parseInt(paramMap.get("index")[0])));
+        }
+        modelMap.addAttribute("columnToValueMap", columnToValueMap);
+        modelMap.addAttribute("index", paramMap.get("index")[0]);
+
+        return "/dataSet/updateDataForm";
+    }
+
+    @RequestMapping(value = {"/updateData"}, method = {RequestMethod.POST})
+    public String processUpdateDataForm(HttpServletRequest request, ModelMap modelMap,
+                                           @Valid AddCustomDataFormBean addCustomDataFormBean,
+                                           BindingResult result) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        Map<String, String[]> paramMap = request.getParameterMap();
+
+        Data data = this.dataService.getById(datasetId);
+        String[] fieldsValues = paramMap.get("fields");
+        Object[] fields = dataSet.getFieldMap().keySet().toArray();
+
+        for (int i = 0; i < fields.length; ++i) {
+            String column = fields[i].toString();
+            data.getData().get(column).remove(Integer.parseInt(paramMap.get("index")[0]));
+            data.getData().get(column).add(Integer.parseInt(paramMap.get("index")[0]), fieldsValues[i]);
+        }
+
+        this.dataService.updateData(data);
+
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
+
+        return "/home/home";
+    }
+
     @RequestMapping(value = {"/columnForm"})
     public String showColumnForm(HttpServletRequest request, ModelMap modelMap) {
 
@@ -257,7 +303,7 @@ public class DataSetController {
             }
             this.dataService.updateData(data);
         } else {
-            Map<String, List<String>> dataMap = new HashMap<>();
+            Map<String, List<String>> dataMap = new LinkedHashMap<>();
             for (int i = 0; i < fields.length; ++i) {
                 List<String> value = new ArrayList<>();
                 value.add(fieldsValues[i]);
@@ -273,21 +319,11 @@ public class DataSetController {
         return "/home/home";
     }
 
-    /**
-     * Initialize "datasets" model attribute
-     *
-     * @return an empty List of Datasets.
-     */
     @ModelAttribute(DATASETS_MODEL_ATTRIBUTE)
     public List<DataSet> initDatasets() {
         return new ArrayList<DataSet>();
     }
 
-    /**
-     * Initialize "addCustomDataSetFormBean" model attribute
-     *
-     * @return a new AddCustomDataSetFormBean.
-     */
     @ModelAttribute(ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE)
     public AddCustomDataSetFormBean initAddCustomDataSetFormBean() {
         return new AddCustomDataSetFormBean();
