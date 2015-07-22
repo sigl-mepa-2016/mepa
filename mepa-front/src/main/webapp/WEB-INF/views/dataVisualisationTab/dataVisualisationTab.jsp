@@ -15,6 +15,8 @@
     <h4 class="white">Data sets</h4>
     <div  id="visualization_div"></div>
     <div id="line" class="white" /></div>
+    <c:url var="customTable" value="/dataVisualisationTab/customVisualisationTab"></c:url>
+    <a class="btn btn-default" href="${customTable}" role="button">Custom table</a>
     <br/><br/>
 
 <script type="application/javascript">
