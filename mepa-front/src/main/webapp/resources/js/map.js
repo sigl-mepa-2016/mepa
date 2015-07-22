@@ -133,13 +133,22 @@ function initializeMultiple() {
     var datasetId = document.getElementById("data").value;
     var dataJson = null;
 
-    jQuery.ajax({
-        url : "/mepa-front/api/dataSet/" + datasetId + "/data.json",
-        success: function(result) {
-            dataJson = result;
+    $.ajax({
+        dataType: "json",
+        url : "/mepa-front/api/dataSet/" + datasetId + "/data",
+        success : function(data)
+        {
+            dataJson = data;
         },
-        async: false
-    });
+        async : false});
+
+    console.log(dataJson);
+
+    for (var i = 0; i < 3; i++)
+    {
+        console.log(dataJson.data.latitude[i]);
+        console.log(dataJson.data.longitude[i]);
+    }
 
     //generatePoints(1000);
     initializePoints();

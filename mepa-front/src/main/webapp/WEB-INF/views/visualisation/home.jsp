@@ -5,8 +5,8 @@
         <div class="panel-heading">
             <h2>Visualization</h2>
             <ul class="nav nav-tabs">
-                <li role="presentation"><a href="#">Table</a></li>
-                <li role="presentation"><a href="#">Chart</a></li>
+                <li class="active"><a data-toggle="tab" href="#table-view">Table</a></li>
+                <li><a data-toggle="tab" href="#chart-view">Chart</a></li>
               <c:url var="cartography" value="/cartography/core/map?datasetId=${dataset._id}"/>
                 <li role="presentation"><a href="${cartography}">Map</a></li>
             </ul>
