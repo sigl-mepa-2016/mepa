@@ -121,23 +121,9 @@ public class DataSet {
                 '}';
     }
 
-    public boolean isValidToInsert() {
-
-        return (name != null && !name.isEmpty())
-                && (owner != null && !owner.isEmpty())
-                && (theme != null && !theme.isEmpty())
-                && lastModified != null && isCarto != null
-                && isGraphic != null;
-    }
-
-    public boolean isValidToUpdate() {
-
-        return isValidToInsert() && (_id != null && !_id.isEmpty());
-    }
-
 }
 
 enum DataSetType {
-    TEXT,INT,DATE;
+    TEXT, INT, DATE;
 
 }
