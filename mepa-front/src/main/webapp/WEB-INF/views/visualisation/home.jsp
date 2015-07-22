@@ -33,7 +33,7 @@
                             </thead>
                         </table>
                     </div>--%>
-                    <table id="visualization_div" class="table">
+                    <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
 
                             google.load('visualization', '1.0',{packages:["table"]});
@@ -43,7 +43,7 @@
 
                                 function drawTable() {
                                     {
-                                        var div = document.getElementById('visualization_div');
+                                        var div = document.getElementById('visualization_tab_div');
                                         var data = getData();
                                         var table = new google.visualization.Table(div);
                                         table.draw(data,{width:'100%', allowHtml: true});
