@@ -2,7 +2,7 @@
 <h5></h5>
 <h5>Method: POST</h5>
 <h5>Header: "Content-Type": "application/json"</h5>
-<h5>Input JSONXML:</h5>
+<h5>Input JSON:</h5>
 <pre class="prettyprint">
 {
 "name": "test",
