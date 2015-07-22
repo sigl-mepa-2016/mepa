@@ -79,3 +79,21 @@ a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
 .white {
     color: rgba(255,255,255,1);
 }
+
+/* centered navigation */
+
+ .nav.navbar-nav {
+     float: left;
+     margin: 0;
+     padding: 0;
+     position: relative;
+     left: 50%;
+     text-align: center;
+ }
+ .nav.navbar-nav > li {
+     position: relative;
+     right: 50%;
+ }
+ .nav.navbar-nav li {
+    text-align: left
+ }
