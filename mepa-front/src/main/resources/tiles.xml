@@ -19,23 +19,6 @@
         <put-attribute name="body" value="/WEB-INF/views/home/home.jsp" />
     </definition>
 
-    <!-- Core example -->
-    <definition name="/example/core/form" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/example/core/form.jsp" />
-    </definition>
-    <definition name="/example/core/result" extends="base.definition">
-        <put-attribute name="body" value="/WEB-INF/views/example/core/result.jsp" />
-    </definition>
-
-
-    <!-- Data Visualisation -->
-    <definition name="visualisation.definition" extends="base.definition">
-        <put-attribute name="title" value="visualisation.title" />
-    </definition>
-    <definition name="/dataVisualisation/dataVisualisation" extends="visualisation.definition">
-        <put-attribute name="body" value="/WEB-INF/views/dataVisualisation/dataVisualisation.jsp" />
-    </definition>
-
     <!-- DataSet -->
     <definition name="/dataSet/form" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataSet/form.jsp" />

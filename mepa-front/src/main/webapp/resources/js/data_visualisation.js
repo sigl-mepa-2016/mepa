@@ -1,11 +1,25 @@
 google.load('visualization', '1.0');
 google.setOnLoadCallback(initialize);
 
+function getUrlParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam)
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
 var chart;
 
 var graphCounter = 1;
 
-var idDataSet = "55af80d5c5429603d0dd034c";
+var idDataSet = getUrlParameter('datasetId');
 var listAxe;
 
 var dataTable;
@@ -146,7 +160,7 @@ function BuildDataTable() {
             dataTable.addColumn('string', h1);
             dataTable.addColumn('number', v1);
 
-            if(graphCounter == 2 && v2 != "" && v1 != "") {
+            if(graphCounter == 2 && v2 != "" && v1 != "" && v1 != v2) {
                 dataTable.addColumn('number', v2);
 
                 var col1 = dataSet.data[h1];

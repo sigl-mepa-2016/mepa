@@ -90,7 +90,8 @@
                 </table>
                 <br/><br/>
                 <div  id="visualization_div" width="400" height="400"></div>
-                <br/><br/>            </div>
+                <br/><br/>
+            </div>
             <%-- /Chart view --%>
             <%-- Carto view --%>
             <div id="carto-view" class="tab-pane">
