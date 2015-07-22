@@ -16,6 +16,9 @@
         <c:url var="defaultCssUrl" value="/css/default.css" />
         <link rel="stylesheet" href="${defaultCssUrl}" type="text/css" />
 
+        <c:url var="colpickCssUrl" value="/css/colpick.css" />
+        <link rel="stylesheet" href="${colpickCssUrl}" type="text/css" />
+
         <%-- jQuery --%>
         <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <%-- Bootstrap JavaScript --%>
