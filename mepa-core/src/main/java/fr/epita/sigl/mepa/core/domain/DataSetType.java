@@ -1,7 +1,7 @@
 package fr.epita.sigl.mepa.core.domain;
 
 /**
- * Created by Calu on 23/07/2015.
+ * If they are a new type add check in API in fr.epita.sigl.mepa.front.APIpojo.Impl.Data
  */
 public enum DataSetType {
         TEXT, INT;
