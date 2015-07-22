@@ -11,6 +11,7 @@
             </ul>
         </div>
         <div class="panel-body">
+    <%-- Tabular view --%>
       <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -24,6 +25,9 @@
           </thead>
           </table>
       </div>
+        <c:url var="customTable" value="/dataVisualisationTab/customVisualisationTab?datasetId=${dataset._id}"/>
+        <a role="button" class="btn btn-default" href="${customTable}">Custom table</a>
+    <%-- Tabular view --%>
     </div>
     </div>
 </div>
