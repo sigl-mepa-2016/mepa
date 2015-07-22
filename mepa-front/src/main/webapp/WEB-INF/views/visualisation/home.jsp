@@ -12,7 +12,7 @@
         </div>
         <div class="tab-content">
                 <%-- Tabular view --%>
-                <div class="tab-pane" id="table-view">
+                <div class="tab-pane fade in active" id="table-view">
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -33,7 +33,7 @@
             <%-- Chart view --%>
             <script type="text/javascript" src="<spring:url value="/js/colpick.js"/>"></script>
             <script type="text/javascript" src="<spring:url value="/js/data_visualisation.js"/>"></script>
-            <div id="chart-view" class="tab-pane">
+            <div id="chart-view" class="tab-pane fade">
                 <table>
                     <tbody>
                     <tr>
@@ -94,7 +94,7 @@
             </div>
             <%-- /Chart view --%>
             <%-- Carto view --%>
-            <div id="carto-view" class="tab-pane">
+            <div id="carto-view" class="tab-pane fade">
                 <h3>CARTOGRAPHY VIEW HERE</h3>
             </div>
             <%-- /Carto view --%>

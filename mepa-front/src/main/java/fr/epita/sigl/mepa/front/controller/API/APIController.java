@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
@@ -73,15 +72,11 @@ public class APIController {
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
 
-        DataSet newdataSet = new DataSet();
-        newdataSet.setName(dataSet.getName());
-        newdataSet.setOwner(dataSet.getOwner());
-        newdataSet.setTheme(dataSet.getTheme());
-        newdataSet.setLastModified(new Date());
-        for (Map.Entry<String, String> entri : dataSet.getFieldMap().entrySet())
-            newdataSet.addField(entri.getKey(), entri.getValue());
-        this.dataSetService.createDataSet(newdataSet);
-        return new SuccessMessage("Success add DataSet");
+        DataSet newdataSet = new DataSet(dataSet.getName(),dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
+        for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
+            newdataSet.addField(entry.getKey(), entry.getValue());
+
+        return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("Success add DataSet"): new ErrorMessage("Missing Field");
     }
 
     /**
@@ -120,7 +115,7 @@ public class APIController {
 
     /**
      * add Data in DataSet
-     * @param data = Data to add in database
+     * @param dataInput = Data to add in database
      * @param dataSetID = Id of DataSet
      * @return Pojo Message
      */
@@ -137,6 +132,7 @@ public class APIController {
         if (data instanceof ErrorMessage)
             this.dataService.createData(new Data(dataSetID, dataInput.getData()));
         else {
+            //TODO
 //            Update
 //            this.dataService.createData(new Data(dataSetID, dataInput.getData()));
         }
