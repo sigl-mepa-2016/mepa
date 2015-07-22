@@ -20,11 +20,28 @@
             <br/>
             <form:input id="theme" path="theme" type="text" maxlength="32" value="${dataset.theme}"/>
             <br/>
-            <label for="isCarto">Check if the dataset can be see as cartography:</label>
-            <input type="checkbox" id="isCarto" name="isCarto" value="${dataset.isCarto}"/>
+            <c:choose>
+                    <c:when  test="${dataset.isCarto == true}">
+                        <label for="isCarto">Check if the dataset can be see as cartography:</label>
+                        <input type="checkbox" id="isCarto" name="isCarto" value="${dataset.isCarto}" checked/>
+                    </c:when>
+                    <c:otherwise>
+                         <label for="isCarto">Check if the dataset can be see as cartography:</label>
+                         <input type="checkbox" id="isCarto" name="isCarto" value="${dataset.isCarto}"/>
+                    </c:otherwise>
+            </c:choose>
             <br/>
-            <label for="isGraphic">Check if the dataset can be see as a graph:</label>
-            <input type="checkbox" id="isGraphic" name="isGraphic" value="${dataset.isGraphic}"/>
+            <c:choose>
+                <c:when  test="${dataset.isCarto == true} ">
+                    <label for="isGraphic">Check if the dataset can be see as a graph:</label>
+                    <input type="checkbox" id="isGraphic" name="isGraphic" value="${dataset.isGraphic}" checked/>
+                </c:when>
+                <c:otherwise>
+                    <label for="isGraphic">Check if the dataset can be see as a graph:</label>
+                    <input type="checkbox" id="isGraphic" name="isGraphic" value="${dataset.isGraphic}"/>
+                </c:otherwise>
+            </c:choose>
+
         </div>
 
         <button type="submit" class="btn btn-default">Submit</button>
