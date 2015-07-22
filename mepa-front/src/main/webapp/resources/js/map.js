@@ -70,7 +70,8 @@ function handleNoGeolocation(errorFlag) {
 
     var options = {
         map: map,
-        position: new google.maps.LatLng(latitude, longitude)
+        position: new google.maps.LatLng(latitude, longitude),
+        icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
     };
 
     var marker = new google.maps.Marker(options);

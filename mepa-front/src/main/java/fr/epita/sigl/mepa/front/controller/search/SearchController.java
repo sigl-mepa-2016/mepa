@@ -44,19 +44,15 @@ public class SearchController {
     @RequestMapping(value = { "/searchAction" }, method = { RequestMethod.POST })
     public String processForm(HttpServletRequest request, SearchForm parSearchForm, ModelMap modelMap) {
         String searchString = parSearchForm.getSearch();
-        LOG.info(searchString);
+
         // Get models data from database
         List<DataSet> dataSets = this.modelService.getAllDataSets();
 
         //lancement de l'algo de recherche
         List<DataSet> modelsResult = new ArrayList<>();
+
         modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
 
-        //A faire lorsque les datasets seront finis
-        /*
-        String[] searchStringList = searchString.split(" ");
-        List<DataSet> modelsResult = this.modelService.searchInTitle(searchStringList);
-        */
 
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
@@ -124,7 +120,7 @@ public class SearchController {
         //séparation en token séparés par des espaces
         for (String s : data.split(" ")) {
             //recherche sans faire attention à la case
-            if (s.contains(searchWord)) {
+            if (s.toLowerCase().contains(searchWord.toLowerCase())) {
                 return true;
             }
         }
