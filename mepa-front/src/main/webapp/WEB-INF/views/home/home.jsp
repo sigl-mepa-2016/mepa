@@ -65,7 +65,8 @@
             </thead>
             <tbody>
             <c:forEach items="${datasets}" var="dataset" varStatus="loop">
-                <tr>
+                <c:url var="visuHome" value="/visualisation/home?datasetId=${dataset._id}"/>
+                <tr onclick="window.location.href = '${visuHome}';">
                     <td>${dataset.theme}</td>
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
