@@ -72,13 +72,7 @@ public class APIController {
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
 
-        DataSet newdataSet = new DataSet();
-        newdataSet.setName(dataSet.getName());
-        newdataSet.setOwner(dataSet.getOwner());
-        newdataSet.setTheme(dataSet.getTheme());
-        newdataSet.setLastModified(new Date());
-        newdataSet.setIsCarto(dataSet.getIsCarto());
-        newdataSet.setIsGraphic(dataSet.getIsGraphic());
+        DataSet newdataSet = new DataSet(dataSet.getName(),dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
         for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
             newdataSet.addField(entry.getKey(), entry.getValue());
 
