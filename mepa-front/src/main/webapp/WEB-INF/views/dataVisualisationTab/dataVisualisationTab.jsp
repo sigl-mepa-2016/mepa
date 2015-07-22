@@ -14,7 +14,7 @@
     <br/><br/>
     <h4 class="white">Data sets</h4>
     <div  id="visualization_div"></div>
-    <div id="line" class="white" />test</div>
+    <div id="line" class="white" /></div>
     <br/><br/>
 
 <script type="application/javascript">
