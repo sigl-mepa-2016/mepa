@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
@@ -78,10 +77,10 @@ public class APIController {
         newdataSet.setOwner(dataSet.getOwner());
         newdataSet.setTheme(dataSet.getTheme());
         newdataSet.setLastModified(new Date());
-        for (Map.Entry<String, String> entri : dataSet.getFieldMap().entrySet())
-            newdataSet.addField(entri.getKey(), entri.getValue());
-        this.dataSetService.createDataSet(newdataSet);
-        return new SuccessMessage("Success add DataSet");
+        for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
+            newdataSet.addField(entry.getKey(), entry.getValue());
+
+        return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("Success add DataSet"): new ErrorMessage("Missing Field");
     }
 
     /**
