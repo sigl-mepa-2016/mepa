@@ -13,26 +13,6 @@
         <div class="tab-content">
                 <%-- Tabular view --%>
                 <div class="tab-pane fade in active" id="table-view">
-                    <%--<div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                              <tr>
-                                <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
-                                  <th>${column}</th>
-                                </c:forEach>
-                              </tr>
-                              <c:forEach begin="0" end="${size}" var="index" varStatus="loop1">
-                              <tr>
-                                  <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
-                                  <td>
-                                          ${data.getData().get(column).get(index)}
-                                  </td>
-                                  </c:forEach>
-                              </tr>
-                              </c:forEach>
-                            </thead>
-                        </table>
-                    </div>--%>
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
 
