@@ -120,7 +120,7 @@ public class APIController {
 
     /**
      * add Data in DataSet
-     * @param data = Data to add in database
+     * @param dataInput = Data to add in database
      * @param dataSetID = Id of DataSet
      * @return Pojo Message
      */
