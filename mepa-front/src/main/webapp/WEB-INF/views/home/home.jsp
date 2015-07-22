@@ -62,6 +62,7 @@
                 <th>Cartography</th>
                 <th>Graphic</th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -75,6 +76,16 @@
                     <td>${dataset.isGraphic}</td>
                     <c:url var="dataSetUrl" value="/dataSet/details?datasetId=${dataset._id}"/>
                     <td><a href="${dataSetUrl}">Details</a></td>
+                    <td>
+                        <c:url var="deleteUrl" value="/dataSet/delete?datasetId=${dataset._id}"/>
+                        <form action="${deleteUrl}" method="post">
+                            <input type="submit" value="Delete"/>
+                        </form>
+                        <c:url var="updateUrl" value="/dataSet/updateDatasetForm?datasetId=${dataset._id}"/>
+                        <form action="${updateUrl}" method="post">
+                            <input type="submit" value="Update">
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

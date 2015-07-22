@@ -105,6 +105,50 @@ public class DataSetController {
         return "/dataSet/details";
     }
 
+    @RequestMapping(value = {"/delete"})
+    public String showDelete(HttpServletRequest request, ModelMap modelMap) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        modelMap.addAttribute("dataset", dataSet);
+
+        this.dataSetService.deleteDataSet(datasetId);
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
+
+        return "/home/home";
+    }
+
+    @RequestMapping(value = {"/updateDatasetForm"})
+    public String showUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        modelMap.addAttribute("dataset", dataSet);
+
+        return "/dataSet/updateDatasetForm";
+    }
+
+    @RequestMapping(value = {"/update"}, method = {RequestMethod.POST})
+    public String processUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap,
+                                    @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
+                                    BindingResult result) {
+
+        String datasetId = request.getParameter("datasetId");
+        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        Map<String, String[]> paramMap = request.getParameterMap();
+
+        dataSet.setName(addCustomDataSetFormBean.getName());
+        dataSet.setTheme(addCustomDataSetFormBean.getTheme());
+        dataSet.setOwner(addCustomDataSetFormBean.getOwner());
+        this.dataSetService.updateDataSet(dataSet);
+
+        List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
+
+        return "/home/home";
+    }
+
     @RequestMapping(value = {"/columnForm"})
     public String showColumnForm(HttpServletRequest request, ModelMap modelMap) {
 
