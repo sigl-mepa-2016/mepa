@@ -52,7 +52,7 @@
 
         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
           <div class="panel-body">
-
+            <%@ include file="AddDataSet.jsp"%>
           </div>
         </div>
       </div>
