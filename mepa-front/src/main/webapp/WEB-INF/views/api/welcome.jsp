@@ -30,7 +30,7 @@
       <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
         <div class="panel-heading" role="tab" id="headingTwo">
           <h4 class="panel-title">
-              Get schema ofspecific DataSet
+              Get schema of specific DataSet
           </h4>
         </div>
         </a>

@@ -28,10 +28,10 @@
                 <li>
                     <p>Filter by view</p>
                     <ul>
-                        <c:url var="searchFormActionUrl" value="/search/FilterCarto"/>
-                        <li><a href="./">Cartography</a> ${resFilterCarto}</li>
-                        <c:url var="searchFormActionUrl" value="/search/FilterGraphic"/>
-                        <li><a href="./">Graph</a> ${resFilterGraph}</li>
+                        <c:url var="Carto" value="/search/FilterCarto"/>
+                        <li><a href="${Carto}">Cartography</a> ${resFilterCarto}</li>
+                        <c:url var="Graphic" value="/search/FilterGraphic"/>
+                        <li><a href="${Graphic}">Graph</a> ${resFilterGraph}</li>
                     </ul>
                 </li>
             </ul>

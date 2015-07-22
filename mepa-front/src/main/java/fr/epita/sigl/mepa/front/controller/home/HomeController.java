@@ -30,10 +30,6 @@ public class HomeController {
 
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
-        if (LOG.isDebugEnabled()) {
-           LOG.debug("There is {} in database", datasets.size());
-        }
-
         // Update model attribute "datasets", to use it in JSP
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
 
@@ -45,8 +41,6 @@ public class HomeController {
         List<DataSet> allCartoDatasets = new ArrayList<>();
         List<DataSet> allGraphicDatasets = new ArrayList<>();
         getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
-        LOG.debug("There is {} in Carto", allCartoDatasets.size());
-        LOG.debug("There is {} in GRaphic", allGraphicDatasets.size());
         modelMap.addAttribute("resFilterGraph", allCartoDatasets.size());
         modelMap.addAttribute("resFilterCarto", allGraphicDatasets.size());
     }
