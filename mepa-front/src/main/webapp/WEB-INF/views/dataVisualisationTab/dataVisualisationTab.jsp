@@ -6,48 +6,48 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
-
 <div class="container">
     <h2 class="white">Data Visualisation</h2>
 
 
+
     <br/><br/>
-    <div  id="visualization_div" width="400" height="400"></div>
+    <h4 class="white">Data sets</h4>
+    <div  id="visualization_div"></div>
+    <div id="line" class="white" /></div>
     <br/><br/>
-    <script type="application/javascript">
 
-        google.load('visualization', '1.0');
-        google.setOnLoadCallback(initialize);
+<script type="application/javascript">
 
-        function initialize() {
-
-            var chart = new google.visualization.ChartWrapper({
-                containerId: 'visualization_div'
-            });
+    google.load('visualization', '1.0',{packages:["table"]});
+    google.setOnLoadCallback(initialize);
+    function initialize() {
 
             function drawTable() {
                 {
-                    var data = getDatas();
-                    chart.setChartType("Table");
-                    chart.setDataTable(data);
-                    chart.draw();
+                    var div = document.getElementById('visualization_div');
+                    var data = getData();
+                    var table = new google.visualization.Table(div);
+                    table.draw(data,{width:'100%'});
+                    document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
                 }
             }
-
-            function getDatas() {
+            function getData() {
                 //Still Sample datas, need to be get on DataBase...
+
+                var jsondataset = $.ajax({
+                    dataType: "json",
+                    url :'/mepa-front/api/dataSet.json',
+                    async : false}) ;
+                var b = JSON.parse(jsondataset.responseText);
                 var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Student\'s name');
-                data.addColumn('number', 'Height');
-                data.addColumn('date', 'Birth Date');
-                data.addColumn('number', 'Average Grade');
-                data.addRows([
-                    ['Rosa', 180, new Date(1993, 2, 28), 18],
-                    ['Carla', 160, new Date(1994, 5, 17), 16],
-                    ['Joe', 190, new Date(1990, 10, 18), 9],
-                    ['Linda', 170, new Date(1950, 11, 14), 10],
-                    ['Sarah', 175, new Date(2008, 1, 10), 8]
-                ]);
+
+                data.addColumn('string', 'Name');
+                data.addColumn('string', 'id');
+                for (var i = 0; i < ${datasets.size()};i++){
+                    data.addRows([[b.items[i].name, b.items[i].id]]);
+                }
+
                 return data;
             }
             drawTable()

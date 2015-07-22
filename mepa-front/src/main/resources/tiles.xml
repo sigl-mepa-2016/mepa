@@ -43,6 +43,21 @@
     <definition name="/dataSet/result" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataSet/result.jsp" />
     </definition>
+    <definition name="/dataSet/details" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/details.jsp" />
+    </definition>
+    <definition name="/dataSet/columnForm" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/columnForm.jsp" />
+    </definition>
+    <definition name="/dataSet/dataForm" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/dataForm.jsp" />
+    </definition>
+    <definition name="/dataSet/updateDatasetForm" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/updateDatasetForm.jsp" />
+    </definition>
+    <definition name="/dataSet/updateDataForm" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/views/dataSet/updateDataForm.jsp" />
+    </definition>
 
     <!-- Cartography -->
     <definition name="cartography.definition" extends="base.definition">
@@ -55,6 +70,7 @@
     <!-- Data Visualisation tabulaire -->
     <definition name="/dataVisualisationTab/dataVisualisationTab" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisationTab.jsp" />
+        <put-attribute name="title" value="table.title" />
     </definition>
 
     <!-- API -->

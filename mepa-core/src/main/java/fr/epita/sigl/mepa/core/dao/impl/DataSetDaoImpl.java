@@ -30,12 +30,12 @@ public class DataSetDaoImpl extends Dao implements DataSetDao {
 
     @Override
     public void update(DataSet dataSet) {
-        this.getSession().saveOrUpdate(dataSet);
-    }
+        this.datasetCollection.update(new ObjectId(dataSet.get_id())).with(dataSet);
+    }   
 
     @Override
-    public void delete(DataSet dataSet) {
-        this.getSession().delete(dataSet);
+    public void delete(String id) {
+        this.datasetCollection.remove(new ObjectId(id));
     }
 
     @Override

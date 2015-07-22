@@ -28,15 +28,40 @@ public class HomeController {
     @RequestMapping(value = {"/", "/home"})
     public String home(ModelMap modelMap) {
 
-        initFilter(modelMap);
+        // Get models data from database
+        List<DataSet> datasets = this.dataSetService.getAllDataSets();
+        if (LOG.isDebugEnabled()) {
+           LOG.debug("There is {} in database", datasets.size());
+        }
+
+        // Update model attribute "datasets", to use it in JSP
+        modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
+
+        initFilter(modelMap, datasets);
         return "/home/home";
     }
 
-    private void initFilter(ModelMap modelMap) {
-
-        modelMap.addAttribute("resFilterGraph", "1");
-        modelMap.addAttribute("resFilterCarto", "2");
+    private void initFilter(ModelMap modelMap, List<DataSet> dataSets) {
+        List<DataSet> allCartoDatasets = new ArrayList<>();
+        List<DataSet> allGraphicDatasets = new ArrayList<>();
+        getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
+        LOG.debug("There is {} in Carto", allCartoDatasets.size());
+        LOG.debug("There is {} in GRaphic", allGraphicDatasets.size());
+        modelMap.addAttribute("resFilterGraph", allCartoDatasets.size());
+        modelMap.addAttribute("resFilterCarto", allGraphicDatasets.size());
     }
+
+    private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {
+        for (DataSet dataSet : dataSets) {
+            if (null != dataSet.getIsCarto() && dataSet.getIsCarto()){
+                allCartoDatasets.add(dataSet);
+            }
+            if (null != dataSet.getIsGraphic() && dataSet.getIsGraphic()){
+                allGraphicDatasets.add(dataSet);
+            }
+        }
+    }
+
 
     /**
      * Initialize "SearchForm" model attribute
