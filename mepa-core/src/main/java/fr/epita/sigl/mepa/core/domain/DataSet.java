@@ -16,7 +16,7 @@ public class DataSet {
     private Boolean isCarto;
     private Boolean isGraphic;
     private Date lastModified;
-    private Map<String, DataSetType> fieldMap;
+    private Map<String, String> fieldMap;
 
     public String get_id() {
         return _id;
@@ -39,10 +39,11 @@ public class DataSet {
 
     public boolean addField(String name, String type) {
         try {
-            fieldMap.put(name, DataSetType.valueOf(type));
+            DataSetType.valueOf(type);
         } catch (Exception e) {
             return false;
         }
+        fieldMap.put(name, type);
         return true;
     }
 
@@ -70,7 +71,7 @@ public class DataSet {
         return lastModified;
     }
 
-    public Map<String, DataSetType> getFieldMap() {
+    public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
@@ -102,7 +103,7 @@ public class DataSet {
         this.lastModified = lastModified;
     }
 
-    public void setFieldMap(Map<String, DataSetType> fieldMap) {
+    public void setFieldMap(Map<String, String> fieldMap) {
         this.fieldMap = fieldMap;
     }
 
