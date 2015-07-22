@@ -21,17 +21,17 @@
 
 <div class="container">
     <!-- Filter -->
-    <div class="filtre-content">
+    <div class="filtre-content white">
         <h2>Filters</h2>
         <div class="css-treeview">
             <ul>
                 <li>
-                    <p>filtre par vue </p>
+                    <p>Filter by view</p>
                     <ul>
                         <c:url var="searchFormActionUrl" value="/search/FilterCarto"/>
-                        <li><a href="./">Cartographie</a> ${resFilterCarto}</li>
+                        <li><a href="./">Cartography</a> ${resFilterCarto}</li>
                         <c:url var="searchFormActionUrl" value="/search/FilterGraphic"/>
-                        <li><a href="./">Graphique</a> ${resFilterGraph}</li>
+                        <li><a href="./">Graph</a> ${resFilterGraph}</li>
                     </ul>
                 </li>
             </ul>
@@ -54,7 +54,7 @@
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
-            <tr>
+            <tr class="title-table">
                 <th>Theme</th>
                 <th>Name</th>
                 <th>Producer</th>
@@ -76,11 +76,11 @@
                     <td>
                         <c:url var="deleteUrl" value="/dataSet/delete?datasetId=${dataset._id}"/>
                         <form action="${deleteUrl}" method="post">
-                            <input type="submit" value="Delete"/>
+                            <input type="submit" class="submit-tab" value="Delete"/>
                         </form>
                         <c:url var="updateUrl" value="/dataSet/updateDatasetForm?datasetId=${dataset._id}"/>
                         <form action="${updateUrl}" method="post">
-                            <input type="submit" value="Update">
+                            <input type="submit" class="submit-tab" value="Update">
                         </form>
                     </td>
                 </tr>
