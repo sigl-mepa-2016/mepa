@@ -48,11 +48,11 @@ public class DataSet {
     }
 
     public boolean addField(String name, String type) {
-        /*try {
+        try {
             DataSetType.valueOf(type);
         } catch (Exception e) {
             return false;
-        }*/
+        }
         fieldMap.put(name, type);
         return true;
     }
@@ -130,10 +130,5 @@ public class DataSet {
                 ", fieldMap=" + fieldMap +
                 '}';
     }
-
-}
-
-enum DataSetType {
-    TEXT, INT, DATE;
 
 }
