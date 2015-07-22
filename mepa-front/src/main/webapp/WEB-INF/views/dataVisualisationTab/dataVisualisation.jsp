@@ -55,12 +55,9 @@
             for(var i = 0; i < size; i++){
                 data.addRows(1);
             }
-   //         console.log(b.data);
-     //       console.log(b.data.length);
-       //     console.log(b.data.non[0]);
             for (var i = 0; i < size;i++){
-                for (var j = 0; j < array.length;j++){
-                    data.setValue(i,j, b.data[array[j]][i]);//[[b.data[array[0]][i], b.data[array[1]][i]]]);
+                for (var j = 0; j < array.length;j++) {
+                    data.setValue(i, j, b.data[array[j]][i]);
                 }
             }
             return data;
