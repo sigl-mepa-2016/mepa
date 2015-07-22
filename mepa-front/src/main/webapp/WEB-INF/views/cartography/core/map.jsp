@@ -1,7 +1,6 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <head>
-
     <c:url var="mapCssUrl" value="/css/map.css" />
     <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
 
@@ -14,6 +13,11 @@
     <div class="page-header">
         <h1 class="white">Want to see your localization ?</h1>
     </div>
+    ${datasetId}
+    <input id="data" name="data" type="hidden" value='${datasetId}'>
+
+
+
     <div id="map-canvas" class="canvas"></div>
 </div>
 </body>

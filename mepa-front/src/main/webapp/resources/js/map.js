@@ -130,7 +130,18 @@ function initializePoints()
 
 function initializeMultiple() {
 
-    generatePoints(1000);
+    var datasetId = document.getElementById("data").value;
+    var dataJson = null;
+
+    jQuery.ajax({
+        url : "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+        success: function(result) {
+            dataJson = result;
+        },
+        async: false
+    });
+
+    //generatePoints(1000);
     initializePoints();
 
     var mapOptions = {

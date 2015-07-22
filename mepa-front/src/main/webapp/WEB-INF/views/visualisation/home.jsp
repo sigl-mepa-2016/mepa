@@ -7,7 +7,8 @@
             <ul class="nav nav-tabs">
                 <li role="presentation"><a href="#">Table</a></li>
                 <li role="presentation"><a href="#">Chart</a></li>
-                <li role="presentation"><a href="#">Map</a></li>
+              <c:url var="cartography" value="/cartography/core/map?datasetId=${dataset._id}"/>
+                <li role="presentation"><a href="${cartography}">Map</a></li>
             </ul>
         </div>
         <div class="panel-body">
