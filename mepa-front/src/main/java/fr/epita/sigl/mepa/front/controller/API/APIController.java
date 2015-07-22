@@ -60,7 +60,7 @@ public class APIController {
         if (dataSet == null)
             return new ErrorMessage("No DataSet found");
         else
-            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.get_id(), dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic(), dataSet.getFieldMap());
+            return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic(), dataSet.getFieldMap());
     }
 
     /**
@@ -72,15 +72,23 @@ public class APIController {
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
 
-        DataSet newdataSet = new DataSet(dataSet.getName(),dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
+        DataSet newdataSet = new DataSet(dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
         for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
-            newdataSet.addField(entry.getKey(), entry.getValue());
+            if (!newdataSet.addField(entry.getKey(), entry.getValue()))
+                return new ErrorMessage("Invalid Type in DataSet, only Text and Int are accepted");
 
-        return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("Success add DataSet"): new ErrorMessage("Missing Field");
+        return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("Success add DataSet") : new ErrorMessage("Missing Field");
+    }
+
+    @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.PUT)
+    public Pojo updateDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @PathVariable String dataSetID) {
+        //TODO
+        return new SuccessMessage("Success update");
     }
 
     /**
-     * Not Ready
+     * Remove DataSet and Data in database
+     *
      * @param dataSetID = Id Of DataSet
      * @return Message Pojo
      */
@@ -97,6 +105,7 @@ public class APIController {
 
     /**
      * Get Data In dataSet
+     *
      * @param dataSetID = Id Of DataSet
      * @return Data Pojo
      */
@@ -116,32 +125,36 @@ public class APIController {
 
     /**
      * add Data in DataSet
+     *
      * @param dataInput = Data to add in database
      * @param dataSetID = Id of DataSet
      * @return Pojo Message
      */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
     public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID) {
+        if (!dataInput.validInput())
+            return new ErrorMessage("invalid number of Input");
+
         Pojo dataSet = schemaDataSet(dataSetID);
         if (dataSet instanceof ErrorMessage)
             return new ErrorMessage("invalid id");
 
         if (!dataInput.checkDataType((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
-            return new ErrorMessage("invalid type");
+            return new ErrorMessage("invalid type in Input");
 
         Pojo data = dataOfDataSet(dataSetID);
         if (data instanceof ErrorMessage)
             this.dataService.createData(new Data(dataSetID, dataInput.getData()));
         else {
-            //TODO
-//            Update
-//            this.dataService.createData(new Data(dataSetID, dataInput.getData()));
+            ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data).mergeData(dataInput);
+            this.dataService.updateData(new Data(dataSetID, ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data).getData()));
         }
         return new SuccessMessage("Success add Data in DataSet");
     }
 
     /**
      * Not Ready
+     *
      * @param dataSetID
      * @param allRequestParams
      * @return
