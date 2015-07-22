@@ -81,6 +81,12 @@
         <put-attribute name="body" value="/WEB-INF/views/api/welcome.jsp" />
     </definition>
 
-
+    <!-- Cartography -->
+    <definition name="AllVisualisation.definition" extends="base.definition">
+        <put-attribute name="title" value="allVisualisation.title" />
+    </definition>
+    <definition name="/visualisation/home" extends="AllVisualisation.definition">
+        <put-attribute name="body" value="/WEB-INF/views/visualisation/home.jsp" />
+    </definition>
 
 </tiles-definitions>
