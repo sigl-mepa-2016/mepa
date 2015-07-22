@@ -21,7 +21,7 @@ public class DataSetServiceImpl implements DataSetService {
     public Boolean createDataSet(DataSet dataSet) {
         dataSet.setLastModified(new Date());
 
-        if (!dataSet.isValidToInsert())
+        if (!isValidToInsert(dataSet))
             return false;
 
         this.dataSetDao.create(dataSet);
@@ -31,7 +31,7 @@ public class DataSetServiceImpl implements DataSetService {
     @Override
     public Boolean updateDataSet(DataSet dataSet) {
         dataSet.setLastModified(new Date());
-        if (!dataSet.isValidToUpdate())
+        if (!isValidToUpdate(dataSet))
             return false;
 
         this.dataSetDao.update(dataSet);
@@ -53,5 +53,19 @@ public class DataSetServiceImpl implements DataSetService {
     @Transactional(readOnly = true)
     public List<DataSet> getAllDataSets() {
         return this.dataSetDao.getAll();
+    }
+
+    private boolean isValidToInsert(DataSet dataSet) {
+
+        return (dataSet.getName() != null && !dataSet.getName().isEmpty())
+                && (dataSet.getOwner() != null && !dataSet.getOwner().isEmpty())
+                && (dataSet.getTheme() != null && !dataSet.getTheme().isEmpty())
+                && dataSet.getLastModified() != null && dataSet.getIsCarto() != null
+                && dataSet.getIsGraphic() != null;
+    }
+
+    private boolean isValidToUpdate(DataSet dataSet) {
+
+        return isValidToInsert(dataSet) && (dataSet.get_id() != null && !dataSet.get_id().isEmpty());
     }
 }
