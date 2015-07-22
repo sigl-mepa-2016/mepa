@@ -20,9 +20,16 @@
                                 <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
                                   <th>${column}</th>
                                 </c:forEach>
-                                <th></th>
-                                <th></th>
                               </tr>
+                              <c:forEach begin="0" end="${size}" var="index" varStatus="loop1">
+                              <tr>
+                                  <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
+                                  <td>
+                                          ${data.getData().get(column).get(index)}
+                                  </td>
+                                  </c:forEach>
+                              </tr>
+                              </c:forEach>
                             </thead>
                         </table>
                     </div>
