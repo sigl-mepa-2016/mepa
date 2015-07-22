@@ -80,6 +80,8 @@ public class DataSetController {
         newDataSet.setName(addCustomDataSetFormBean.getName());
         newDataSet.setOwner(addCustomDataSetFormBean.getOwner());
         newDataSet.setTheme(addCustomDataSetFormBean.getTheme());
+        newDataSet.setIsCarto(addCustomDataSetFormBean.isCarto());
+        newDataSet.setIsGraphic(addCustomDataSetFormBean.isGraphic());
         this.dataSetService.createDataSet(newDataSet);
 
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
@@ -174,6 +176,8 @@ public class DataSetController {
         dataSet.setName(addCustomDataSetFormBean.getName());
         dataSet.setTheme(addCustomDataSetFormBean.getTheme());
         dataSet.setOwner(addCustomDataSetFormBean.getOwner());
+        dataSet.setIsCarto(addCustomDataSetFormBean.isCarto());
+        dataSet.setIsGraphic(addCustomDataSetFormBean.isGraphic());
         this.dataSetService.updateDataSet(dataSet);
 
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
