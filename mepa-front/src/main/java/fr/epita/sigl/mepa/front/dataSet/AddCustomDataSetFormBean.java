@@ -1,5 +1,6 @@
 package fr.epita.sigl.mepa.front.dataSet;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
@@ -17,6 +18,9 @@ public class AddCustomDataSetFormBean {
     @Size(max = 32)
     @NotBlank
     private String theme;
+
+    private boolean isCarto;
+    private boolean isGraphic;
 
     public String getOwner() {
         return owner;
@@ -42,4 +46,19 @@ public class AddCustomDataSetFormBean {
         this.theme = theme;
     }
 
+    public boolean isCarto() {
+        return isCarto;
+    }
+
+    public void setIsCarto(boolean isCarto) {
+        this.isCarto = isCarto;
+    }
+
+    public boolean isGraphic() {
+        return isGraphic;
+    }
+
+    public void setIsGraphic(boolean isGraphic) {
+        this.isGraphic = isGraphic;
+    }
 }

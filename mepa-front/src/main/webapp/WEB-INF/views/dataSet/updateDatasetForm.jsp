@@ -19,6 +19,12 @@
             <label for="theme">Enter the theme of the dataset below:</label>
             <br/>
             <form:input id="theme" path="theme" type="text" maxlength="32" value="${dataset.theme}"/>
+            <br/>
+            <label for="isCarto">Check if the dataset can be see as cartography:</label>
+            <input type="checkbox" id="isCarto" name="isCarto" value="${dataset.isCarto}"/>
+            <br/>
+            <label for="isGraphic">Check if the dataset can be see as a graph:</label>
+            <input type="checkbox" id="isGraphic" name="isGraphic" value="${dataset.isGraphic}"/>
         </div>
 
         <button type="submit" class="btn btn-default">Submit</button>
