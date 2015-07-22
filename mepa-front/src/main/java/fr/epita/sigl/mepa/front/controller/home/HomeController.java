@@ -53,10 +53,10 @@ public class HomeController {
 
     private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {
         for (DataSet dataSet : dataSets) {
-            if (dataSet.getIsCarto()){
+            if (null != dataSet.getIsCarto() && dataSet.getIsCarto()){
                 allCartoDatasets.add(dataSet);
             }
-            if (dataSet.getIsGraphic()){
+            if (null != dataSet.getIsGraphic() && dataSet.getIsGraphic()){
                 allGraphicDatasets.add(dataSet);
             }
         }
