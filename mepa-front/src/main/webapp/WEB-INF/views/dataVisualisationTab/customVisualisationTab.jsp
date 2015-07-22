@@ -25,6 +25,13 @@
                                 <th>${column}</th>
                             </c:forEach>
                         </tr>
+                        <tr>
+                            <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
+                                <td>
+                                    <input type="checkbox" name="my-checkbox" checked>
+                                </td>
+                            </c:forEach>
+                        </tr>
                         </thead>
                     </table>
                 </div>
