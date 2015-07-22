@@ -13,7 +13,7 @@
     <div class="page-header">
         <h1 class="white">Want to see your localization ?</h1>
     </div>
-    ${datasetId}
+
     <input id="data" name="data" type="hidden" value='${datasetId}'>
 
 

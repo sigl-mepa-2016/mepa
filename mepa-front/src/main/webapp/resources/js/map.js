@@ -31,7 +31,8 @@ function initialize() {
 
             var marker = new google.maps.Marker({
                 map: map,
-                position: pos
+                position: pos,
+                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
             });
 
             map.setCenter(pos);
@@ -131,23 +132,25 @@ function initializePoints()
 function initializeMultiple() {
 
     var datasetId = document.getElementById("data").value;
+    var size = document.getElementById("size").value;
     var dataJson = null;
+
+    initialize();
 
     $.ajax({
         dataType: "json",
-        url : "/mepa-front/api/dataSet/" + datasetId + "/data",
+        url : "/mepa-front/api/dataSet/" + datasetId + "/data.json",
         success : function(data)
         {
             dataJson = data;
         },
         async : false});
 
-    console.log(dataJson);
-
-    for (var i = 0; i < 3; i++)
+    for (var i = 0; i <= size; i++)
     {
-        console.log(dataJson.data.latitude[i]);
-        console.log(dataJson.data.longitude[i]);
+        var info = "";
+
+        pointsToDisplay.push({latitude : parseFloat(dataJson.data.latitude[i]), longitude : parseFloat(dataJson.data.longitude[i]), info : info});
     }
 
     //generatePoints(1000);
