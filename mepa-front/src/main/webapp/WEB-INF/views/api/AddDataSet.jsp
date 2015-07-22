@@ -7,8 +7,7 @@
 {
 "name": "test",
 "owner": "gauthier",
-"theme": "EPITA"
-"lastModified": 1437495324209,
+"theme": "EPITA",
 "isCarto": "true",
 "isGraphic": "false",
 "fieldMap": {
