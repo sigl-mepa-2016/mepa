@@ -9,5 +9,15 @@
 <div class="container">
     <h2 class="white">Custom table visualisation </h2>
     <br/><br/>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Custom your table
+        </div>
+        <div class="panel-body">
+        table configuration here.
+            <b></b>
+            <a role="button" class="btn btn-primary">Submit changes</a>
+        </div>
+    </div>
 
 </div>
