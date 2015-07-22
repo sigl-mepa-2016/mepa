@@ -9,8 +9,12 @@
 <div class="container">
     <h2 class="white">Data Visualisation</h2>
 
+
+
     <br/><br/>
+    <h4 class="white">Data sets</h4>
     <div  id="visualization_div"></div>
+    <div id="line" class="white" />test</div>
     <br/><br/>
 
 <script type="application/javascript">
@@ -25,6 +29,7 @@
                     var data = getData();
                     var table = new google.visualization.Table(div);
                     table.draw(data,{width:'100%'});
+                    document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
                 }
             }
             function getData() {
