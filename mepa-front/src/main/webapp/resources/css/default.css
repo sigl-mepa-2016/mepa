@@ -27,6 +27,7 @@ a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
     font-size: 18px;
     font-weight: 300;
     color: rgb(239, 89, 57);
+    font-weight : bold;
 }
 
 .filtre-content {
@@ -52,6 +53,22 @@ a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
    color: rgb(168, 163, 163);
 }
 
+.table {
+    background-color: rgba(74, 66, 63, 0.67);
+    color: rgba(255,255,255,1);
+    font-size : 15px;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th  {
+    background-color: rgba(239, 89, 57,0.7);
+}
+
+
+.title-table {
+    color: rgba(239, 89, 57,1);
+    font-size : 18px;
+}
+
 .submit-button {
 	background-color:#EF5939;
 	-moz-border-radius:6px;
@@ -74,6 +91,24 @@ a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
 .submit-button:active {
 	position:relative;
 	top:1px;
+}
+
+.submit-tab {
+	background-color: rgba(74, 66, 63, 0.67);
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #EF5939;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	padding:5px 15px;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.submit-tab:hover {
+	background-color:#0066FF;
+	border:1px solid #0066FF;
 }
 
 .white {
