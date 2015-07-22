@@ -26,6 +26,16 @@ public class DataSet {
         this.fieldMap = new HashMap<>();
     }
 
+    public DataSet(String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
+        this.name = name;
+        this.owner = owner;
+        this.theme = theme;
+        this.isCarto = isCarto;
+        this.isGraphic = isGraphic;
+        this.lastModified = lastModified;
+        this.fieldMap = new HashMap<>();
+    }
+
     public DataSet(String _id, String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
         this._id = _id;
         this.name = name;
@@ -39,10 +49,11 @@ public class DataSet {
 
     public boolean addField(String name, String type) {
         try {
-            fieldMap.put(name, type);
+            DataSetType.valueOf(type);
         } catch (Exception e) {
             return false;
         }
+        fieldMap.put(name, type);
         return true;
     }
 
@@ -119,9 +130,10 @@ public class DataSet {
                 ", fieldMap=" + fieldMap +
                 '}';
     }
+
 }
 
 enum DataSetType {
-    TEXT,INT,DATE;
+    TEXT, INT, DATE;
 
 }

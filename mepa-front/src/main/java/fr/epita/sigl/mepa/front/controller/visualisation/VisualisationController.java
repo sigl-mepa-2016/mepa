@@ -12,6 +12,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/visualisation")
@@ -29,14 +31,24 @@ public class VisualisationController {
     @RequestMapping(value = {"/", "/home"})
     public String getDataSetId(HttpServletRequest request, ModelMap modelMap)
     {
-        String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
-        Data data = this.dataService.getById(datasetId);
+        try {
 
-        modelMap.addAttribute("dataset", dataSet);
-        modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
-        modelMap.addAttribute("data", data);
+            String datasetId = request.getParameter("datasetId");
+            DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+            Data data = this.dataService.getById(datasetId);
+            List<List<String>> dataList = new ArrayList<>();
+            for (String column : data.getData().keySet()) {
+                dataList.add(data.getData().get(column));
+            }
 
+            modelMap.addAttribute("dataset", dataSet);
+            modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
+            modelMap.addAttribute("data", data);
+            modelMap.addAttribute("fieldValues", data.getData());
+            modelMap.addAttribute("size", dataList.get(0).size() - 1);
+        } catch(Exception E) {
+
+        }
         return "/visualisation/home";
     }
 

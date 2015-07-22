@@ -25,12 +25,22 @@
                                 <th>${column}</th>
                             </c:forEach>
                         </tr>
+                        <tr>
+                            <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
+                                <td>
+                                    <input type="checkbox" id="test" checked>
+                                </td>
+                            </c:forEach>
+                        </tr>
                         </thead>
                     </table>
                 </div>
 
             <b></b>
-            <a role="button" class="btn btn-primary">Submit changes</a>
+
+            <c:url var="customTable" value="/visualisation/home?datasetId=${dataset._id}"/>
+            <a role="button" class="btn btn-default" href="${customTable}">Submit Changes</a>
+
         </div>
     </div>
 

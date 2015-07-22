@@ -12,7 +12,7 @@
         </div>
         <div class="tab-content">
                 <%-- Tabular view --%>
-                <div class="tab-pane" id="table-view">
+                <div class="tab-pane fade in active" id="table-view">
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -20,9 +20,16 @@
                                 <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
                                   <th>${column}</th>
                                 </c:forEach>
-                                <th></th>
-                                <th></th>
                               </tr>
+                              <c:forEach begin="0" end="${size}" var="index" varStatus="loop1">
+                              <tr>
+                                  <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
+                                  <td>
+                                          ${data.getData().get(column).get(index)}
+                                  </td>
+                                  </c:forEach>
+                              </tr>
+                              </c:forEach>
                             </thead>
                         </table>
                     </div>
@@ -33,7 +40,7 @@
             <%-- Chart view --%>
             <script type="text/javascript" src="<spring:url value="/js/colpick.js"/>"></script>
             <script type="text/javascript" src="<spring:url value="/js/data_visualisation.js"/>"></script>
-            <div id="chart-view" class="tab-pane">
+            <div id="chart-view" class="tab-pane fade">
                 <table>
                     <tbody>
                     <tr>
@@ -94,7 +101,7 @@
             </div>
             <%-- /Chart view --%>
             <%-- Carto view --%>
-            <div id="carto-view" class="tab-pane">
+            <div id="carto-view" class="tab-pane fade">
                 <h3>CARTOGRAPHY VIEW HERE</h3>
             </div>
             <%-- /Carto view --%>
