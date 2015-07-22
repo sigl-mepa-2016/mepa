@@ -35,6 +35,9 @@ public class VisualisationController {
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         Data data = this.dataService.getById(datasetId);
         List<List<String>> dataList = new ArrayList<>();
+        for (String column : data.getData().keySet()) {
+            dataList.add(data.getData().get(column));
+        }
 
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
