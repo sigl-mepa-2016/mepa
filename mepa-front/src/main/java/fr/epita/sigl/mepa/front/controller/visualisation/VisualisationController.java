@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/visualisation")
@@ -41,11 +42,19 @@ public class VisualisationController {
                 dataList.add(data.getData().get(column));
             }
 
+            // par defaut, toutes les 10 premières
+            List<String> active_col = new ArrayList<>();
+            for (String column : dataSet.getFieldMap().keySet()){
+                active_col.add(column);
+            }
+
+            System.out.println(active_col);
             modelMap.addAttribute("dataset", dataSet);
-            modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
+            modelMap.addAttribute("fieldKeys", active_col);
             modelMap.addAttribute("data", data);
             modelMap.addAttribute("fieldValues", data.getData());
             modelMap.addAttribute("size", dataList.get(0).size() - 1);
+            // add attrivute list<"nom_colonne", bool:actif/inactif>
         } catch(Exception E) {
 
         }
