@@ -8,6 +8,9 @@
         <%-- Google Maps API --%>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
+        <%-- Google Marker Clusterer API --%>
+        <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+
         <%-- Bootstrap CSS --%>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
