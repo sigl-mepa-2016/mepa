@@ -32,10 +32,7 @@
 
         <%-- prettify JavaScript --%>
         <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-
-        <%-- Table Sort JavaScript --%>
-        <c:url var="gridJsUrl" value="/js/grid.js"/>
-        <script src="${gridJsUrl}"></script>
+        
     </head>
 
     <!-- Define the background image -->
