@@ -13,7 +13,7 @@
         <div class="tab-content">
                 <%-- Tabular view --%>
                 <div class="tab-pane fade in active" id="table-view">
-                    <div class="table-responsive">
+                    <%--<div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                               <tr>
@@ -32,7 +32,58 @@
                               </c:forEach>
                             </thead>
                         </table>
-                    </div>
+                    </div>--%>
+                    <table id="visualization_div" class="table">
+                        <script type="application/javascript">
+
+                            google.load('visualization', '1.0',{packages:["table"]});
+                            google.setOnLoadCallback(initialize);
+
+                            function initialize() {
+
+                                function drawTable() {
+                                    {
+                                        var div = document.getElementById('visualization_div');
+                                        var data = getData();
+                                        var table = new google.visualization.Table(div);
+                                        table.draw(data,{width:'100%', allowHtml: true});
+                                        document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
+                                    }
+                                }
+                                function getData() {
+                                    var parameter = location.search.substring(1);
+                                    var temp = parameter.split("=");
+                                    var l = temp[1]
+                                    var urldata = '/mepa-front/api/dataSet/' + l + '/data'
+                                    var jsondataset = $.ajax({
+                                        dataType: "json",
+                                        url :urldata,
+                                        async : false}) ;
+                                    var b = JSON.parse(jsondataset.responseText);
+                                    var data = new google.visualization.DataTable();
+                                    var size = 0;
+                                    var array = [];
+                                    for (x in  b.data ){
+                                        array.push(x);
+                                        size = b.data[x].length;
+                                    }
+                                    for (var i = 0; i < array.length; i++){
+                                        data.addColumn('string',array[i]);
+                                    }
+                                    for(var i = 0; i < size; i++){
+                                        data.addRows(1);
+                                    }
+                                    for (var i = 0; i < size;i++){
+                                        for (var j = 0; j < array.length;j++) {
+                                            data.setValue(i, j, b.data[array[j]][i]);
+                                        }
+                                    }
+                                    return data;
+                                }
+                                drawTable()
+                            }
+                        </script>
+                    </table>
                     <c:url var="customTable" value="/dataVisualisationTab/customVisualisationTab?datasetId=${dataset._id}"/>
                     <a role="button" class="btn btn-default" href="${customTable}">Custom table</a>
                     </div>
