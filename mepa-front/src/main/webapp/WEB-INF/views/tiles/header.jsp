@@ -16,12 +16,10 @@
                     <ul class="nav navbar-nav">
                         <c:url var="homeUrl" value="/home"/>
                         <li><a href="${homeUrl}">Home page</a></li>
-                        <c:url var="dataVisualisation" value="/dataVisualisation/"/>
-                        <li><a href="${dataVisualisation}">Data Visualisation</a></li>
                         <c:url var="cartographyUrl" value="/cartography/core/map"/>
                         <li><a href="${cartographyUrl}">Cartography module</a></li>
                         <c:url var="dataVisualisationTab" value="/dataVisualisationTab/"/>
-                        <li><a href="${dataVisualisationTab}">Tableau</a></li>
+                        <li><a href="${dataVisualisationTab}">Table Visualisation</a></li>
                         <c:url var="api" value="/api/"/>
                         <li><a href="${api}">API</a></li>
                     </ul>

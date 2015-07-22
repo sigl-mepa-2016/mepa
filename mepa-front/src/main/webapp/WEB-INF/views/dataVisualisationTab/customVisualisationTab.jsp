@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
+
 <div class="container">
     <h2 class="white">Custom table visualisation </h2>
     <br/><br/>
@@ -14,7 +15,20 @@
             Custom your table
         </div>
         <div class="panel-body">
-        table configuration here.
+
+            <div class="tab-pane" id="table-view">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
+                                <th>${column}</th>
+                            </c:forEach>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+
             <b></b>
             <a role="button" class="btn btn-primary">Submit changes</a>
         </div>
