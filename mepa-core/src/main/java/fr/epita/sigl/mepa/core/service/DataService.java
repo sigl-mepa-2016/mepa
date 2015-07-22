@@ -8,7 +8,7 @@ public interface DataService {
 
     void updateData(Data data);
 
-    void deleteData(Data data);
+    void deleteData(String data);
 
     Data getById(String id);
 }

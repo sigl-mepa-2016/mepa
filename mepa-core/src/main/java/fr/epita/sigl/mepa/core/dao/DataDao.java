@@ -8,7 +8,7 @@ public interface DataDao {
 
     void update(Data data);
 
-    void delete(Data data);
+    void delete(String dataId);
 
     Data getById(String id);
 

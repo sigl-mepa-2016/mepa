@@ -88,6 +88,7 @@ public class APIController {
     public Pojo deleteDataSet(@PathVariable String dataSetID) {
         try {
             this.dataSetService.deleteDataSet(dataSetID);
+            this.dataService.deleteData(dataSetID);
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
