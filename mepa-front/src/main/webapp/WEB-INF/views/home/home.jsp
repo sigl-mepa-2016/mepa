@@ -43,6 +43,15 @@
                         </c:forEach>
                     </ul>
                 </li>
+                <li>
+                    <p>Filter by date</p>
+                    <ul>
+                        <c:forEach items="${dateFilter}" var="dateFilter" varStatus="loop">
+                            <c:url var="dateURL" value="/search/dateFilter?date=${dateFilter.key}"/>
+                            <li><a href="${dateURL}">${dateFilter.key}</a> ${dateFilter.value}</li>
+                        </c:forEach>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

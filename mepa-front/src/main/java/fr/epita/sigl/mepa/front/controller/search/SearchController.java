@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -106,6 +109,23 @@ public class SearchController {
         return "/home/home";
     }
 
+    @RequestMapping(value = { "/dateFilter" })
+    public String getDateFilter(HttpServletRequest request, ModelMap modelMap) throws ParseException {
+        String yearChoose = request.getParameter("date");
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        List<DataSet> allDateDatasets = new ArrayList<>();
+        for (DataSet dataSet : dataSets) {
+            Date lastModified = dataSet.getLastModified();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            String date = df.format(lastModified);
+            if (yearChoose.equals(date)){
+                allDateDatasets.add(dataSet);
+            }
+        }
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allDateDatasets);
+        return "/home/home";
+    }
     /**
      * Fonction de recherche d'une string dans une autre string
      * @param models
