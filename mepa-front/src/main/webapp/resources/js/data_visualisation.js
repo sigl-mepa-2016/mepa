@@ -180,6 +180,52 @@ function count(array_elements) {
     return arrayOutput;
 }
 
+//min function used for the agregation
+function min(array_elements) {
+    array_elements.sort();
+
+    var arrayOutput = [];
+    var current = array_elements[0][0];
+    var min = array_elements[0][1];
+
+    for (var i = 0; i < array_elements.length; i++) {
+        if (array_elements[i][0] != current) {
+            arrayOutput.push([current, min]);
+            current = array_elements[i][0];
+            min = array_elements[i][1];
+        } else {
+            if (min > array_elements[i][1])
+                min = array_elements[i][1];
+        }
+    }
+    arrayOutput.push([current, min]);
+
+    return arrayOutput;
+}
+
+//max function used for the agregation
+function max(array_elements) {
+    array_elements.sort();
+
+    var arrayOutput = [];
+    var current = array_elements[0][0];
+    var max = array_elements[0][1];
+
+    for (var i = 0; i < array_elements.length; i++) {
+        if (array_elements[i][0] != current) {
+            arrayOutput.push([current, max]);
+            current = array_elements[i][0];
+            max = array_elements[i][1];
+        } else {
+            if (max < array_elements[i][1])
+                max = array_elements[i][1];
+        }
+    }
+    arrayOutput.push([current, max]);
+
+    return arrayOutput;
+}
+
 function BuildDataTable() {
     $.ajax({
         //url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
@@ -222,6 +268,12 @@ function BuildDataTable() {
                 else {
                     while (col1.length != 0) {
                         rows.push([col1.pop(), parseInt(col2.pop())]);
+                    }
+                    if (agreg1 == "Min") {
+                        rows = min(rows);
+                    }
+                    else if (agreg1 == "Max") {
+                        rows = max(rows);
                     }
                 }
             }
