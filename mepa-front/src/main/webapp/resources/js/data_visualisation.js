@@ -228,8 +228,8 @@ function max(array_elements) {
 
 function BuildDataTable() {
     $.ajax({
-        //url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
-        url : '/api/dataSet/' + idDataSet + '/data.json',
+        url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
+        //url : '/api/dataSet/' + idDataSet + '/data.json',
         type : 'GET',
         dataType : 'json',
         success: function(dataSet) {
@@ -292,8 +292,8 @@ function initializeHorizontalAxe() {
 //Charger tous les axes dans l'horizontal
 
     $.ajax({
-        //url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
-        url : '/api/dataSet/' + idDataSet + '.json',
+        url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
+        //url : '/api/dataSet/' + idDataSet + '.json',
         type : 'GET',
         dataType : 'json',
         success: function(data) {
