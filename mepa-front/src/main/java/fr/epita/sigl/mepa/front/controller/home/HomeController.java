@@ -41,8 +41,8 @@ public class HomeController {
         List<DataSet> allCartoDatasets = new ArrayList<>();
         List<DataSet> allGraphicDatasets = new ArrayList<>();
         getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
-        modelMap.addAttribute("resFilterGraph", allCartoDatasets.size());
-        modelMap.addAttribute("resFilterCarto", allGraphicDatasets.size());
+        modelMap.addAttribute("resFilterGraph", allGraphicDatasets.size());
+        modelMap.addAttribute("resFilterCarto", allCartoDatasets.size());
     }
 
     private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {

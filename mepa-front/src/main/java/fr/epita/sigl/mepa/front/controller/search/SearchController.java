@@ -15,6 +15,7 @@ import fr.epita.sigl.mepa.front.model.search.SearchForm;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -102,18 +103,34 @@ public class SearchController {
             boolean isFind = false;
             //ici on récupère la data, lorsque on aura les bon modèles il faudra chercher dans le titre
             String data = model.getName();
-            //on regarde si chaque mot existe dans le nom
-            for (String word : searchStringList) {
-                isFind = searchWord(data, word); // test si le mot est présent
-                if (!isFind){
-                    break;
-                }
-            }
+            String owner = model.getOwner();
+            String theme = model.getTheme();
+            isFind = searchInOneField(data, searchStringList);
             if (isFind) {
                 modelResult.add(model);
+            }else {
+                isFind = searchInOneField(owner, searchStringList);
+                if (isFind) {
+                    modelResult.add(model);
+                }else {
+                    isFind = searchInOneField(theme, searchStringList);
+                    if (isFind) {
+                        modelResult.add(model);
+                    }
+                }
             }
         }
         return modelResult;
+    }
+
+    private Boolean searchInOneField(String data, String[] searchStringList) {
+        //on regarde si chaque mot existe dans le nom
+        for (String word : searchStringList) {
+            if (searchWord(data, word)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean searchWord(String data, String searchWord) {
