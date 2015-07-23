@@ -34,6 +34,15 @@
                         <li><a href="${Graphic}">Graph</a> ${resFilterGraph}</li>
                     </ul>
                 </li>
+                <li>
+                    <p>Filter by theme</p>
+                    <ul>
+                        <c:forEach items="${themeFilter}" var="themeFilter" varStatus="loop">
+                            <c:url var="themeURL" value="/search/themeFilter?theme=${themeFilter.key}"/>
+                            <li><a href="${themeURL}">${themeFilter.key}</a> ${themeFilter.value}</li>
+                        </c:forEach>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

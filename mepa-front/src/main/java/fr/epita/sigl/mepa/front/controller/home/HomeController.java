@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
 public class HomeController {
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
+    protected static final String THEME_FILTER_ATTRIBUTE = "themeFilter";
     private static final String SEARCH = "searchFormAction";
     private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
@@ -43,6 +45,18 @@ public class HomeController {
         getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
         modelMap.addAttribute("resFilterGraph", allGraphicDatasets.size());
         modelMap.addAttribute("resFilterCarto", allCartoDatasets.size());
+
+        HashMap<String, Integer> themeMap = new HashMap<>();
+        for (DataSet dataSet : dataSets) {
+            String theme = dataSet.getTheme();
+            if (themeMap.containsKey(theme)) {
+                Integer numberOfOccurence = themeMap.get(theme);
+                themeMap.replace(theme, numberOfOccurence, numberOfOccurence +1);
+            } else {
+                themeMap.put(theme, 1);
+            }
+        }
+        modelMap.addAttribute(THEME_FILTER_ATTRIBUTE, themeMap);
     }
 
     private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {

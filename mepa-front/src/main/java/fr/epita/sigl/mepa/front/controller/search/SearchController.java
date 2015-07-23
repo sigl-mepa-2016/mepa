@@ -74,6 +74,7 @@ public class SearchController {
         return "/home/home";
     }
 
+
     @RequestMapping(value = { "/FilterGraphic" })
     public String getGraphic(HttpServletRequest request, ModelMap modelMap) {
 
@@ -86,6 +87,22 @@ public class SearchController {
         }
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allGraphicDatasets);
+        return "/home/home";
+    }
+
+
+    @RequestMapping(value = { "/themeFilter" })
+    public String getThemeFilter(HttpServletRequest request, ModelMap modelMap) {
+        String theme = request.getParameter("theme");
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        List<DataSet> allThemeDatasets = new ArrayList<>();
+        for (DataSet dataSet : dataSets) {
+            if (dataSet.getTheme().equals(theme)){
+                allThemeDatasets.add(dataSet);
+            }
+        }
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allThemeDatasets);
         return "/home/home";
     }
 
