@@ -26,14 +26,20 @@
                                         var div = document.getElementById('visualization_tab_div');
                                         var data = getData();
                                         var table = new google.visualization.Table(div);
-                                        table.draw(data,{width:'100%', allowHtml: true});
+                                        table.draw(data,{width:'100%', allowHtml: true, page : 'enable', pageSize : 50  });
                                         document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
                                     }
                                 }
                                 function getData() {
-                                    var parameter = location.search.substring(1);
-                                    var temp = parameter.split("=");
-                                    var l = temp[1]
+                                    var parameter = location.search.substring(1).split('&');
+                                    var temp = [];
+
+                                    // get the different parameters in the temp array in json format
+                                    for (var i = 0; i < parameter.length; ++i){
+                                        var x = parameter[i].split("=");
+                                        temp[x[0]]=x[1];
+                                    }
+                                    var l = temp.datasetId;
                                     var urldata = '/mepa-front/api/dataSet/' + l + '/data'
                                     var jsondataset = $.ajax({
                                         dataType: "json",
