@@ -28,10 +28,28 @@
                 <li>
                     <p>Filter by view</p>
                     <ul>
-                        <c:url var="searchFormActionUrl" value="/search/FilterCarto"/>
-                        <li><a href="./">Cartography</a> ${resFilterCarto}</li>
-                        <c:url var="searchFormActionUrl" value="/search/FilterGraphic"/>
-                        <li><a href="./">Graph</a> ${resFilterGraph}</li>
+                        <c:url var="Carto" value="/search/FilterCarto"/>
+                        <li><a href="${Carto}">Cartography</a> ${resFilterCarto}</li>
+                        <c:url var="Graphic" value="/search/FilterGraphic"/>
+                        <li><a href="${Graphic}">Graph</a> ${resFilterGraph}</li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Filter by theme</p>
+                    <ul>
+                        <c:forEach items="${themeFilter}" var="themeFilter" varStatus="loop">
+                            <c:url var="themeURL" value="/search/themeFilter?theme=${themeFilter.key}"/>
+                            <li><a href="${themeURL}">${themeFilter.key}</a> ${themeFilter.value}</li>
+                        </c:forEach>
+                    </ul>
+                </li>
+                <li>
+                    <p>Filter by date</p>
+                    <ul>
+                        <c:forEach items="${dateFilter}" var="dateFilter" varStatus="loop">
+                            <c:url var="dateURL" value="/search/dateFilter?date=${dateFilter.key}"/>
+                            <li><a href="${dateURL}">${dateFilter.key}</a> ${dateFilter.value}</li>
+                        </c:forEach>
                     </ul>
                 </li>
             </ul>
@@ -59,18 +77,22 @@
                 <th>Name</th>
                 <th>Producer</th>
                 <th>Last modified</th>
+                <th>Graphic</th>
+                <th>Cartography</th>
                 <th></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${datasets}" var="dataset" varStatus="loop">
-                <c:url var="visuHome" value="/visualisation/home?datasetId=${dataset._id}"/>
+                <c:url var="visuHome" value="/visualisation/home?datasetId=${dataset._id}&dataType=1"/>
                 <tr onclick="window.location.href = '${visuHome}';">
                     <td>${dataset.theme}</td>
                     <td>${dataset.name}</td>
                     <td>${dataset.owner}</td>
                     <td><fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                    <td>${dataset.isGraphic}</td>
+                    <td>${dataset.isCarto}</td>
                     <c:url var="dataSetUrl" value="/dataSet/details?datasetId=${dataset._id}"/>
                     <td><a href="${dataSetUrl}">Details</a></td>
                     <td>

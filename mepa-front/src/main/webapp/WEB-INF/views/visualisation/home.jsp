@@ -12,20 +12,59 @@
         </div>
         <div class="tab-content">
                 <%-- Tabular view --%>
-                <div class="tab-pane fade in active" id="table-view">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                              <tr>
-                                <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
-                                  <th>${column}</th>
-                                </c:forEach>
-                                <th></th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                        </table>
-                    </div>
+                    <div class="tab-pane fade in active" id="table-view">
+                    <table id="visualization_tab_div" class="table">
+                        <script type="application/javascript">
+
+                            google.load('visualization', '1.0',{packages:["table"]});
+                            google.setOnLoadCallback(initialize);
+
+                            function initialize() {
+
+                                function drawTable() {
+                                    {
+                                        var div = document.getElementById('visualization_tab_div');
+                                        var data = getData();
+                                        var table = new google.visualization.Table(div);
+                                        table.draw(data,{width:'100%', allowHtml: true});
+                                        document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
+                                    }
+                                }
+                                function getData() {
+                                    var parameter = location.search.substring(1);
+                                    var temp = parameter.split("=");
+                                    var l = temp[1]
+                                    var urldata = '/mepa-front/api/dataSet/' + l + '/data'
+                                    var jsondataset = $.ajax({
+                                        dataType: "json",
+                                        url :urldata,
+                                        async : false}) ;
+                                    var b = JSON.parse(jsondataset.responseText);
+                                    var data = new google.visualization.DataTable();
+                                    var size = 0;
+                                    var array = [];
+                                    for (x in  b.data ){
+                                        array.push(x);
+                                        size = b.data[x].length;
+                                    }
+                                    for (var i = 0; i < array.length; i++){
+                                        data.addColumn('string',array[i]);
+                                    }
+                                    for(var i = 0; i < size; i++){
+                                        data.addRows(1);
+                                    }
+                                    for (var i = 0; i < size;i++){
+                                        for (var j = 0; j < array.length;j++) {
+                                            data.setValue(i, j, b.data[array[j]][i]);
+                                        }
+                                    }
+                                    return data;
+                                }
+                                drawTable()
+                            }
+                        </script>
+                    </table>
+                        <div id="line"></div>
                     <c:url var="customTable" value="/dataVisualisationTab/customVisualisationTab?datasetId=${dataset._id}"/>
                     <a role="button" class="btn btn-default" href="${customTable}">Custom table</a>
                     </div>
@@ -94,8 +133,16 @@
             </div>
             <%-- /Chart view --%>
             <%-- Carto view --%>
+            <c:url var="mapCssUrl" value="/css/map.css" />
+            <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
+
+            <c:url var="mapJsUrl" value="/js/map.js" />
+            <script src="${mapJsUrl}" type="application/javascript" ></script>
             <div id="carto-view" class="tab-pane fade">
-                <h3>CARTOGRAPHY VIEW HERE</h3>
+                <h3>Want to see your localization ?</h3>
+                <input id="data" name="data" type="hidden" value='${dataset._id}'>
+                <input id="size" name="size" type="hidden" value='${size}'>
+                <div id="map-canvas" class="canvas"></div>
             </div>
             <%-- /Carto view --%>
         </div>

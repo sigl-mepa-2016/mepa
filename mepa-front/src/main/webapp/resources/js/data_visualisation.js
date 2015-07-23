@@ -145,7 +145,7 @@ function drawGraph() {
 
 function BuildDataTable() {
     $.ajax({
-        url : '/api/dataSet/' + idDataSet + '/data.json',
+        url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
         type : 'GET',
         dataType : 'json',
         success: function(dataSet) {
@@ -196,7 +196,7 @@ function initializeHorizontalAxe() {
 //Charger tous les axes dans l'horizontal
 
     $.ajax({
-        url : '/api/dataSet/' + idDataSet + '.json',
+        url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
         type : 'GET',
         dataType : 'json',
         success: function(data) {

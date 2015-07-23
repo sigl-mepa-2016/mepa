@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,19 +48,15 @@ public class SearchController {
     @RequestMapping(value = { "/searchAction" }, method = { RequestMethod.POST })
     public String processForm(HttpServletRequest request, SearchForm parSearchForm, ModelMap modelMap) {
         String searchString = parSearchForm.getSearch();
-        LOG.info(searchString);
+
         // Get models data from database
         List<DataSet> dataSets = this.modelService.getAllDataSets();
 
         //lancement de l'algo de recherche
         List<DataSet> modelsResult = new ArrayList<>();
+
         modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
 
-        //A faire lorsque les datasets seront finis
-        /*
-        String[] searchStringList = searchString.split(" ");
-        List<DataSet> modelsResult = this.modelService.searchInTitle(searchStringList);
-        */
 
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
@@ -77,6 +77,7 @@ public class SearchController {
         return "/home/home";
     }
 
+
     @RequestMapping(value = { "/FilterGraphic" })
     public String getGraphic(HttpServletRequest request, ModelMap modelMap) {
 
@@ -92,6 +93,39 @@ public class SearchController {
         return "/home/home";
     }
 
+
+    @RequestMapping(value = { "/themeFilter" })
+    public String getThemeFilter(HttpServletRequest request, ModelMap modelMap) {
+        String theme = request.getParameter("theme");
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        List<DataSet> allThemeDatasets = new ArrayList<>();
+        for (DataSet dataSet : dataSets) {
+            if (dataSet.getTheme().equals(theme)){
+                allThemeDatasets.add(dataSet);
+            }
+        }
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allThemeDatasets);
+        return "/home/home";
+    }
+
+    @RequestMapping(value = { "/dateFilter" })
+    public String getDateFilter(HttpServletRequest request, ModelMap modelMap) throws ParseException {
+        String yearChoose = request.getParameter("date");
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        List<DataSet> allDateDatasets = new ArrayList<>();
+        for (DataSet dataSet : dataSets) {
+            Date lastModified = dataSet.getLastModified();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            String date = df.format(lastModified);
+            if (yearChoose.equals(date)){
+                allDateDatasets.add(dataSet);
+            }
+        }
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allDateDatasets);
+        return "/home/home";
+    }
     /**
      * Fonction de recherche d'une string dans une autre string
      * @param models
@@ -106,25 +140,41 @@ public class SearchController {
             boolean isFind = false;
             //ici on récupère la data, lorsque on aura les bon modèles il faudra chercher dans le titre
             String data = model.getName();
-            //on regarde si chaque mot existe dans le nom
-            for (String word : searchStringList) {
-                isFind = searchWord(data, word); // test si le mot est présent
-                if (!isFind){
-                    break;
-                }
-            }
+            String owner = model.getOwner();
+            String theme = model.getTheme();
+            isFind = searchInOneField(data, searchStringList);
             if (isFind) {
                 modelResult.add(model);
+            }else {
+                isFind = searchInOneField(owner, searchStringList);
+                if (isFind) {
+                    modelResult.add(model);
+                }else {
+                    isFind = searchInOneField(theme, searchStringList);
+                    if (isFind) {
+                        modelResult.add(model);
+                    }
+                }
             }
         }
         return modelResult;
+    }
+
+    private Boolean searchInOneField(String data, String[] searchStringList) {
+        //on regarde si chaque mot existe dans le nom
+        for (String word : searchStringList) {
+            if (searchWord(data, word)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean searchWord(String data, String searchWord) {
         //séparation en token séparés par des espaces
         for (String s : data.split(" ")) {
             //recherche sans faire attention à la case
-            if (s.contains(searchWord)) {
+            if (s.toLowerCase().contains(searchWord.toLowerCase())) {
                 return true;
             }
         }

@@ -13,12 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
 public class HomeController {
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
+    protected static final String THEME_FILTER_ATTRIBUTE = "themeFilter";
+    protected static final String DATE_FILTER_ATTRIBUTE = "dateFilter";
     private static final String SEARCH = "searchFormAction";
     private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
@@ -30,10 +36,6 @@ public class HomeController {
 
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
-        if (LOG.isDebugEnabled()) {
-           LOG.debug("There is {} in database", datasets.size());
-        }
-
         // Update model attribute "datasets", to use it in JSP
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
 
@@ -45,10 +47,31 @@ public class HomeController {
         List<DataSet> allCartoDatasets = new ArrayList<>();
         List<DataSet> allGraphicDatasets = new ArrayList<>();
         getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
-        LOG.debug("There is {} in Carto", allCartoDatasets.size());
-        LOG.debug("There is {} in GRaphic", allGraphicDatasets.size());
-        modelMap.addAttribute("resFilterGraph", allCartoDatasets.size());
-        modelMap.addAttribute("resFilterCarto", allGraphicDatasets.size());
+        modelMap.addAttribute("resFilterGraph", allGraphicDatasets.size());
+        modelMap.addAttribute("resFilterCarto", allCartoDatasets.size());
+
+        HashMap<String, Integer> themeMap = new HashMap<>();
+        HashMap<String, Integer> dateMap = new HashMap<>();
+        for (DataSet dataSet : dataSets) {
+            String theme = dataSet.getTheme();
+            if (themeMap.containsKey(theme)) {
+                Integer numberOfOccurence = themeMap.get(theme);
+                themeMap.replace(theme, numberOfOccurence, numberOfOccurence +1);
+            } else {
+                themeMap.put(theme, 1);
+            }
+            Date lastModified = dataSet.getLastModified();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            String date = df.format(lastModified);
+            if (dateMap.containsKey(date)) {
+                Integer numberOfOccurence = dateMap.get(date);
+                dateMap.replace(date, numberOfOccurence, numberOfOccurence +1);
+            } else {
+                dateMap.put(date, 1);
+            }
+        }
+        modelMap.addAttribute(THEME_FILTER_ATTRIBUTE, themeMap);
+        modelMap.addAttribute(DATE_FILTER_ATTRIBUTE, dateMap);
     }
 
     private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {

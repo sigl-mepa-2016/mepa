@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/visualisation")
@@ -31,20 +32,36 @@ public class VisualisationController {
     @RequestMapping(value = {"/", "/home"})
     public String getDataSetId(HttpServletRequest request, ModelMap modelMap)
     {
-        String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
-        Data data = this.dataService.getById(datasetId);
-        List<List<String>> dataList = new ArrayList<>();
-        for (String column : data.getData().keySet()) {
-            dataList.add(data.getData().get(column));
+        try {
+
+            String datasetId = request.getParameter("datasetId");
+            String dataType = request.getParameter("dataType");
+            int data_type = Integer.parseInt(dataType);
+            DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+            Data data = this.dataService.getById(datasetId);
+            List<List<String>> dataList = new ArrayList<>();
+            for (String column : data.getData().keySet()) {
+                dataList.add(data.getData().get(column));
+            }
+
+            // par defaut, toutes les 10 premières
+            List<String> active_col = new ArrayList<>();
+            for (String column : dataSet.getFieldMap().keySet()){
+                active_col.add(column);
+            }
+
+            /*System.out.println(active_col);*/
+            modelMap.addAttribute("dataset", dataSet);
+            modelMap.addAttribute("fieldKeys", active_col);
+            modelMap.addAttribute("data", data);
+            modelMap.addAttribute("fieldValues", data.getData());
+            modelMap.addAttribute("size", dataList.get(0).size() - 1);
+            modelMap.addAttribute("viewType", data_type);
+            System.out.println("data type = " + dataType);
+            // add attrivute list<"nom_colonne", bool:actif/inactif>
+        } catch(Exception E) {
+
         }
-
-        modelMap.addAttribute("dataset", dataSet);
-        modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
-        modelMap.addAttribute("data", data);
-        modelMap.addAttribute("fieldValues", data.getData());
-        modelMap.addAttribute("size", dataList.get(0).size() - 1);
-
         return "/visualisation/home";
     }
 
