@@ -154,6 +154,15 @@
                     <tbody id="table">
                     <tr id="line1">
                         <td>
+                            <strong>Agregation function :</strong>
+                            <select id="agregation-axe1">
+                                <option></option>
+                                <option>Count</option>
+                                <option>Min</option>
+                                <option>Max</option>
+                            </select>
+                        </td>
+                        <td>
                             <strong>Vertical Axe 1 :</strong>
                             <select id="vertical-axe1">
                                 <option></option>
@@ -167,6 +176,15 @@
                         </td>
                     </tr>
                     <tr id="line2">
+                        <td>
+                            <strong>Agregation function :</strong>
+                            <select id="agregation-axe2">
+                                <option></option>
+                                <option>Count</option>
+                                <option>Min</option>
+                                <option>Max</option>
+                            </select>
+                        </td>
                         <td>
                             <strong>Vertical Axe 2 :</strong>
                             <select id="vertical-axe2">

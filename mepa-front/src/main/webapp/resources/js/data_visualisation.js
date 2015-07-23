@@ -35,7 +35,9 @@ var horizontalAxe;
 var hozizontalBool = false;
 
 var verticalAxe1;
+var agregateFunc1;
 var verticalAxe2;
+var agregateFunc2;
 
 
 //Initializing elements when google visualisation is loaded
@@ -47,6 +49,9 @@ function initialize() {
 
     verticalAxe1 = document.getElementById('vertical-axe1');
     verticalAxe2 = document.getElementById('vertical-axe2');
+
+    agregateFunc1 = document.getElementById('agregation-axe1');
+    agregateFunc2 = document.getElementById('agregation-axe2');
 
     graphType = document.getElementById('graph-type');
     //pointsQuantity = document.getElementById('points-quantity');
@@ -89,6 +94,14 @@ function initialize() {
     }
 
     verticalAxe2.onchange = function () {
+        BuildDataTable();
+    }
+
+    agregateFunc1.onchange = function () {
+        BuildDataTable();
+    }
+
+    agregateFunc2.onchange = function () {
         BuildDataTable();
     }
 
@@ -143,9 +156,34 @@ function drawGraph() {
     chart.draw();
 }
 
+//Count function used for the agregation
+function count(array_elements) {
+    array_elements.sort();
+
+    var arrayOutput = [];
+    var current = null;
+    var cnt = 0;
+    for (var i = 0; i < array_elements.length; i++) {
+        if (array_elements[i] != current) {
+            if (cnt > 0) {
+                arrayOutput.push([current, cnt]);
+            }
+            current = array_elements[i];
+            cnt = 1;
+        } else {
+            cnt++;
+        }
+    }
+    if (cnt > 0) {
+        arrayOutput.push([current, cnt]);
+    }
+    return arrayOutput;
+}
+
 function BuildDataTable() {
     $.ajax({
-        url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
+        //url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
+        url : '/api/dataSet/' + idDataSet + '/data.json',
         type : 'GET',
         dataType : 'json',
         success: function(dataSet) {
@@ -154,7 +192,9 @@ function BuildDataTable() {
 
             var h1 = horizontalAxe.value;
             var v1 = verticalAxe1.value;
+            var agreg1 = agregateFunc1.value;
             var v2 = verticalAxe2.value;
+            var agreg2 = agregateFunc2.value;
             var rows = [];
 
             dataTable.addColumn('string', h1);
@@ -176,9 +216,13 @@ function BuildDataTable() {
                 var col1 = dataSet.data[h1];
                 var col2 = dataSet.data[v1];
 
-                while (col1.length != 0)
-                {
-                    rows.push([col1.pop(), parseInt(col2.pop())]);
+                if (agreg1 == "Count") {
+                    rows = count(col1);
+                }
+                else {
+                    while (col1.length != 0) {
+                        rows.push([col1.pop(), parseInt(col2.pop())]);
+                    }
                 }
             }
 
@@ -196,7 +240,8 @@ function initializeHorizontalAxe() {
 //Charger tous les axes dans l'horizontal
 
     $.ajax({
-        url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
+        //url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
+        url : '/api/dataSet/' + idDataSet + '.json',
         type : 'GET',
         dataType : 'json',
         success: function(data) {
