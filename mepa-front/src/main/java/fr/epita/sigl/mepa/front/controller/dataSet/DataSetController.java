@@ -105,6 +105,8 @@ public class DataSetController {
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
+        modelMap.addAttribute("size", 0);
+
         Data data = this.dataService.getById(datasetId);
         if (null != data) {
             List<List<String>> dataList = new ArrayList<>();
@@ -114,7 +116,7 @@ public class DataSetController {
 
             modelMap.addAttribute("dataList", dataList);
             modelMap.addAttribute("data", data);
-            modelMap.addAttribute("size", dataList.get(0).size() - 1);
+            modelMap.addAttribute("size", dataList.get(0).size());
         }
 
 

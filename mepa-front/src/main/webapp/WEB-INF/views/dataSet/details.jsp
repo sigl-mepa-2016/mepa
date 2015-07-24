@@ -1,5 +1,3 @@
-<%@ page import="fr.epita.sigl.mepa.core.service.impl.DataServiceImpl" %>
-<%@ page import="fr.epita.sigl.mepa.core.domain.Data" %>
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
@@ -27,38 +25,31 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <c:forEach items="${fieldKeys}" var="column" varStatus="loop">
-                            <td>
-                            </td>
-                        </c:forEach>
-                    </tr>
-                    <c:forEach begin="0" end="${size}" var="index" varStatus="loop1">
-                        <tr>
-                            <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
-                                <td>
+                    <c:if test="${size != 0}">
+                        <c:forEach begin="0" end="${size - 1}" var="index" varStatus="loop1">
+                            <tr>
+                                <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
+                                    <td>
                                         ${data.getData().get(column).get(index)}
+                                    </td>
+                                </c:forEach>
+                                <td>
+                                    <c:url var="deleteDataUrl" value="/dataSet/deleteData?datasetId=${id}"/>
+                                    <form action="${deleteDataUrl}" method="post">
+                                        <input type="hidden" name="index" value="${size - 1}"/>
+                                        <input type="submit" value="Delete"/>
+                                    </form>
                                 </td>
-                            </c:forEach>
-                            <td>
-                                <c:url var="deleteDataUrl" value="/dataSet/deleteData?datasetId=${id}"/>
-                                <form action="${deleteDataUrl}" method="post">
-                                    <input type="hidden" name="index" value="${size}"/>
-                                    <input type="submit" value="Delete"/>
-                                </form>
-                            </td>
-                            <td>
-                                <c:url var="updateDataUrl" value="/dataSet/updateDataForm?datasetId=${id}"/>
-                                <form action="${updateDataUrl}" method="post">
-                                    <input type="hidden" name="index" value="${size}"/>
-                                    <input type="submit" value="Update">
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    <!--
-                    Display data when existing
-                    -->
+                                <td>
+                                    <c:url var="updateDataUrl" value="/dataSet/updateDataForm?datasetId=${id}"/>
+                                    <form action="${updateDataUrl}" method="post">
+                                        <input type="hidden" name="index" value="${size - 1}"/>
+                                        <input type="submit" value="Update">
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                     </tbody>
                 </table>
             </div>
