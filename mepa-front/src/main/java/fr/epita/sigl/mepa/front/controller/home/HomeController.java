@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.home;
 
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import fr.epita.sigl.mepa.front.model.search.Filter;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -32,29 +37,11 @@ public class HomeController {
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
         // Update model attribute "datasets", to use it in JSP
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
-
-        initFilter(modelMap, datasets);
+        Filter.initFilter(modelMap, datasets);
         return "/home/home";
     }
 
-    private void initFilter(ModelMap modelMap, List<DataSet> dataSets) {
-        List<DataSet> allCartoDatasets = new ArrayList<>();
-        List<DataSet> allGraphicDatasets = new ArrayList<>();
-        getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
-        modelMap.addAttribute("resFilterGraph", allCartoDatasets.size());
-        modelMap.addAttribute("resFilterCarto", allGraphicDatasets.size());
-    }
 
-    private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {
-        for (DataSet dataSet : dataSets) {
-            if (null != dataSet.getIsCarto() && dataSet.getIsCarto()){
-                allCartoDatasets.add(dataSet);
-            }
-            if (null != dataSet.getIsGraphic() && dataSet.getIsGraphic()){
-                allGraphicDatasets.add(dataSet);
-            }
-        }
-    }
 
 
     /**

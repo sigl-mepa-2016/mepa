@@ -19,9 +19,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.DataInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -106,6 +110,8 @@ public class DataSetController {
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
+        modelMap.addAttribute("size", 0);
+
         Data data = this.dataService.getById(datasetId);
         if (null != data) {
             List<List<String>> dataList = new ArrayList<>();
@@ -115,7 +121,7 @@ public class DataSetController {
 
             modelMap.addAttribute("dataList", dataList);
             modelMap.addAttribute("data", data);
-            modelMap.addAttribute("size", dataList.get(0).size() - 1);
+            modelMap.addAttribute("size", dataList.get(0).size());
         }
 
 
@@ -137,7 +143,7 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/deleteData"})
-    public String showDeleteData(HttpServletRequest request, ModelMap modelMap) {
+    public String showDeleteData(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
@@ -153,7 +159,9 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        redirAttr.addAttribute("datasetId", datasetId);
+
+        return "redirect:/dataSet/details";
     }
 
     @RequestMapping(value = {"/updateDatasetForm"})
@@ -209,8 +217,8 @@ public class DataSetController {
 
     @RequestMapping(value = {"/updateData"}, method = {RequestMethod.POST})
     public String processUpdateDataForm(HttpServletRequest request, ModelMap modelMap,
-                                        @Valid AddCustomDataFormBean addCustomDataFormBean,
-                                        BindingResult result) {
+                                           @Valid AddCustomDataFormBean addCustomDataFormBean,
+                                           BindingResult result, RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
@@ -231,7 +239,9 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        redirAttr.addAttribute("datasetId", datasetId);
+
+        return "redirect:/dataSet/details";
     }
 
     @RequestMapping(value = {"/columnForm"})
@@ -252,7 +262,7 @@ public class DataSetController {
     @RequestMapping(value = {"/addColumn"}, method = {RequestMethod.POST})
     public String processColumnForm(HttpServletRequest request, ModelMap modelMap,
                                     @Valid AddCustomColumnFormBean addCustomColumnFormBean,
-                                    BindingResult result) {
+                                    BindingResult result, RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
@@ -264,8 +274,10 @@ public class DataSetController {
         String[] nameValues = paramMap.get("name");
         String[] typeValues = paramMap.get("type");
 
+        redirAttr.addAttribute("datasetId", datasetId);
+
         if (nameValues.length != typeValues.length)
-            return "/home/home";
+            return "redirect:/dataSet/details";
 
         for (int i = 0; i < nameValues.length; ++i) {
             if (!nameValues[i].isEmpty() && !typeValues[i].isEmpty())
@@ -277,7 +289,7 @@ public class DataSetController {
         allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        return "redirect:/dataSet/details";
     }
 
     @RequestMapping(value = {"/dataForm"})
@@ -293,8 +305,8 @@ public class DataSetController {
 
     @RequestMapping(value = {"/addData"}, method = {RequestMethod.POST})
     public String processDataForm(HttpServletRequest request, ModelMap modelMap,
-                                  @Valid AddCustomDataFormBean addCustomDataFormBean,
-                                  BindingResult result) {
+                                    @Valid AddCustomDataFormBean addCustomDataFormBean,
+                                    BindingResult result, RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
@@ -326,7 +338,20 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        redirAttr.addAttribute("datasetId", datasetId);
+        return "redirect:/dataSet/details";
+    }
+
+    @RequestMapping(value = {"/uploadCSV"})
+    public String uploadCSV(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) throws IOException {
+
+        Map<String, String[]> paramMap = request.getParameterMap();
+        String datasetId = paramMap.get("datasetId")[0];
+
+
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
+        return "redirect:/dataSet/details";
     }
 
     @ModelAttribute(DATASETS_MODEL_ATTRIBUTE)

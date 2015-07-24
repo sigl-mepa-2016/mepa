@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 
+
 <div class="container">
 
     <!-- Home message-->
@@ -11,17 +12,35 @@
                 <p>Data accessible and usable by everyone</p>
             </div>
         </div>
-
-    <!-- Exemple button to delete-->
-        <!--<p class="text-center">
-            <c:url var="coreExampleUrl" value="/example/core/"/>
-            <a class="btn btn-lg btn-primary" href="${coreExampleUrl}" role="button">View Core (Database) module and form validation example</a>
-        </p>-->
 </div>
 
 <div class="container">
     <!-- Filter -->
     <div class="filtre-content white">
+        <h3>There is ${nbDataset} dataset</h3>
+        <c:forEach items="${filters}" var="filter" varStatus="loop">
+        <div class="css-treeview">
+            <ul>
+                <li>
+                     <c:url var="CancelURL" value="/search/Cancel?CancelFilter=${filter}"/>
+                     <c:url var="logoEpitaURL" value="/img/annuler.png"/>
+                     <p>${filter} <a href="${CancelURL}">  <img src="${logoEpitaURL}" alt=""/></a></p>
+                </li>
+            <ul>
+        </div>
+        </c:forEach>
+
+        <c:choose>
+            <c:when test="${empty filters}">
+
+            </c:when>
+            <c:otherwise>
+                <c:url var="CancelAllURL" value="/search/CancelAll"/>
+                <a href="${CancelAllURL}">cancel all</a>
+            </c:otherwise>
+        </c:choose>
+
+        <br/>
         <h2>Filters</h2>
         <div class="css-treeview">
             <ul>
@@ -32,6 +51,24 @@
                         <li><a href="${Carto}">Cartography</a> ${resFilterCarto}</li>
                         <c:url var="Graphic" value="/search/FilterGraphic"/>
                         <li><a href="${Graphic}">Graph</a> ${resFilterGraph}</li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Filter by theme</p>
+                    <ul>
+                        <c:forEach items="${themeFilter}" var="themeFilter" varStatus="loop">
+                            <c:url var="themeURL" value="/search/themeFilter?theme=${themeFilter.key}"/>
+                            <li><a href="${themeURL}">${themeFilter.key}</a> ${themeFilter.value}</li>
+                        </c:forEach>
+                    </ul>
+                </li>
+                <li>
+                    <p>Filter by date</p>
+                    <ul>
+                        <c:forEach items="${dateFilter}" var="dateFilter" varStatus="loop">
+                            <c:url var="dateURL" value="/search/dateFilter?date=${dateFilter.key}"/>
+                            <li><a href="${dateURL}">${dateFilter.key}</a> ${dateFilter.value}</li>
+                        </c:forEach>
                     </ul>
                 </li>
             </ul>
@@ -50,7 +87,7 @@
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>
     <c:url var="dataSetFormUrl" value="/dataSet/form/"/>
-    <a class="btn btn-primary" href="${dataSetFormUrl}" role="button">Create a new dataset</a>
+    <a class="btn btn-warning" href="${dataSetFormUrl}" role="button">Create a new dataset</a>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>

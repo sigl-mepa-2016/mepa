@@ -18,7 +18,7 @@
 .welcome-content .welcome-content-inner hr {
     margin: 30px auto;
 }
-a:link {color: black;}
+a:link {color: light gray;}
 a:visited {color: gray;}
 a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
 
@@ -132,3 +132,16 @@ a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
  .nav.navbar-nav li {
     text-align: left
  }
+
+.tw-share-button
+{
+    float: right;
+    cursor:pointer;
+}
+
+.fb-share-button
+{
+    float: right;
+    margin-right: 15px;
+    cursor:pointer;
+}

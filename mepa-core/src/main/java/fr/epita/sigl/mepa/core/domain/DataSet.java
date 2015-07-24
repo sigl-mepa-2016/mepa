@@ -1,5 +1,6 @@
 package fr.epita.sigl.mepa.core.domain;
 
+import org.bson.types.ObjectId;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
 import java.util.Date;
@@ -8,8 +9,7 @@ import java.util.Map;
 
 public class DataSet {
 
-    @MongoObjectId
-    private String _id;
+    private ObjectId _id;
     private String name;
     private String owner;
     private String theme;
@@ -18,7 +18,7 @@ public class DataSet {
     private Date lastModified;
     private Map<String, String> fieldMap;
 
-    public String get_id() {
+    public ObjectId get_id() {
         return _id;
     }
 
@@ -36,7 +36,7 @@ public class DataSet {
         this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(String _id, String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
+    public DataSet(ObjectId _id, String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
         this._id = _id;
         this.name = name;
         this.owner = owner;
@@ -85,7 +85,7 @@ public class DataSet {
         return fieldMap;
     }
 
-    public void set_id(String _id) {
+    public void set_id(ObjectId _id) {
         this._id = _id;
     }
 
