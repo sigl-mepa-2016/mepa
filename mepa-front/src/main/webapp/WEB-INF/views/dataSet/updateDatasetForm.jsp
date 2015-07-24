@@ -1,13 +1,13 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
-    <h2 class="white">Dataset modification</h2>
+    <h2 class="white">Update a dataset</h2>
 
     <c:set var="dataset" value="${dataset}"/>
     <c:url var="addCustomDataSetFormActionUrl" value="/dataSet/update?datasetId=${dataset._id}"/>
     <form:form role="form" action="${addCustomDataSetFormActionUrl}" modelAttribute="addCustomDataSetFormBean" method="post">
         <div class="form-group">
-            <p class="help-block">Create a new dataset</p>
+            <p class="help-block">Update the dataset</p>
             <label for="name">Enter the name of the dataset below:</label>
             <br/>
             <form:input id="name" path="name" type="text" maxlength="256" value="${dataset.name}"/>
