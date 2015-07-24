@@ -72,6 +72,11 @@
                     <div class="tab-pane fade" id="table-view">
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
+                            // Recover java's ArrayList (need to convert elements to String)
+                            var columns = new Array();
+                            <c:forEach items="${fieldKeys}" var="col" varStatus="loop">
+                                columns.push("${col}");
+                            </c:forEach>;
 
                             google.load('visualization', '1.0',{packages:["table"]});
                             google.setOnLoadCallback(initialize);
@@ -104,21 +109,18 @@
                                         async : false}) ;
                                     var b = JSON.parse(jsondataset.responseText);
                                     var data = new google.visualization.DataTable();
-                                    var size = 0;
-                                    var array = [];
-                                    for (x in  b.data ){
-                                        array.push(x);
-                                        size = b.data[x].length;
+                                    var size = columns.length;
+
+                                    for (var i = 0; i < columns.length; i++){
+                                        data.addColumn('string', columns[i]);
                                     }
-                                    for (var i = 0; i < array.length; i++){
-                                        data.addColumn('string',array[i]);
-                                    }
+
                                     for(var i = 0; i < size; i++){
                                         data.addRows(1);
                                     }
-                                    for (var i = 0; i < size;i++){
-                                        for (var j = 0; j < array.length;j++) {
-                                            data.setValue(i, j, b.data[array[j]][i]);
+                                    for (var i = 0; i < size; i++){
+                                        for (var j = 0; j < columns.length;j++) {
+                                            data.setValue(i, j, b.data[columns[j]][i]);
                                         }
                                     }
                                     return data;

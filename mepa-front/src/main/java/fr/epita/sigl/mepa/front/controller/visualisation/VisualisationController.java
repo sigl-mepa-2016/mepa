@@ -45,9 +45,15 @@ public class VisualisationController {
             }
 
             // par defaut, toutes les 10 premières
+            int count = 0;
             List<String> active_col = new ArrayList<>();
             for (String column : dataSet.getFieldMap().keySet()){
                 active_col.add(column);
+            }
+
+            while (active_col.size() > 10) {
+                active_col.remove(active_col.size() - 1);
+                System.out.println("column removed");
             }
 
             /*System.out.println(active_col);*/
@@ -59,11 +65,11 @@ public class VisualisationController {
             modelMap.addAttribute("viewType", data_type);
             System.out.println("data type = " + dataType);
             // add attrivute list<"nom_colonne", bool:actif/inactif>
+
         } catch(Exception E) {
 
         }
         return "/visualisation/home";
     }
-
 
 }
