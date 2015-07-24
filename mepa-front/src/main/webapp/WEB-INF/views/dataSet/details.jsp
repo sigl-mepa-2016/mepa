@@ -25,7 +25,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:if test="${size != 0}">
+                    <c:if test="${size > 0}">
                         <c:forEach begin="0" end="${size - 1}" var="index" varStatus="loop1">
                             <tr>
                                 <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
