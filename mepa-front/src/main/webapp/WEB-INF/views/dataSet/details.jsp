@@ -36,14 +36,14 @@
                                 <td>
                                     <c:url var="deleteDataUrl" value="/dataSet/deleteData?datasetId=${id}"/>
                                     <form action="${deleteDataUrl}" method="post">
-                                        <input type="hidden" name="index" value="${size - 1}"/>
+                                        <input type="hidden" name="index" value="${index}"/>
                                         <input type="submit" value="Delete"/>
                                     </form>
                                 </td>
                                 <td>
                                     <c:url var="updateDataUrl" value="/dataSet/updateDataForm?datasetId=${id}"/>
                                     <form action="${updateDataUrl}" method="post">
-                                        <input type="hidden" name="index" value="${size - 1}"/>
+                                        <input type="hidden" name="index" value="${index}"/>
                                         <input type="submit" value="Update">
                                     </form>
                                 </td>
