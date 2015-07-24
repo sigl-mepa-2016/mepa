@@ -139,6 +139,21 @@
                             </select>
                             <br/>
                         </td>
+                        <td>
+                            <strong>Number of Points :</strong>
+                            <select id="points-quantity">
+                                <option value="">Display All</option>
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                            </select>
+                            <br/>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -160,6 +175,8 @@
                                 <option>Count</option>
                                 <option>Min</option>
                                 <option>Max</option>
+                                <option>Sum</option>
+                                <option>Average</option>
                             </select>
                         </td>
                         <td>
@@ -183,6 +200,8 @@
                                 <option>Count</option>
                                 <option>Min</option>
                                 <option>Max</option>
+                                <option>Sum</option>
+                                <option>Average</option>
                             </select>
                         </td>
                         <td>

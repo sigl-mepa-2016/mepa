@@ -29,7 +29,7 @@ var graphColor2 = "ff8800";
 
 var graphType;
 
-var pointsQuantity = 0;
+var pointsQuantity;
 
 var horizontalAxe;
 var hozizontalBool = false;
@@ -54,7 +54,7 @@ function initialize() {
     agregateFunc2 = document.getElementById('agregation-axe2');
 
     graphType = document.getElementById('graph-type');
-    //pointsQuantity = document.getElementById('points-quantity');
+    pointsQuantity = document.getElementById('points-quantity');
 
     $('.color-box1').colpick({
         colorScheme:'dark',
@@ -84,10 +84,9 @@ function initialize() {
         drawGraph();
     }
 
-    /*pointsQuantity.onchange = function () {
-        //restreindre le nombre de points puis draw le graph
-        drawGraph();
-    }*/
+    pointsQuantity.onchange = function () {
+        BuildDataTable();
+    }
 
     verticalAxe1.onchange = function () {
         BuildDataTable();
@@ -226,6 +225,52 @@ function max(array_elements) {
     return arrayOutput;
 }
 
+//Average function used for the agregation
+function moyenne(array_elements) {
+    array_elements.sort();
+
+    var arrayOutput = [];
+    var current = array_elements[0][0];
+    var sum = 0;
+    var cnt = 0;
+
+    for (var i = 0; i < array_elements.length; i++) {
+        if (array_elements[i][0] != current) {
+            arrayOutput.push([current, sum/cnt]);
+            cnt = 1;
+            sum = 0;
+        } else {
+            cnt ++;
+            sum = sum + array_elements[i][1];
+        }
+    }
+    arrayOutput.push([current, sum/cnt]);
+
+    return arrayOutput;
+}
+
+//Sum function used for the agregation
+function somme(array_elements) {
+    array_elements.sort();
+
+    var arrayOutput = [];
+    var current = array_elements[0][0];
+    var sum = 0;
+
+    for (var i = 0; i < array_elements.length; i++) {
+        if (array_elements[i][0] != current) {
+            arrayOutput.push([current, sum]);
+            current = array_elements[i][0];
+            sum = 0;
+        } else {
+            sum = sum + array_elements[i][1];
+        }
+    }
+    arrayOutput.push([current, sum]);
+
+    return arrayOutput;
+}
+
 function BuildDataTable() {
     $.ajax({
         url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
@@ -275,8 +320,18 @@ function BuildDataTable() {
                     else if (agreg1 == "Max") {
                         rows = max(rows);
                     }
+                    else if (agreg1 == "Sum") {
+                        rows = somme(rows);
+                    }
+                    else if (agreg1 == "Average") {
+                        rows = moyenne(rows);
+                    }
                 }
             }
+            rows.sort();
+
+            if(pointsQuantity.value != "")
+                rows = rows.slice(0, pointsQuantity.value);
 
             dataTable.addRows(rows);
             drawGraph();
