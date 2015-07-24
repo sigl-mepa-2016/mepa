@@ -13,7 +13,7 @@
             </div>
             <label class="col-sm-1 control-label">Type</label>
             <div class="col-sm-4">
-                <form:input path="type" type="text" class="form-control" name="option[]" placeholder="Type"/>
+                <form:select path="type" class="form-control" name="option[]" items="${typeValueList}"/>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-default addButton">+</button>
@@ -26,7 +26,7 @@
                 <form:input path="name" class="form-control" type="text" name="option[]" placeholder="Name"/>
             </div>
             <div class="col-sm-offset-1 col-sm-4">
-                <form:input path="type" class="form-control" type="text" name="option[]" placeholder="Type"/>
+        <form:select path="type" class="form-control" name="option[]" items="${typeValueList}"/>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-default removeButton">-</button>

@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 <div class="container">
-  <h2 class="white">Add a piece of data to the selected dataset</h2>
+  <h2 class="white">Update a piece of data to the selected dataset</h2>
 
   <c:set var="id" value="${dataset._id}"/>
   <c:url var="addCustomDataFormActionUrl" value="/dataSet/updateData?datasetId=${id}&index=${index}"/>

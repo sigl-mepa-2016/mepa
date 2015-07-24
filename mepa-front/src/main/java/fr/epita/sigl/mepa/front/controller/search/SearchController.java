@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.search;
 
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import fr.epita.sigl.mepa.front.model.search.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +49,20 @@ public class SearchController {
     @RequestMapping(value = { "/searchAction" }, method = { RequestMethod.POST })
     public String processForm(HttpServletRequest request, SearchForm parSearchForm, ModelMap modelMap) {
         String searchString = parSearchForm.getSearch();
-
+        List<DataSet> dataSets;
         // Get models data from database
-        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        if (Filter.listDataset.isEmpty()){
+            dataSets = this.modelService.getAllDataSets();
+        } else {
+            dataSets = Filter.listDataset;
+        }
 
         //lancement de l'algo de recherche
         List<DataSet> modelsResult = new ArrayList<>();
 
         modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
-
-
+        Filter.listFilter.add("Search : " + searchString);
+        Filter.initFilter(modelMap, modelsResult);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
         return "/home/home";
@@ -65,13 +70,18 @@ public class SearchController {
 
     @RequestMapping(value = { "/FilterCarto" })
     public String getCarto(HttpServletRequest request, ModelMap modelMap) {
-        List<DataSet> dataSets = this.modelService.getAllDataSets();
-        List<DataSet> allCartoDatasets = new ArrayList<>();
-        for (DataSet dataSet : dataSets) {
-            if (dataSet.getIsCarto()){
-                allCartoDatasets.add(dataSet);
-            }
+        List<DataSet> dataSets;
+        // Get models data from database
+        if (Filter.listDataset.isEmpty()){
+            dataSets = this.modelService.getAllDataSets();
+        } else {
+            dataSets = Filter.listDataset;
         }
+
+        List<DataSet> allCartoDatasets = new ArrayList<>();
+        allCartoDatasets = Filter.CartoFilter(dataSets, allCartoDatasets);
+        Filter.listFilter.add("View : Cartography");
+        Filter.initFilter(modelMap, allCartoDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allCartoDatasets);
         return "/home/home";
@@ -80,14 +90,18 @@ public class SearchController {
 
     @RequestMapping(value = { "/FilterGraphic" })
     public String getGraphic(HttpServletRequest request, ModelMap modelMap) {
-
-        List<DataSet> dataSets = this.modelService.getAllDataSets();
-        List<DataSet> allGraphicDatasets = new ArrayList<>();
-        for (DataSet dataSet : dataSets) {
-            if (dataSet.getIsGraphic()){
-                allGraphicDatasets.add(dataSet);
-            }
+        List<DataSet> dataSets;
+        // Get models data from database
+        if (Filter.listDataset.isEmpty()){
+            dataSets = this.modelService.getAllDataSets();
+        } else {
+            dataSets = Filter.listDataset;
         }
+
+        List<DataSet> allGraphicDatasets = new ArrayList<>();
+        allGraphicDatasets = Filter.GraphicFilter(dataSets, allGraphicDatasets);
+        Filter.listFilter.add("View : Graphic");
+        Filter.initFilter(modelMap, allGraphicDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allGraphicDatasets);
         return "/home/home";
@@ -97,13 +111,19 @@ public class SearchController {
     @RequestMapping(value = { "/themeFilter" })
     public String getThemeFilter(HttpServletRequest request, ModelMap modelMap) {
         String theme = request.getParameter("theme");
-        List<DataSet> dataSets = this.modelService.getAllDataSets();
-        List<DataSet> allThemeDatasets = new ArrayList<>();
-        for (DataSet dataSet : dataSets) {
-            if (dataSet.getTheme().equals(theme)){
-                allThemeDatasets.add(dataSet);
-            }
+
+        List<DataSet> dataSets;
+        // Get models data from database
+        if (Filter.listDataset.isEmpty()){
+            dataSets = this.modelService.getAllDataSets();
+        } else {
+            dataSets = Filter.listDataset;
         }
+
+        List<DataSet> allThemeDatasets = new ArrayList<>();
+        allThemeDatasets = Filter.ThemeFilter(dataSets, allThemeDatasets, theme);
+        Filter.listFilter.add("Theme : " + theme);
+        Filter.initFilter(modelMap, allThemeDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allThemeDatasets);
         return "/home/home";
@@ -112,20 +132,89 @@ public class SearchController {
     @RequestMapping(value = { "/dateFilter" })
     public String getDateFilter(HttpServletRequest request, ModelMap modelMap) throws ParseException {
         String yearChoose = request.getParameter("date");
-        List<DataSet> dataSets = this.modelService.getAllDataSets();
-        List<DataSet> allDateDatasets = new ArrayList<>();
-        for (DataSet dataSet : dataSets) {
-            Date lastModified = dataSet.getLastModified();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            String date = df.format(lastModified);
-            if (yearChoose.equals(date)){
-                allDateDatasets.add(dataSet);
-            }
+
+        List<DataSet> dataSets;
+        // Get models data from database
+        if (Filter.listDataset.isEmpty()){
+            dataSets = this.modelService.getAllDataSets();
+        } else {
+            dataSets = Filter.listDataset;
         }
+
+        List<DataSet> allDateDatasets = new ArrayList<>();
+        allDateDatasets = Filter.DateFilter(dataSets, allDateDatasets, yearChoose);
+        Filter.listFilter.add("Date : " + yearChoose);
+        Filter.initFilter(modelMap, allDateDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allDateDatasets);
         return "/home/home";
     }
+
+
+    @RequestMapping(value = { "/Cancel" })
+    public String getCancelFilter(HttpServletRequest request, ModelMap modelMap) {
+        String filterToCancel = request.getParameter("CancelFilter");
+        Filter.listFilter.remove(filterToCancel);
+        List<DataSet> datasets = this.modelService.getAllDataSets();
+        List<DataSet> newDataset = new ArrayList<>();
+
+        for (String s : Filter.listFilter){
+            LOG.debug("begin");
+            newDataset.clear();
+            for (DataSet d : datasets) {
+                LOG.debug(d.getName());
+            }
+            if (s.contains("Search : ")){
+                String searchString = s.substring(8);
+                LOG.debug(searchString);
+                newDataset.addAll(datasets);
+                datasets = searchMultiWord(datasets, searchString, newDataset);
+
+            }else if (s.contains("Date : ")){
+                String date = s.substring(7);
+                LOG.debug(date);
+                datasets = Filter.DateFilter(datasets, newDataset, date);
+
+            }
+            else if (s.contains("Theme : ")){
+                String theme = s.substring(8);
+                LOG.debug(theme);
+                datasets = Filter.ThemeFilter(datasets, newDataset, theme);
+
+            }
+            else if (s.contains("View : Graphic")){
+                LOG.debug("Graphic");
+                datasets = Filter.GraphicFilter(datasets, newDataset);
+
+            }
+            else if (s.contains("View : Cartography")){
+                LOG.debug("Carto");
+                datasets = Filter.CartoFilter(datasets, newDataset);
+            }
+            LOG.debug("after");
+            for (DataSet d : datasets) {
+                LOG.debug(d.getName());
+            }
+            LOG.debug("end");
+        }
+
+        Filter.initFilter(modelMap, datasets);
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, datasets);
+        return "/home/home";
+    }
+
+    @RequestMapping(value = { "/CancelAll" })
+    public String getCancelAll(HttpServletRequest request, ModelMap modelMap) {
+        List<DataSet> dataSets = this.modelService.getAllDataSets();
+        Filter.listFilter.clear();
+        Filter.initFilter(modelMap, dataSets);
+
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, dataSets);
+        return "/home/home";
+    }
+
     /**
      * Fonction de recherche d'une string dans une autre string
      * @param models
