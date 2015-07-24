@@ -146,10 +146,10 @@ public class APIController {
 
         Pojo data = dataOfDataSet(dataSetID);
         if (data instanceof ErrorMessage)
-            this.dataService.createData(new Data(dataSetID, dataInput.getData()));
+            this.dataService.createData(new Data(dataSetID, dataInput.getDataInList()));
         else {
             ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data).mergeData(dataInput);
-            this.dataService.updateData(new Data(dataSetID, ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data).getData()));
+            this.dataService.updateData(new Data(dataSetID, ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data).getDataInList()));
         }
         return new SuccessMessage("Success add Data in DataSet");
     }
