@@ -87,7 +87,7 @@
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>
     <c:url var="dataSetFormUrl" value="/dataSet/form/"/>
-    <a class="btn btn-primary" href="${dataSetFormUrl}" role="button">Create a new dataset</a>
+    <a class="btn btn-warning" href="${dataSetFormUrl}" role="button">Create a new dataset</a>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
