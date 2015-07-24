@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.DataInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -333,6 +334,18 @@ public class DataSetController {
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
         redirAttr.addAttribute("datasetId", datasetId);
+        return "redirect:/dataSet/details";
+    }
+
+    @RequestMapping(value = {"/uploadCSV"})
+    public String uploadCSV(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) throws IOException {
+
+        Map<String, String[]> paramMap = request.getParameterMap();
+        String datasetId = paramMap.get("datasetId")[0];
+
+
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
         return "redirect:/dataSet/details";
     }
 
