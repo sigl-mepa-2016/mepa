@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp"%>
 
 
+
 <div class="container">
 
     <!-- Home message-->
@@ -11,17 +12,35 @@
                 <p>Data accessible and usable by everyone</p>
             </div>
         </div>
-
-    <!-- Exemple button to delete-->
-        <!--<p class="text-center">
-            <c:url var="coreExampleUrl" value="/example/core/"/>
-            <a class="btn btn-lg btn-primary" href="${coreExampleUrl}" role="button">View Core (Database) module and form validation example</a>
-        </p>-->
 </div>
 
 <div class="container">
     <!-- Filter -->
     <div class="filtre-content white">
+        <h3>There is ${nbDataset} dataset</h3>
+        <c:forEach items="${filters}" var="filter" varStatus="loop">
+        <div class="css-treeview">
+            <ul>
+                <li>
+                     <c:url var="CancelURL" value="/search/Cancel?CancelFilter=${filter}"/>
+                     <c:url var="logoEpitaURL" value="/img/annuler.png"/>
+                     <p>${filter} <a href="${CancelURL}">  <img src="${logoEpitaURL}" alt=""/></a></p>
+                </li>
+            <ul>
+        </div>
+        </c:forEach>
+
+        <c:choose>
+            <c:when test="${empty filters}">
+
+            </c:when>
+            <c:otherwise>
+                <c:url var="CancelAllURL" value="/search/CancelAll"/>
+                <a href="${CancelAllURL}">cancel all</a>
+            </c:otherwise>
+        </c:choose>
+
+        <br/>
         <h2>Filters</h2>
         <div class="css-treeview">
             <ul>
