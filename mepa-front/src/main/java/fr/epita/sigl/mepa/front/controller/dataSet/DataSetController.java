@@ -385,6 +385,7 @@ public class DataSetController {
                 }
                 Data toCreate = new Data(datasetId, dataMap);
                 this.dataService.createData(toCreate);
+                data = toCreate;
             }
         }
 
