@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class DataSet {
 
-    @MongoObjectId
     private ObjectId _id;
     private String name;
     private String owner;
