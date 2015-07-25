@@ -20,10 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @Controller
@@ -333,6 +334,55 @@ public class DataSetController {
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
         redirAttr.addAttribute("datasetId", datasetId);
+        return "redirect:/dataSet/details";
+    }
+
+    @RequestMapping(value = {"/uploadCSV"}, method = {RequestMethod.POST})
+    public String uploadCSV(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) throws IOException, ServletException {
+
+        Map<String, String[]> paramMap = request.getParameterMap();
+        String datasetId = paramMap.get("datasetId")[0];
+
+        Data data = this.dataService.getById(datasetId);
+
+        Part part = request.getPart("file");
+        InputStream fileContent = part.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fileContent));
+        String fieldlist = reader.readLine();
+        String[] fields = null;
+
+        if (null != fieldlist)
+            fields = fieldlist.split("~");
+        else
+            return "redirect:/dataSet/details";
+
+        String line = "";
+        while (null != (line = reader.readLine())) {
+            // Read CSV + update/create data
+            if (null != data) {
+                for (int i = 0; i < fields.length; ++i) {
+                    String field = fields[i];
+                    List<String> dataList = data.getData().get(field);
+                    String[] dataSplit = line.split("~");
+                    dataList.add(dataSplit[i]);
+                    data.getData().put(field, dataList);
+                }
+                this.dataService.updateData(data);
+            } else {
+                Map<String, List<String>> dataMap = new LinkedHashMap<>();
+                for (int i = 0; i < fields.length; ++i) {
+                    List<String> value = new ArrayList<>();
+                    String[] dataSplit = line.split("~");
+                    value.add(dataSplit[i]);
+                    dataMap.put(fields[i].toString(), value);
+                }
+                Data toCreate = new Data(datasetId, dataMap);
+                this.dataService.createData(toCreate);
+            }
+        }
+
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
         return "redirect:/dataSet/details";
     }
 
