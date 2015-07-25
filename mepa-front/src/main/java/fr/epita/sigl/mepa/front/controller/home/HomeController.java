@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.home;
 
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import fr.epita.sigl.mepa.front.model.search.Filter;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,6 @@ import java.util.List;
 @Controller
 public class HomeController {
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
-    protected static final String THEME_FILTER_ATTRIBUTE = "themeFilter";
-    protected static final String DATE_FILTER_ATTRIBUTE = "dateFilter";
     private static final String SEARCH = "searchFormAction";
     private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
@@ -38,52 +37,11 @@ public class HomeController {
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
         // Update model attribute "datasets", to use it in JSP
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
-
-        initFilter(modelMap, datasets);
+        Filter.initFilter(modelMap, datasets);
         return "/home/home";
     }
 
-    private void initFilter(ModelMap modelMap, List<DataSet> dataSets) {
-        List<DataSet> allCartoDatasets = new ArrayList<>();
-        List<DataSet> allGraphicDatasets = new ArrayList<>();
-        getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
-        modelMap.addAttribute("resFilterGraph", allGraphicDatasets.size());
-        modelMap.addAttribute("resFilterCarto", allCartoDatasets.size());
 
-        HashMap<String, Integer> themeMap = new HashMap<>();
-        HashMap<String, Integer> dateMap = new HashMap<>();
-        for (DataSet dataSet : dataSets) {
-            String theme = dataSet.getTheme();
-            if (themeMap.containsKey(theme)) {
-                Integer numberOfOccurence = themeMap.get(theme);
-                themeMap.replace(theme, numberOfOccurence, numberOfOccurence +1);
-            } else {
-                themeMap.put(theme, 1);
-            }
-            Date lastModified = dataSet.getLastModified();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            String date = df.format(lastModified);
-            if (dateMap.containsKey(date)) {
-                Integer numberOfOccurence = dateMap.get(date);
-                dateMap.replace(date, numberOfOccurence, numberOfOccurence +1);
-            } else {
-                dateMap.put(date, 1);
-            }
-        }
-        modelMap.addAttribute(THEME_FILTER_ATTRIBUTE, themeMap);
-        modelMap.addAttribute(DATE_FILTER_ATTRIBUTE, dateMap);
-    }
-
-    private void getCartoAndGraphicDataset(List<DataSet> allCartoDatasets, List<DataSet> allGraphicDatasets, List<DataSet> dataSets) {
-        for (DataSet dataSet : dataSets) {
-            if (null != dataSet.getIsCarto() && dataSet.getIsCarto()){
-                allCartoDatasets.add(dataSet);
-            }
-            if (null != dataSet.getIsGraphic() && dataSet.getIsGraphic()){
-                allGraphicDatasets.add(dataSet);
-            }
-        }
-    }
 
 
     /**

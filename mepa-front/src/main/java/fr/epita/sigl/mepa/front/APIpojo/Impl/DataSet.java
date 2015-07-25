@@ -10,7 +10,6 @@ import java.util.Map;
 
 @XmlRootElement
 public class DataSet implements Pojo {
-    private String _id;
     private String name;
     private String owner;
     private String theme;
@@ -23,8 +22,7 @@ public class DataSet implements Pojo {
         this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(String _id, String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic, Map<String, String> fieldMap) {
-        this._id = _id;
+    public DataSet(String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic, Map<String, String> fieldMap) {
         this.name = name;
         this.owner = owner;
         this.theme = theme;
@@ -32,11 +30,6 @@ public class DataSet implements Pojo {
         this.isCarto = isCarto;
         this.isGraphic = isGraphic;
         this.fieldMap = fieldMap;
-    }
-
-    @XmlElement
-    public String get_id() {
-        return _id;
     }
 
     @XmlElement
@@ -74,10 +67,6 @@ public class DataSet implements Pojo {
         return isGraphic;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -109,8 +98,7 @@ public class DataSet implements Pojo {
     @Override
     public String toString() {
         return "DataSet{" +
-                "_id='" + _id + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", theme='" + theme + '\'' +
                 ", lastModified=" + lastModified +

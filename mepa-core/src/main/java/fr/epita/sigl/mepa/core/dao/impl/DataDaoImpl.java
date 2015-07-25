@@ -29,9 +29,8 @@ public class DataDaoImpl extends Dao implements DataDao {
     }
 
     @Override
-    public void delete(Data data) {
-        this.dataCollection.remove(new ObjectId(data.get_id()));
-
+    public void delete(String dataId) {
+        this.dataCollection.remove(new ObjectId(dataId));
     }
 
     @Override

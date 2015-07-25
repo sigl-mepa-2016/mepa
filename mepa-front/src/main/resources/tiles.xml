@@ -42,14 +42,6 @@
         <put-attribute name="body" value="/WEB-INF/views/dataSet/updateDataForm.jsp" />
     </definition>
 
-    <!-- Cartography -->
-    <definition name="cartography.definition" extends="base.definition">
-        <put-attribute name="title" value="cartography.title" />
-    </definition>
-    <definition name="/cartography/core/map" extends="cartography.definition">
-        <put-attribute name="body" value="/WEB-INF/views/cartography/core/map.jsp" />
-    </definition>
-
     <!-- Data Visualisation tabulaire -->
     <definition name="/dataVisualisationTab/dataVisualisationTab" extends="base.definition">
         <put-attribute name="body" value="/WEB-INF/views/dataVisualisationTab/dataVisualisationTab.jsp" />
@@ -70,7 +62,7 @@
         <put-attribute name="body" value="/WEB-INF/views/api/welcome.jsp" />
     </definition>
 
-    <!-- Cartography -->
+    <!-- All three visualization types : table, chart, and cartography -->
     <definition name="AllVisualisation.definition" extends="base.definition">
         <put-attribute name="title" value="allVisualisation.title" />
     </definition>

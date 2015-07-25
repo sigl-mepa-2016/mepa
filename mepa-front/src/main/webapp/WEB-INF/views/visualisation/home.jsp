@@ -42,6 +42,7 @@
         else if(dataType == "3") {
             $("#carto-tab").addClass('active');
             $('#carto-view').addClass('in active');
+            alert('active');
         }
         else {
             $("#table-tab").addClass('active');
@@ -235,17 +236,13 @@
             </div>
             <%-- /Chart view --%>
             <%-- Carto view --%>
-            <c:url var="mapCssUrl" value="/css/map.css" />
-            <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
-
-            <c:url var="mapJsUrl" value="/js/map.js" />
-            <script src="${mapJsUrl}" type="application/javascript" ></script>
             <div id="carto-view" class="tab-pane fade">
-                <h3>Want to see your localization ?</h3>
                 <input id="data" name="data" type="hidden" value='${dataset._id}'>
                 <input id="size" name="size" type="hidden" value='${size}'>
-                <div id="map-canvas" class="canvas"></div>
             </div>
+            <c:url var="mapCssUrl" value="/css/map.css" />
+            <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
+            <script type="text/javascript" src="<spring:url value="/js/map.js"/>"></script>
             <%-- /Carto view --%>
         </div>
     </div>
