@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class DataSet {
 
+    @MongoObjectId
     private ObjectId _id;
     private String name;
     private String owner;
@@ -36,8 +37,8 @@ public class DataSet {
         this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(ObjectId _id, String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
-        this._id = _id;
+    public DataSet(String _id, String name, String owner, String theme, Boolean isCarto, Boolean isGraphic, Date lastModified) {
+        this._id = new ObjectId(_id);
         this.name = name;
         this.owner = owner;
         this.theme = theme;
