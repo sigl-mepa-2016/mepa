@@ -21,6 +21,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class APIController {
+    private static String ADMIN_NAME = "admin";
+    private static String ADMIN_PASSWORD = "admin";
+    private static String ADMIN_TOKEN = "507f191e810c19729de860ea";
 
     private static final Logger LOG = LoggerFactory.getLogger(APIController.class);
 
@@ -65,9 +68,8 @@ public class APIController {
             return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic(), dataSet.getFieldMap());
     }
 
-        @RequestMapping("/dataSetWithData/{dataSetID}")
-    public Pojo dataSetWithData(@PathVariable String dataSetID)
-    {
+    @RequestMapping("/dataSetWithData/{dataSetID}")
+    public Pojo dataSetWithData(@PathVariable String dataSetID) {
         Pojo dataSet = schemaDataSet(dataSetID);
         if (dataSet instanceof ErrorMessage)
             return new ErrorMessage("Invalid Id");
@@ -170,22 +172,14 @@ public class APIController {
         return new SuccessMessage("Success add Data in DataSet");
     }
 
-    /**
-     * Not Ready
-     *
-     * @param dataSetID
-     * @param allRequestParams
-     * @return
-     */
-    @RequestMapping(value = "/dataSet/{dataSetID}/specificData", method = RequestMethod.GET)
-    public Object dataOfSpecificDataSet(@PathVariable String dataSetID, @RequestParam Map<String, String> allRequestParams) {
 
-        if (allRequestParams.isEmpty()) {
+    @RequestMapping(value = "/user", method = RequestMethod.GET, params = {"name", "password"})
+    public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
+        return (name.equals(ADMIN_NAME) && password.equals(ADMIN_PASSWORD)) ? new SuccessMessage("token: " + ADMIN_TOKEN) : new ErrorMessage("Invalid password or user");
+    }
 
-        } else {
-
-        }
-        return "datasetID = " + dataSetID;
+    private boolean checkToken(String token) {
+        return token.equals(ADMIN_TOKEN);
     }
 
 }
