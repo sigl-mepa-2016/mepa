@@ -173,7 +173,7 @@ public class APIController {
     }
 
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET, params = {"name", "password"})
+    @RequestMapping(value = "/token", method = RequestMethod.GET, params = {"name", "password"})
     public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
         return (name.equals(ADMIN_NAME) && password.equals(ADMIN_PASSWORD)) ? new SuccessMessage("token: " + ADMIN_TOKEN) : new ErrorMessage("Invalid password or user");
     }
