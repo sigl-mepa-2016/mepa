@@ -9,6 +9,7 @@ import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ListSimpleDataSet;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.SuccessMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +91,10 @@ public class APIController {
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet) {
+    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader("Authorization") String authorization) {
+        Pojo resultAuthorization = checkToken(authorization);
+        if (resultAuthorization instanceof ErrorMessage)
+            return resultAuthorization;
 
         DataSet newdataSet = new DataSet(dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
         for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
@@ -100,10 +104,22 @@ public class APIController {
         return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("id: " + newdataSet.get_id().toString()) : new ErrorMessage("Missing Field");
     }
 
-    @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.PUT)
-    public Pojo updateDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @PathVariable String dataSetID) {
-        //TODO
-        return new SuccessMessage("Success update");
+    @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.POST)
+    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader("Authorization") String authorization) {
+        Pojo resultAuthorization = checkToken(authorization);
+        if (resultAuthorization instanceof ErrorMessage)
+            return resultAuthorization;
+
+        if (!ObjectId.isValid(dataSetID))
+            return new ErrorMessage("Invalid ID");
+
+        DataSet updateDataSet = new DataSet(dataSetID, dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
+
+        for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
+            if (!updateDataSet.addField(entry.getKey(), entry.getValue()))
+                return new ErrorMessage("Invalid Type in DataSet, only Text and Int are accepted");
+
+        return (this.dataSetService.updateDataSet(updateDataSet)) ? new SuccessMessage("id: " + updateDataSet.get_id().toString()) : new ErrorMessage("Missing Field");
     }
 
     /**
@@ -113,7 +129,11 @@ public class APIController {
      * @return Message Pojo
      */
     @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
-    public Pojo deleteDataSet(@PathVariable String dataSetID) {
+    public Pojo deleteDataSet(@PathVariable String dataSetID, @RequestHeader("Authorization") String authorization) {
+        Pojo resultAuthorization = checkToken(authorization);
+        if (resultAuthorization instanceof ErrorMessage)
+            return resultAuthorization;
+
         try {
             this.dataSetService.deleteDataSet(dataSetID);
             this.dataService.deleteData(dataSetID);
@@ -151,7 +171,12 @@ public class APIController {
      * @return Pojo Message
      */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
-    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID) {
+    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID, @RequestHeader("Authorization") String authorization) {
+
+        Pojo resultAuthorization = checkToken(authorization);
+        if (resultAuthorization instanceof ErrorMessage)
+            return resultAuthorization;
+
         if (!dataInput.validInput())
             return new ErrorMessage("invalid number of Input");
 
@@ -172,14 +197,14 @@ public class APIController {
         return new SuccessMessage("Success add Data in DataSet");
     }
 
-
     @RequestMapping(value = "/token", method = RequestMethod.GET, params = {"name", "password"})
     public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
         return (name.equals(ADMIN_NAME) && password.equals(ADMIN_PASSWORD)) ? new SuccessMessage("token: " + ADMIN_TOKEN) : new ErrorMessage("Invalid password or user");
     }
 
-    private boolean checkToken(String token) {
-        return token.equals(ADMIN_TOKEN);
+    @RequestMapping(value = "/checkToken", method = RequestMethod.GET, params = "token")
+    public Pojo checkToken(@RequestParam String token) {
+        return (token.equals(ADMIN_TOKEN)) ? new SuccessMessage("valid Token") : new ErrorMessage("Invalid Token");
     }
 
 }
