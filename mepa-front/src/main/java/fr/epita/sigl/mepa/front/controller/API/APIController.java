@@ -4,6 +4,7 @@ import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import fr.epita.sigl.mepa.front.APIpojo.Impl.DataSetWithData;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ListSimpleDataSet;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.SuccessMessage;
@@ -63,6 +64,21 @@ public class APIController {
         else
             return new fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet(dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getLastModified(), dataSet.getIsCarto(), dataSet.getIsGraphic(), dataSet.getFieldMap());
     }
+
+        @RequestMapping("/dataSetWithData/{dataSetID}")
+    public Pojo dataSetWithData(@PathVariable String dataSetID)
+    {
+        Pojo dataSet = schemaDataSet(dataSetID);
+        if (dataSet instanceof ErrorMessage)
+            return new ErrorMessage("Invalid Id");
+
+        Pojo data = dataOfDataSet(dataSetID);
+        if (data instanceof ErrorMessage)
+            return new DataSetWithData((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet, null);
+        else
+            return new DataSetWithData((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet, (fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data);
+    }
+
 
     /**
      * Specific application/json in Content-type

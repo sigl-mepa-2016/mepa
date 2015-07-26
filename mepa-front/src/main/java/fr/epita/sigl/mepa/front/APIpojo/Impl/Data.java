@@ -28,8 +28,7 @@ public class Data implements Pojo {
         return data;
     }
 
-    public Map<String, List<String>> getDataInList()
-    {
+    public Map<String, List<String>> getDataInList() {
         Map<String, List<String>> returnData = new HashMap<>();
 
         for (Map.Entry<String, DataList> entry : this.data.entrySet())

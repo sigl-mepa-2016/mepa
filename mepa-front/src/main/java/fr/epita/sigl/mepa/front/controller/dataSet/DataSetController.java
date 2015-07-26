@@ -177,8 +177,8 @@ public class DataSetController {
 
     @RequestMapping(value = {"/update"}, method = {RequestMethod.POST})
     public String processUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap,
-                                    @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
-                                    BindingResult result) {
+                                           @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
+                                           BindingResult result) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
@@ -317,8 +317,7 @@ public class DataSetController {
         Object[] fields = dataSet.getFieldMap().keySet().toArray();
 
         Data data = this.dataService.getById(datasetId);
-        if (null != data)
-        {
+        if (null != data) {
             for (int i = 0; i < fields.length; ++i) {
                 String column = fields[i].toString();
                 List<String> dataList = data.getData().get(column);
