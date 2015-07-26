@@ -37,7 +37,6 @@ public class DataSetController {
     private static final Logger LOG = LoggerFactory.getLogger(DataSetController.class);
 
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
-    protected static final String COLUMNS_MODEL_ATTRIBUTE = "columns";
     private static final String SEARCH = "searchFormAction";
     private static final String ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataSetFormBean";
     private static final String ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomColumnFormBean";
@@ -56,8 +55,8 @@ public class DataSetController {
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
         if (LOG.isDebugEnabled()) {
-            for (int i = 0; i < datasets.size(); ++i)
-                LOG.debug("There is {} in database", datasets.get(i));
+            for (DataSet dataset : datasets)
+                LOG.debug("There is {} in database", dataset);
         }
 
         // Update model attribute "datasets", to use it in JSP
