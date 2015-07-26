@@ -352,6 +352,7 @@ public class DataSetController {
 
         redirectAttributes.addAttribute("datasetId", datasetId);
 
+        DataSet dataset = this.dataSetService.getDataSetById(datasetId);
         Data data = this.dataService.getById(datasetId);
 
         Part part = request.getPart("file");
@@ -365,7 +366,17 @@ public class DataSetController {
         else
             return "redirect:/dataSet/details";
 
-        Object[] datasetFields = this.dataSetService.getDataSetById(datasetId).getFieldMap().keySet().toArray();
+        Object[] datasetFields = dataset.getFieldMap().keySet().toArray();
+
+        if (datasetFields.length == 0) {
+            for (String field : fields) {
+                dataset.addField(field, "TEXT");
+            }
+            this.dataSetService.updateDataSet(dataset);
+            dataset = this.dataSetService.getDataSetById(datasetId);
+            datasetFields = dataset.getFieldMap().keySet().toArray();
+        }
+
         for (int i = 0; i < fields.length; ++i) {
             String fieldCSV = fields[i];
             String fieldDataset = (String) datasetFields[i];

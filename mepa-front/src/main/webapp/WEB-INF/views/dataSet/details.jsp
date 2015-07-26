@@ -17,8 +17,8 @@
                         </th>
                         <th>
                             <c:url var="uploadCSV" value="/dataSet/uploadCSV?datasetId=${id}"/>
-                            <form:form class="form-inline" action="uploadCSV" method="post">
-                                <input type="file" value="Import a CSV"/>
+                            <form:form class="form-inline" action="${uploadCSV}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="file"/>
                                 <input type="submit" class="submit-tab" value="Upload data from the selected file"/>
                             </form:form>
                         </th>
