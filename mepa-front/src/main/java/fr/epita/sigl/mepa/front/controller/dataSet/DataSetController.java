@@ -350,6 +350,8 @@ public class DataSetController {
         Map<String, String[]> paramMap = request.getParameterMap();
         String datasetId = paramMap.get("datasetId")[0];
 
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
         Data data = this.dataService.getById(datasetId);
 
         Part part = request.getPart("file");
@@ -362,6 +364,14 @@ public class DataSetController {
             fields = fieldlist.split("~");
         else
             return "redirect:/dataSet/details";
+
+        Object[] datasetFields = this.dataSetService.getDataSetById(datasetId).getFieldMap().keySet().toArray();
+        for (int i = 0; i < fields.length; ++i) {
+            String fieldCSV = fields[i];
+            String fieldDataset = (String) datasetFields[i];
+            if (false == fieldCSV.equals(fieldDataset))
+                return "redirect:/dataSet/details";
+        }
 
         String line = "";
         while (null != (line = reader.readLine())) {
@@ -388,8 +398,8 @@ public class DataSetController {
                 data = toCreate;
             }
         }
-
-        redirectAttributes.addAttribute("datasetId", datasetId);
+        reader.close();
+        fileContent.close();
 
         return "redirect:/dataSet/details";
     }
