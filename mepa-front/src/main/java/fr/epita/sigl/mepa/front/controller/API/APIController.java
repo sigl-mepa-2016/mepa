@@ -91,7 +91,7 @@ public class APIController {
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader("Authorization") String authorization) {
+    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
         Pojo resultAuthorization = checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
@@ -105,7 +105,7 @@ public class APIController {
     }
 
     @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.POST)
-    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader("Authorization") String authorization) {
+    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
         Pojo resultAuthorization = checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
@@ -129,7 +129,7 @@ public class APIController {
      * @return Message Pojo
      */
     @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
-    public Pojo deleteDataSet(@PathVariable String dataSetID, @RequestHeader("Authorization") String authorization) {
+    public Pojo deleteDataSet(@PathVariable String dataSetID, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
         Pojo resultAuthorization = checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
@@ -171,7 +171,7 @@ public class APIController {
      * @return Pojo Message
      */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
-    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID, @RequestHeader("Authorization") String authorization) {
+    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
 
         Pojo resultAuthorization = checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
@@ -204,6 +204,8 @@ public class APIController {
 
     @RequestMapping(value = "/checkToken", method = RequestMethod.GET, params = "token")
     public Pojo checkToken(@RequestParam String token) {
+        if (token.isEmpty())
+            return new ErrorMessage("Missing Authentification");
         return (token.equals(ADMIN_TOKEN)) ? new SuccessMessage("valid Token") : new ErrorMessage("Invalid Token");
     }
 
