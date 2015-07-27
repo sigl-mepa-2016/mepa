@@ -362,7 +362,7 @@ public class DataSetController {
         String[] fields = null;
 
         if (null != fieldlist)
-            fields = fieldlist.split("~");
+            fields = fieldlist.split(";");
         else
             return "redirect:/dataSet/details";
 
@@ -370,7 +370,10 @@ public class DataSetController {
 
         if (datasetFields.length == 0) {
             for (String field : fields) {
-                dataset.addField(field, "TEXT");
+                if (false == field.contains("#"))
+                    return "redirect:/dataSet/details";
+                else
+                    dataset.addField(field.split("#")[0], field.split("#")[1]);
             }
             this.dataSetService.updateDataSet(dataset);
             dataset = this.dataSetService.getDataSetById(datasetId);
@@ -378,9 +381,11 @@ public class DataSetController {
         }
 
         for (int i = 0; i < fields.length; ++i) {
-            String fieldCSV = fields[i];
+            String fieldCSV = fields[i].split("#")[0];
+            String typeCSV = fields[i].split("#")[1];
             String fieldDataset = (String) datasetFields[i];
-            if (false == fieldCSV.equals(fieldDataset))
+            String typeDataset = dataset.getFieldMap().get(fieldDataset);
+            if (false == fieldCSV.equals(fieldDataset) && false == typeCSV.equals(typeDataset))
                 return "redirect:/dataSet/details";
         }
 
@@ -389,9 +394,11 @@ public class DataSetController {
             // Read CSV + update/create data
             if (null != data) {
                 for (int i = 0; i < fields.length; ++i) {
-                    String field = fields[i];
+                    String field = fields[i].split("#")[0];
                     List<String> dataList = data.getData().get(field);
-                    String[] dataSplit = line.split("~");
+                    if (null == dataList)
+                        dataList = new ArrayList<>();
+                    String[] dataSplit = line.split(";");
                     dataList.add(dataSplit[i]);
                     data.getData().put(field, dataList);
                 }
@@ -400,9 +407,9 @@ public class DataSetController {
                 Map<String, List<String>> dataMap = new LinkedHashMap<>();
                 for (int i = 0; i < fields.length; ++i) {
                     List<String> value = new ArrayList<>();
-                    String[] dataSplit = line.split("~");
+                    String[] dataSplit = line.split(";");
                     value.add(dataSplit[i]);
-                    dataMap.put(fields[i].toString(), value);
+                    dataMap.put(fields[i].split("#")[0], value);
                 }
                 Data toCreate = new Data(datasetId, dataMap);
                 this.dataService.createData(toCreate);
