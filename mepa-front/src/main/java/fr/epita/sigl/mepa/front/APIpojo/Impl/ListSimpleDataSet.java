@@ -9,19 +9,19 @@ import java.util.List;
 
 @XmlRootElement(name = "Items")
 public class ListSimpleDataSet implements Pojo {
-    private List<SimpleDataSet> items;
+    private List<SimpleDataSet> item;
 
     public ListSimpleDataSet() {
-        items = new ArrayList<>();
+        item = new ArrayList<>();
     }
 
     public void addSimpleObject(String id, String name) {
-        items.add(new SimpleDataSet(id, name));
+        item.add(new SimpleDataSet(id, name));
     }
 
     @XmlElement
-    public List<SimpleDataSet> getItems() {
-        return items;
+    public List<SimpleDataSet> getItem() {
+        return item;
     }
 }
 

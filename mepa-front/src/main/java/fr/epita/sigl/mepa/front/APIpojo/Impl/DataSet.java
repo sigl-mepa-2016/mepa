@@ -10,13 +10,13 @@ import java.util.Map;
 
 @XmlRootElement
 public class DataSet implements Pojo {
-    private String name;
-    private String owner;
-    private String theme;
-    private Date lastModified;
-    private Boolean isCarto = false;
-    private Boolean isGraphic = false;
-    private Map<String, String> fieldMap;
+    protected String name;
+    protected String owner;
+    protected String theme;
+    protected Date lastModified;
+    protected Boolean isCarto = false;
+    protected Boolean isGraphic = false;
+    protected Map<String, String> fieldMap;
 
     public DataSet() {
         this.fieldMap = new HashMap<>();
@@ -32,37 +32,30 @@ public class DataSet implements Pojo {
         this.fieldMap = fieldMap;
     }
 
-    @XmlElement
     public String getName() {
         return name;
     }
 
-    @XmlElement
     public String getOwner() {
         return owner;
     }
 
-    @XmlElement
     public String getTheme() {
         return theme;
     }
 
-    @XmlElement
     public Date getLastModified() {
         return lastModified;
     }
 
-    @XmlElement
     public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
-    @XmlElement
     public Boolean getIsCarto() {
         return isCarto;
     }
 
-    @XmlElement
     public Boolean getIsGraphic() {
         return isGraphic;
     }
