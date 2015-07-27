@@ -15,6 +15,7 @@
 </div>
 
 <div class="container">
+
     <!-- Filter -->
     <div class="filtre-content white">
         <h3>There is ${nbDataset} dataset</h3>
@@ -81,8 +82,10 @@
     <form:form role="form" action="${searchFormActionUrl}" modelAttribute="searchFormAction" method="post">
         <form:errors path="search" cssStyle="color: #FF0000;" htmlEscape="false"/>
         <form:input id="search" path="search" type="text" placeholder="Search data" class="form"/>
-        <button type="submit" class="submit-button">Search</button>
     </form:form>
+
+    <!-- Tri -->
+
 
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>
