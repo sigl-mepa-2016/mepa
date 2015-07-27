@@ -116,12 +116,14 @@
                                         data.addColumn('string', columns[i]);
                                     }
 
-                                    for(var i = 0; i < size; i++){
+                                    //columns only has the title of the columns, not the value inside
+                                    for(var i = 0; i < b.data[columns[0]].value.length; i++){
                                         data.addRows(1);
                                     }
+                                    //i is column, j is row
                                     for (var i = 0; i < size; i++){
-                                        for (var j = 0; j < columns.length;j++) {
-                                            data.setValue(i, j, b.data[columns[j]][i]);
+                                        for (var j = 0; j < b.data[columns[0]].value.length;j++) {
+                                            data.setValue(j, i, b.data[columns[i]].value[j]);
                                         }
                                     }
                                     return data;
