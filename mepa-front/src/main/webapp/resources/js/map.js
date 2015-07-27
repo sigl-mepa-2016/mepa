@@ -5,8 +5,9 @@ var center = new google.maps.LatLng(48.8532, 2.3499); //Centre de paris (Notre-D
 var pointsToDisplay = [];
 var markers = [];
 var datasetId = null;
-var size = null;
-
+var fieldValues = null;
+var isCarto = false;
+var markerClusterer = null;
 
 function initialize()
 {
@@ -14,7 +15,6 @@ function initialize()
     $("#carto-view").append("<div id='map-canvas' class='map-canvas'></div>");
 
     datasetId = document.getElementById("data").value;
-    size = document.getElementById("size").value;
 
     clearMarkers();
 
@@ -71,30 +71,56 @@ function drawMultipleMarkersOnMap() {
 
     $.ajax({
         dataType: "json",
-        url : "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+        url : "/mepa-front/api/dataSet/" + datasetId + ".json",
         success : function(data)
         {
-            dataJson = data;
+            fieldValues = data.fieldMap;
+            isCarto = data.isCarto;
         },
         async : false});
 
-    for (var i = 0; i <= size; i++)
+    if (isCarto && fieldValues.hasOwnProperty('latitude') && fieldValues.hasOwnProperty('longitude'))
     {
-        var info = "";
+        $.ajax({
+            dataType: "json",
+            url: "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+            success: function (data) {
+                dataJson = data;
+            },
+            async: false
+        });
 
-        pointsToDisplay.push({pos : new google.maps.LatLng(parseFloat(dataJson.data.latitude[i]),
-            parseFloat(dataJson.data.longitude[i])), info : info, isGeoLoc : false});
+        for (var i = 0; i < Object.keys(fieldValues).length - 1;  i++)
+        {
+            var info = "";
+
+            for (var key in fieldValues)
+            {
+                if (dataJson.data.hasOwnProperty(key))
+                {
+                    info += "<b>" + key + "</b>" + " : " + dataJson.data[key][i] + "<br>";
+                }
+            }
+
+            pointsToDisplay.push({
+                pos: new google.maps.LatLng(parseFloat(dataJson.data.latitude[i]),
+                    parseFloat(dataJson.data.longitude[i])), info: info, isGeoLoc: false
+            });
+        }
     }
 
     for (var j = 0; j < pointsToDisplay.length; j++) {
         addMarker(pointsToDisplay[j].pos, pointsToDisplay[j].info, pointsToDisplay[j].isGeoLoc);
     }
 
-    var mc = new MarkerClusterer(map, markers);
+    markerClusterer = new MarkerClusterer(map, markers);
 
     google.maps.event.addListener(map, 'click', function() {
         infowindow.close(map, this);
     });
+
+    //markerClusterer.clearMarkers();
+    //clearMarkers();
 }
 
 
@@ -126,10 +152,30 @@ function addMarker(position, content, isGeoLoc) {
 }
 
 
-function clearMarkers() {
+// Sets the map on all markers in the array.
+function setAllMap(map)
+{
     for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
+        markers[i].setMap(map);
     }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers()
+{
+    setAllMap(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers()
+{
+    setAllMap(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers()
+{
+    clearMarkers();
     markers = [];
 }
 

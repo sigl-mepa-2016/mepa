@@ -113,7 +113,11 @@
                     <td>${dataset.isGraphic}</td>
                     <td>${dataset.isCarto}</td>
                     <c:url var="dataSetUrl" value="/dataSet/details?datasetId=${dataset._id}"/>
-                    <td><a href="${dataSetUrl}">Details</a></td>
+                    <td>
+                        <form action="${dataSetUrl}" method="post">
+                            <input type="submit" class="submit-tab" value="Details"/>
+                        </form>
+                    </td>
                     <td>
                         <c:url var="deleteUrl" value="/dataSet/delete?datasetId=${dataset._id}"/>
                         <form action="${deleteUrl}" method="post">

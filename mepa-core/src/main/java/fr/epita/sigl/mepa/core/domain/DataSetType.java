@@ -1,6 +1,5 @@
 package fr.epita.sigl.mepa.core.domain;
 
-
 import org.apache.commons.lang3.math.NumberUtils;
 
 public enum DataSetType {
