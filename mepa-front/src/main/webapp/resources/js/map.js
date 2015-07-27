@@ -5,8 +5,8 @@ var center = new google.maps.LatLng(48.8532, 2.3499); //Centre de paris (Notre-D
 var pointsToDisplay = [];
 var markers = [];
 var datasetId = null;
-var size = null;
-
+var fieldValues = null;
+var isCarto = false;
 
 function initialize()
 {
@@ -14,7 +14,6 @@ function initialize()
     $("#carto-view").append("<div id='map-canvas' class='map-canvas'></div>");
 
     datasetId = document.getElementById("data").value;
-    size = document.getElementById("size").value;
 
     clearMarkers();
 
@@ -71,19 +70,42 @@ function drawMultipleMarkersOnMap() {
 
     $.ajax({
         dataType: "json",
-        url : "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+        url : "/mepa-front/api/dataSet/" + datasetId + ".json",
         success : function(data)
         {
-            dataJson = data;
+            fieldValues = data.fieldMap;
+            isCarto = data.isCarto;
         },
         async : false});
 
-    for (var i = 0; i <= size; i++)
+    if (isCarto && fieldValues.hasOwnProperty('latitude') && fieldValues.hasOwnProperty('longitude'))
     {
-        var info = "";
+        $.ajax({
+            dataType: "json",
+            url: "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+            success: function (data) {
+                dataJson = data;
+            },
+            async: false
+        });
 
-        pointsToDisplay.push({pos : new google.maps.LatLng(parseFloat(dataJson.data.latitude[i]),
-            parseFloat(dataJson.data.longitude[i])), info : info, isGeoLoc : false});
+        for (var i = 0; i < Object.keys(fieldValues).length - 1;  i++)
+        {
+            var info = "";
+
+            for (var key in fieldValues)
+            {
+                if (dataJson.data.hasOwnProperty(key))
+                {
+                    info += "<b>" + key + "</b>" + " : " + dataJson.data[key][i] + "<br>";
+                }
+            }
+
+            pointsToDisplay.push({
+                pos: new google.maps.LatLng(parseFloat(dataJson.data.latitude[i]),
+                    parseFloat(dataJson.data.longitude[i])), info: info, isGeoLoc: false
+            });
+        }
     }
 
     for (var j = 0; j < pointsToDisplay.length; j++) {

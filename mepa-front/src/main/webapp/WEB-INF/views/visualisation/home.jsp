@@ -238,7 +238,6 @@
             <%-- Carto view --%>
             <div id="carto-view" class="tab-pane fade">
                 <input id="data" name="data" type="hidden" value='${dataset._id}'>
-                <input id="size" name="size" type="hidden" value='${size}'>
             </div>
             <c:url var="mapCssUrl" value="/css/map.css" />
             <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
