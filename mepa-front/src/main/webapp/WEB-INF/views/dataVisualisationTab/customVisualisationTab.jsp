@@ -38,7 +38,7 @@
 
             <b></b>
 
-            <c:url var="customTable" value="/visualisation/home?datasetId=${dataset._id}"/>
+            <c:url var="customTable" value="/visualisation/home?datasetId=${dataset._id}&dataType=1"/>
             <a role="button" class="btn btn-default" href="${customTable}">Submit Changes</a>
 
         </div>

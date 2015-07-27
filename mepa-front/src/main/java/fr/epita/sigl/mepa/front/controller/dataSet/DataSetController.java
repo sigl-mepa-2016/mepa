@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.dataSet;
 
 import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import fr.epita.sigl.mepa.core.domain.DataSetType;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
@@ -20,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
-import java.io.DataInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -35,7 +37,6 @@ public class DataSetController {
     private static final Logger LOG = LoggerFactory.getLogger(DataSetController.class);
 
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
-    protected static final String COLUMNS_MODEL_ATTRIBUTE = "columns";
     private static final String SEARCH = "searchFormAction";
     private static final String ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataSetFormBean";
     private static final String ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomColumnFormBean";
@@ -54,8 +55,8 @@ public class DataSetController {
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
         if (LOG.isDebugEnabled()) {
-            for (int i = 0; i < datasets.size(); ++i)
-                LOG.debug("There is {} in database", datasets.get(i));
+            for (DataSet dataset : datasets)
+                LOG.debug("There is {} in database", dataset);
         }
 
         // Update model attribute "datasets", to use it in JSP
@@ -175,8 +176,8 @@ public class DataSetController {
 
     @RequestMapping(value = {"/update"}, method = {RequestMethod.POST})
     public String processUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap,
-                                    @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
-                                    BindingResult result) {
+                                           @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
+                                           BindingResult result) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
@@ -250,6 +251,11 @@ public class DataSetController {
         DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
         modelMap.addAttribute("dataset", dataSet);
 
+        Map<String, String> typeValueList = new LinkedHashMap<>();
+        for (DataSetType dataSetType : DataSetType.values())
+            typeValueList.put(dataSetType.name(), dataSetType.name());
+        modelMap.addAttribute("typeValueList", typeValueList);
+
         return "/dataSet/columnForm";
     }
 
@@ -310,8 +316,7 @@ public class DataSetController {
         Object[] fields = dataSet.getFieldMap().keySet().toArray();
 
         Data data = this.dataService.getById(datasetId);
-        if (null != data)
-        {
+        if (null != data) {
             for (int i = 0; i < fields.length; ++i) {
                 String column = fields[i].toString();
                 List<String> dataList = data.getData().get(column);
@@ -337,14 +342,80 @@ public class DataSetController {
         return "redirect:/dataSet/details";
     }
 
-    @RequestMapping(value = {"/uploadCSV"})
-    public String uploadCSV(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) throws IOException {
+    @RequestMapping(value = {"/uploadCSV"}, method = {RequestMethod.POST})
+    public String uploadCSV(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) throws IOException, ServletException {
 
         Map<String, String[]> paramMap = request.getParameterMap();
         String datasetId = paramMap.get("datasetId")[0];
 
-
         redirectAttributes.addAttribute("datasetId", datasetId);
+
+        DataSet dataset = this.dataSetService.getDataSetById(datasetId);
+        Data data = this.dataService.getById(datasetId);
+
+        Part part = request.getPart("file");
+        InputStream fileContent = part.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fileContent));
+        String fieldlist = reader.readLine();
+        String[] fields = null;
+
+        if (null != fieldlist)
+            fields = fieldlist.split(";");
+        else
+            return "redirect:/dataSet/details";
+
+        Object[] datasetFields = dataset.getFieldMap().keySet().toArray();
+
+        if (datasetFields.length == 0) {
+            for (String field : fields) {
+                if (false == field.contains("#"))
+                    return "redirect:/dataSet/details";
+                else
+                    dataset.addField(field.split("#")[0], field.split("#")[1]);
+            }
+            this.dataSetService.updateDataSet(dataset);
+            dataset = this.dataSetService.getDataSetById(datasetId);
+            datasetFields = dataset.getFieldMap().keySet().toArray();
+        }
+
+        for (int i = 0; i < fields.length; ++i) {
+            String fieldCSV = fields[i].split("#")[0];
+            String typeCSV = fields[i].split("#")[1];
+            String fieldDataset = (String) datasetFields[i];
+            String typeDataset = dataset.getFieldMap().get(fieldDataset);
+            if (false == fieldCSV.equals(fieldDataset) && false == typeCSV.equals(typeDataset))
+                return "redirect:/dataSet/details";
+        }
+
+        String line = "";
+        while (null != (line = reader.readLine())) {
+            // Read CSV + update/create data
+            if (null != data) {
+                for (int i = 0; i < fields.length; ++i) {
+                    String field = fields[i].split("#")[0];
+                    List<String> dataList = data.getData().get(field);
+                    if (null == dataList)
+                        dataList = new ArrayList<>();
+                    String[] dataSplit = line.split(";");
+                    dataList.add(dataSplit[i]);
+                    data.getData().put(field, dataList);
+                }
+                this.dataService.updateData(data);
+            } else {
+                Map<String, List<String>> dataMap = new LinkedHashMap<>();
+                for (int i = 0; i < fields.length; ++i) {
+                    List<String> value = new ArrayList<>();
+                    String[] dataSplit = line.split(";");
+                    value.add(dataSplit[i]);
+                    dataMap.put(fields[i].split("#")[0], value);
+                }
+                Data toCreate = new Data(datasetId, dataMap);
+                this.dataService.createData(toCreate);
+                data = toCreate;
+            }
+        }
+        reader.close();
+        fileContent.close();
 
         return "redirect:/dataSet/details";
     }

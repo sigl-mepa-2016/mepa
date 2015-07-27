@@ -47,7 +47,15 @@ version="3.0" id="mepa-front">
             <param-value>classpath:front-mvc-context.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+
+        <multipart-config>
+            <location>/</location>
+            <max-file-size>1073741824</max-file-size> <!-- 1 Go -->
+            <max-request-size>5368709120</max-request-size> <!-- 5 x 1 Go -->
+            <file-size-threshold>104857600</file-size-threshold> <!-- 100 Mo -->
+        </multipart-config>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>

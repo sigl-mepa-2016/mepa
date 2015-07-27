@@ -10,21 +10,19 @@ import java.util.Map;
 
 @XmlRootElement
 public class DataSet implements Pojo {
-    private String _id;
-    private String name;
-    private String owner;
-    private String theme;
-    private Date lastModified;
-    private Boolean isCarto = false;
-    private Boolean isGraphic = false;
-    private Map<String, String> fieldMap;
+    protected String name;
+    protected String owner;
+    protected String theme;
+    protected Date lastModified;
+    protected Boolean isCarto = false;
+    protected Boolean isGraphic = false;
+    protected Map<String, String> fieldMap;
 
     public DataSet() {
         this.fieldMap = new HashMap<>();
     }
 
-    public DataSet(String _id, String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic, Map<String, String> fieldMap) {
-        this._id = _id;
+    public DataSet(String name, String owner, String theme, Date lastModified, Boolean isCarto, Boolean isGraphic, Map<String, String> fieldMap) {
         this.name = name;
         this.owner = owner;
         this.theme = theme;
@@ -34,48 +32,32 @@ public class DataSet implements Pojo {
         this.fieldMap = fieldMap;
     }
 
-    @XmlElement
-    public String get_id() {
-        return _id;
-    }
-
-    @XmlElement
     public String getName() {
         return name;
     }
 
-    @XmlElement
     public String getOwner() {
         return owner;
     }
 
-    @XmlElement
     public String getTheme() {
         return theme;
     }
 
-    @XmlElement
     public Date getLastModified() {
         return lastModified;
     }
 
-    @XmlElement
     public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
-    @XmlElement
     public Boolean getIsCarto() {
         return isCarto;
     }
 
-    @XmlElement
     public Boolean getIsGraphic() {
         return isGraphic;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
     }
 
     public void setName(String name) {
@@ -109,8 +91,7 @@ public class DataSet implements Pojo {
     @Override
     public String toString() {
         return "DataSet{" +
-                "_id='" + _id + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", theme='" + theme + '\'' +
                 ", lastModified=" + lastModified +

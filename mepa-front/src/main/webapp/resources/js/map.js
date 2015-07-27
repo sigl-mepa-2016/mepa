@@ -1,18 +1,27 @@
-var map;
-var infowindow;
-var content;
-var latitude;
-var longitude;
+var map = null;
+var infowindow = null;
+var content = null;
+var center = new google.maps.LatLng(48.8532, 2.3499); //Centre de paris (Notre-Dame de Paris)
 var pointsToDisplay = [];
-var googleMapPoints = [];
 var markers = [];
-var center;
+var datasetId = null;
+var fieldValues = null;
+var isCarto = false;
+var markerClusterer = null;
 
+function initialize()
+{
+    $("#map-canvas").remove();
+    $("#carto-view").append("<div id='map-canvas' class='map-canvas'></div>");
 
-function initialize() {
+    datasetId = document.getElementById("data").value;
+
+    clearMarkers();
+
     var mapOptions = {
-        zoom: 15
+        zoom: 12
     };
+
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
@@ -24,38 +33,25 @@ function initialize() {
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
 
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
-
-            var marker = new google.maps.Marker({
-                map: map,
-                position: pos,
-                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-            });
 
             map.setCenter(pos);
             content = 'You are here !';
 
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.setContent(content);
-                infowindow.open(map, this);
-            });
+            pointsToDisplay.push({pos : pos, info : content, isGeoLoc : true});
 
-            markers.push(marker);
+            drawMultipleMarkersOnMap();
 
         }, function() {
             handleNoGeolocation(true);
+            drawMultipleMarkersOnMap();
         });
     } else {
         // Browser doesn't support Geolocation
         handleNoGeolocation(false);
+        drawMultipleMarkersOnMap();
     }
-
-    google.maps.event.addListener(map, 'click', function() {
-        infowindow.close(map, this);
-    });
 }
 
 function handleNoGeolocation(errorFlag) {
@@ -65,128 +61,88 @@ function handleNoGeolocation(errorFlag) {
         content = 'Error: Your browser doesn\'t support geolocation.';
     }
 
-    latitude = 48.8586;
-    longitude = 2.2945;
-
-    var options = {
-        map: map,
-        position: new google.maps.LatLng(latitude, longitude),
-        icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-    };
-
-    var marker = new google.maps.Marker(options);
-    map.setCenter(options.position);
-
-    google.maps.event.addListener(marker, 'click', function () {
-        infowindow.setContent(content);
-        infowindow.open(map, this);
-
-    });
+    map.setCenter(center);
+    pointsToDisplay.push({pos : center, info : content, isGeoLoc : true});
 }
 
-function generatePoints(number)
-{
-    var latitude = 48.8586;
-    var longitude = 2.2945;
+function drawMultipleMarkersOnMap() {
 
-    for (var i = 0; i < number; i++)
-    {
-        if ((i % 2) == 0)
-        {
-            latitude += ((Math.random() / 1000) * i);
-            longitude += ((Math.random() / 1000) * i);
-        }
-        else
-        {
-            latitude -= ((Math.random() / 1000) * i);
-            longitude -= ((Math.random() / 1000) * i);
-        }
-
-        var info = "test" + i;
-
-        pointsToDisplay.push({latitude : latitude, longitude : longitude, info : info});
-    }
-}
-
-function initializePoints()
-{
-    var latitudeCenter = 0;
-    var longitudeCenter = 0;
-    var pointsNumber = pointsToDisplay.length;
-
-    for (var i = 0; i < pointsNumber; i++)
-    {
-        var latitude_i = pointsToDisplay[i].latitude;
-        var longitude_i = pointsToDisplay[i].longitude;
-
-        googleMapPoints.push(new google.maps.LatLng(latitude_i,
-            longitude_i));
-
-        latitudeCenter += latitude_i;
-        longitudeCenter += longitude_i;
-    }
-
-    center = new google.maps.LatLng((latitudeCenter / pointsNumber),
-        longitudeCenter / pointsNumber);
-}
-
-function initializeMultiple() {
-
-    var datasetId = document.getElementById("data").value;
-    var size = document.getElementById("size").value;
     var dataJson = null;
-
-    initialize();
 
     $.ajax({
         dataType: "json",
-        url : "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+        url : "/mepa-front/api/dataSet/" + datasetId + ".json",
         success : function(data)
         {
-            dataJson = data;
+            fieldValues = data.fieldMap;
+            isCarto = data.isCarto;
         },
         async : false});
 
-    for (var i = 0; i <= size; i++)
+    if (isCarto && fieldValues.hasOwnProperty('latitude') && fieldValues.hasOwnProperty('longitude'))
     {
-        var info = "";
+        $.ajax({
+            dataType: "json",
+            url: "/mepa-front/api/dataSet/" + datasetId + "/data.json",
+            success: function (data) {
+                dataJson = data;
+            },
+            async: false
+        });
 
-        pointsToDisplay.push({latitude : parseFloat(dataJson.data.latitude[i]), longitude : parseFloat(dataJson.data.longitude[i]), info : info});
+        for (var i = 0; i < Object.keys(fieldValues).length - 1;  i++)
+        {
+            var info = "";
+
+            for (var key in fieldValues)
+            {
+                if (dataJson.data.hasOwnProperty(key))
+                {
+                    info += "<b>" + key + "</b>" + " : " + dataJson.data[key][i] + "<br>";
+                }
+            }
+
+            pointsToDisplay.push({
+                pos: new google.maps.LatLng(parseFloat(dataJson.data.latitude[i]),
+                    parseFloat(dataJson.data.longitude[i])), info: info, isGeoLoc: false
+            });
+        }
     }
 
-    //generatePoints(1000);
-    initializePoints();
-
-    var mapOptions = {
-        zoom: 2,
-        center: center
-    };
-
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
-
-    infowindow = new google.maps.InfoWindow({
-        maxWidth : 250
-    });
-
-    clearMarkers();
-    for (var i = 0; i < googleMapPoints.length; i++) {
-        addMarker(googleMapPoints[i], pointsToDisplay[i].info);
+    for (var j = 0; j < pointsToDisplay.length; j++) {
+        addMarker(pointsToDisplay[j].pos, pointsToDisplay[j].info, pointsToDisplay[j].isGeoLoc);
     }
 
-    var mc = new MarkerClusterer(map, markers);
+    markerClusterer = new MarkerClusterer(map, markers);
+
     google.maps.event.addListener(map, 'click', function() {
         infowindow.close(map, this);
     });
+
+    //markerClusterer.clearMarkers();
+    //clearMarkers();
 }
 
-function addMarker(position, content) {
 
-    var marker = new google.maps.Marker({
-        position: position,
-        map: map
-    });
+function addMarker(position, content, isGeoLoc) {
 
+    var marker = null;
+
+    if (isGeoLoc == false)
+    {
+        marker = new google.maps.Marker({
+            position: position,
+            map: map
+        });
+    }
+    else
+    {
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        });
+    }
     google.maps.event.addListener(marker, 'click', function () {
         infowindow.setContent(content);
         infowindow.open(map, this);
@@ -195,12 +151,42 @@ function addMarker(position, content) {
     markers.push(marker);
 }
 
-function clearMarkers() {
+
+// Sets the map on all markers in the array.
+function setAllMap(map)
+{
     for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
+        markers[i].setMap(map);
     }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers()
+{
+    setAllMap(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers()
+{
+    setAllMap(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers()
+{
+    clearMarkers();
     markers = [];
 }
 
-//google.maps.event.addDomListener(window, 'load', initialize);
-google.maps.event.addDomListener(window, 'load', initializeMultiple);
+
+function isCartTabActive()
+{
+    if ($('#carto-tab').attr('class') == 'active')
+        initialize();
+
+    else
+        setTimeout(isCartTabActive, 500);
+}
+
+google.maps.event.addDomListener(window, 'load', isCartTabActive);
