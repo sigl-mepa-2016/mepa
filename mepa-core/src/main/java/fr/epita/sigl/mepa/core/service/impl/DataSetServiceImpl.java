@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.core.service.impl;
 import fr.epita.sigl.mepa.core.dao.DataSetDao;
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,13 +40,13 @@ public class DataSetServiceImpl implements DataSetService {
     }
 
     @Override
-    public void deleteDataSet(String id) {
+    public void deleteDataSet(ObjectId id) {
         this.dataSetDao.delete(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public DataSet getDataSetById(String id) {
+    public DataSet getDataSetById(ObjectId id) {
         return this.dataSetDao.getById(id);
     }
 

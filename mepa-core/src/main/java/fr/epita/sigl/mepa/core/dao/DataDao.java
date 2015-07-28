@@ -1,6 +1,7 @@
 package fr.epita.sigl.mepa.core.dao;
 
 import fr.epita.sigl.mepa.core.domain.Data;
+import org.bson.types.ObjectId;
 
 public interface DataDao {
 
@@ -8,8 +9,8 @@ public interface DataDao {
 
     void update(Data data);
 
-    void delete(String dataId);
+    void delete(ObjectId dataId);
 
-    Data getById(String id);
+    Data getById(ObjectId id);
 
 }
