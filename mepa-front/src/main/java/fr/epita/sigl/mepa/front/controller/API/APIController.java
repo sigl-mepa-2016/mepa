@@ -24,9 +24,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class APIController {
-    private static String ADMIN_NAME = "admin";
-    private static String ADMIN_PASSWORD = "admin";
-    private static String ADMIN_TOKEN = "507f191e810c19729de860ea";
 
     private static final Logger LOG = LoggerFactory.getLogger(APIController.class);
 
@@ -35,8 +32,7 @@ public class APIController {
 
     @Autowired
     private DataService dataService;
-
-
+    
     /**
      * List of DataSet in database
      *
@@ -107,6 +103,13 @@ public class APIController {
         return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("id: " + newdataSet.get_id().toString()) : new ErrorMessage("Missing Field");
     }
 
+    /**
+     * Update DataSet, with specific id give in arg
+     * @param dataSetID
+     * @param dataSet
+     * @param authorization
+     * @return
+     */
     @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.POST)
     public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         Pojo resultAuthorization = new UserController().checkToken(authorization);
@@ -200,7 +203,5 @@ public class APIController {
         }
         return new SuccessMessage("Success add Data in DataSet");
     }
-
-
 
 }
