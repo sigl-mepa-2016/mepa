@@ -81,8 +81,13 @@ public class Data implements Pojo {
      * @return
      */
     public boolean validInput(DataSet dataSet) {
+
         if (dataSet.getFieldMap().size() != this.getData().size())
             return false;
+        else
+            for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
+                if (!this.getData().containsKey(entry.getKey()))
+                    return false;
 
         int size = -1;
         for (Map.Entry<String, List<String>> entry : this.getDataInList().entrySet()) {
