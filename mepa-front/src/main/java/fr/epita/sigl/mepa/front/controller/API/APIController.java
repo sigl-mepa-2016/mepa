@@ -59,7 +59,7 @@ public class APIController {
     public Pojo schemaDataSet(@PathVariable String dataSetID) {
         DataSet dataSet;
         try {
-            dataSet = dataSetService.getDataSetById(dataSetID);
+            dataSet = dataSetService.getDataSetById(new ObjectId(dataSetID));
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
@@ -135,8 +135,9 @@ public class APIController {
             return resultAuthorization;
 
         try {
-            this.dataSetService.deleteDataSet(dataSetID);
-            this.dataService.deleteData(dataSetID);
+            ObjectId dataSetObjectId = new ObjectId(dataSetID);
+            this.dataSetService.deleteDataSet(dataSetObjectId);
+            this.dataService.deleteData(dataSetObjectId);
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
@@ -153,7 +154,7 @@ public class APIController {
     public Pojo dataOfDataSet(@PathVariable String dataSetID) {
         Data data;
         try {
-            data = dataService.getById(dataSetID);
+            data = dataService.getById(new ObjectId(dataSetID));
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
