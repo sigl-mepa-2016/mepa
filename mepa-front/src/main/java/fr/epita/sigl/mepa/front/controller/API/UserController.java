@@ -20,6 +20,7 @@ public class UserController {
 
     /**
      * get token with name and password
+     *
      * @param name
      * @param password
      * @return
@@ -32,6 +33,7 @@ public class UserController {
 
     /**
      * check if token is valid
+     *
      * @param token
      * @return
      */
@@ -48,16 +50,34 @@ public class UserController {
     }
 
     /**
-     *
+     * add User with name and password, only admin can do that
      * @param inputUser
      * @param authorization
      * @return
      */
-    @RequestMapping(value = "addUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public Pojo addUser(fr.epita.sigl.mepa.front.APIpojo.Impl.User inputUser, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
-        if (authorization.equals(ADMIN_TOKEN))
+        if (!authorization.equals(ADMIN_TOKEN))
             return new ErrorMessage("Invalid Admin Token");
         this.userService.create(new User(inputUser.getName(), inputUser.getPassword()));
         return new SuccessMessage("Success Add");
+    }
+
+    /**
+     * remove User from token, only admin can do that
+     * @param userToken
+     * @param authorization
+     * @return
+     */
+    @RequestMapping(value = "/removeUser/{userToken}", method = RequestMethod.DELETE)
+    public Pojo deleteUser(@PathVariable String userToken, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+        if (!authorization.equals(ADMIN_TOKEN))
+            return new ErrorMessage("Invalid Admin Token");
+        try {
+            this.userService.delete(new ObjectId(userToken));
+        } catch (IllegalArgumentException e) {
+            return new ErrorMessage("Invalid ID");
+        }
+        return new SuccessMessage("Success Remove");
     }
 }
