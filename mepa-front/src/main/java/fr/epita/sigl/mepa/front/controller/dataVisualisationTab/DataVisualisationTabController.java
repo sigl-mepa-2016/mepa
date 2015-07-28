@@ -4,6 +4,7 @@ import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,8 +35,8 @@ public class DataVisualisationTabController {
     @RequestMapping(value = {"/customVisualisationTab"})
     public String customVisualisationTab(HttpServletRequest request, ModelMap modelMap) {
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
-        Data data = this.dataService.getById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
+        Data data = this.dataService.getById(new ObjectId(datasetId));
 
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
