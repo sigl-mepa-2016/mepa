@@ -4,6 +4,7 @@ import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.model.search.Filter;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
+import fr.epita.sigl.mepa.front.model.search.SortForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.List;
 public class HomeController {
     protected static final String DATASETS_MODEL_ATTRIBUTE = "datasets";
     private static final String SEARCH = "searchFormAction";
+    private static final String SORT = "sortFormAction";
     private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
@@ -52,5 +54,10 @@ public class HomeController {
     @ModelAttribute(SEARCH)
     public SearchForm initSearchForm() {
         return new SearchForm();
+    }
+
+    @ModelAttribute(SORT)
+    public SortForm initSortForm() {
+        return new SortForm();
     }
 }

@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.front.controller.search;
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.model.search.Filter;
+import fr.epita.sigl.mepa.front.model.search.SortForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by emeline on 12/07/2015.
@@ -34,6 +31,7 @@ public class SearchController {
     //variables permettant d'êtres récupérées dans la page
     protected static final String MODELS_SEARCH_MODEL_ATTRIBUTE = "datasets";
     private static final String SEARCH = "searchFormAction";
+    private static final String SORT = "sortFormAction";
 
     @Autowired
     private DataSetService modelService;
@@ -59,9 +57,19 @@ public class SearchController {
 
         //lancement de l'algo de recherche
         List<DataSet> modelsResult = new ArrayList<>();
+        boolean isFind = false;
+        for (String strung : Filter.listFilter){
+            if (strung.contains("Search : ")) {
+                isFind = true;
+                Filter.listFilter.remove(strung);
+                break;
+            }
+        }
 
         modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
         Filter.listFilter.add("Search : " + searchString);
+
+
         Filter.initFilter(modelMap, modelsResult);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
@@ -77,10 +85,13 @@ public class SearchController {
         } else {
             dataSets = Filter.listDataset;
         }
-
         List<DataSet> allCartoDatasets = new ArrayList<>();
-        allCartoDatasets = Filter.CartoFilter(dataSets, allCartoDatasets);
-        Filter.listFilter.add("View : Cartography");
+        if (!Filter.listFilter.contains("View : Cartography")){
+            allCartoDatasets = Filter.CartoFilter(dataSets, allCartoDatasets);
+            Filter.listFilter.add("View : Cartography");
+        } else {
+            allCartoDatasets = dataSets;
+        }
         Filter.initFilter(modelMap, allCartoDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allCartoDatasets);
@@ -99,8 +110,13 @@ public class SearchController {
         }
 
         List<DataSet> allGraphicDatasets = new ArrayList<>();
-        allGraphicDatasets = Filter.GraphicFilter(dataSets, allGraphicDatasets);
-        Filter.listFilter.add("View : Graphic");
+        if (!Filter.listFilter.contains("View : Graphic")){
+            allGraphicDatasets = Filter.GraphicFilter(dataSets, allGraphicDatasets);
+            Filter.listFilter.add("View : Graphic");
+        } else {
+            allGraphicDatasets = dataSets;
+        }
+
         Filter.initFilter(modelMap, allGraphicDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allGraphicDatasets);
@@ -119,10 +135,13 @@ public class SearchController {
         } else {
             dataSets = Filter.listDataset;
         }
-
         List<DataSet> allThemeDatasets = new ArrayList<>();
-        allThemeDatasets = Filter.ThemeFilter(dataSets, allThemeDatasets, theme);
-        Filter.listFilter.add("Theme : " + theme);
+        if (!Filter.listFilter.contains("Theme : " + theme)) {
+            allThemeDatasets = Filter.ThemeFilter(dataSets, allThemeDatasets, theme);
+            Filter.listFilter.add("Theme : " + theme);
+        } else {
+            allThemeDatasets = dataSets;
+        }
         Filter.initFilter(modelMap, allThemeDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allThemeDatasets);
@@ -142,8 +161,12 @@ public class SearchController {
         }
 
         List<DataSet> allDateDatasets = new ArrayList<>();
-        allDateDatasets = Filter.DateFilter(dataSets, allDateDatasets, yearChoose);
-        Filter.listFilter.add("Date : " + yearChoose);
+        if (!Filter.listFilter.contains("Date : " + yearChoose)) {
+            allDateDatasets = Filter.DateFilter(dataSets, allDateDatasets, yearChoose);
+            Filter.listFilter.add("Date : " + yearChoose);
+        } else {
+            allDateDatasets = dataSets;
+        }
         Filter.initFilter(modelMap, allDateDatasets);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allDateDatasets);
@@ -215,6 +238,38 @@ public class SearchController {
         return "/home/home";
     }
 
+    @RequestMapping(value = { "/Sort" })
+    public String getSort(HttpServletRequest request, ModelMap modelMap, SortForm sortForm) {
+        List<DataSet> dataSets;
+        // Get models data from database
+        if (Filter.listDataset.isEmpty()){
+            dataSets = this.modelService.getAllDataSets();
+        } else {
+            dataSets = Filter.listDataset;
+        }
+        String sort = sortForm.getSort();
+        List<DataSet> sortedDatasets = new ArrayList<>();
+        if (sort.equals("Title")){
+            sortedDatasets = sortByTitle(dataSets, sortedDatasets);
+        } else {
+            sortedDatasets = sortByDate(dataSets, sortedDatasets);
+        }
+        Filter.initFilter(modelMap, sortedDatasets);
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, sortedDatasets);
+        return "/home/home";
+    }
+
+    private List<DataSet> sortByDate(List<DataSet> dataSets, List<DataSet> sortedDatasets) {
+        //TODO
+        return sortedDatasets;
+    }
+
+    private List<DataSet> sortByTitle(List<DataSet> dataSets, List<DataSet> sortedDatasets) {
+        //TODO
+        return sortedDatasets;
+    }
+
     /**
      * Fonction de recherche d'une string dans une autre string
      * @param models
@@ -278,6 +333,11 @@ public class SearchController {
     @ModelAttribute(SEARCH)
     public SearchForm initSearchForm() {
         return new SearchForm();
+    }
+
+    @ModelAttribute(SORT)
+    public SortForm initSortForm() {
+        return new SortForm();
     }
 }
 
