@@ -51,6 +51,7 @@ public class UserController {
 
     /**
      * add User with name and password, only admin can do that
+     *
      * @param inputUser
      * @param authorization
      * @return
@@ -65,6 +66,7 @@ public class UserController {
 
     /**
      * remove User from token, only admin can do that
+     *
      * @param userToken
      * @param authorization
      * @return
