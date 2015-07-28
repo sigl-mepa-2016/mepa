@@ -68,8 +68,6 @@ public class SearchController {
 
         modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
         Filter.listFilter.add("Search : " + searchString);
-
-
         Filter.initFilter(modelMap, modelsResult);
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
@@ -248,11 +246,11 @@ public class SearchController {
             dataSets = Filter.listDataset;
         }
         String sort = sortForm.getSort();
-        List<DataSet> sortedDatasets = new ArrayList<>();
+        List<DataSet> sortedDatasets;
         if (sort.equals("Title")){
-            sortedDatasets = sortByTitle(dataSets, sortedDatasets);
+            sortedDatasets = Filter.sortByTitle(dataSets);
         } else {
-            sortedDatasets = sortByDate(dataSets, sortedDatasets);
+            sortedDatasets = Filter.sortByDate(dataSets);
         }
         Filter.initFilter(modelMap, sortedDatasets);
         //mise a jour de la liste de models résultats
@@ -260,15 +258,7 @@ public class SearchController {
         return "/home/home";
     }
 
-    private List<DataSet> sortByDate(List<DataSet> dataSets, List<DataSet> sortedDatasets) {
-        //TODO
-        return sortedDatasets;
-    }
 
-    private List<DataSet> sortByTitle(List<DataSet> dataSets, List<DataSet> sortedDatasets) {
-        //TODO
-        return sortedDatasets;
-    }
 
     /**
      * Fonction de recherche d'une string dans une autre string

@@ -9,6 +9,7 @@ import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataSetFormBean;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
+import fr.epita.sigl.mepa.front.model.search.SortForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class DataSetController {
     private static final String ADD_CUSTOM_DATASET_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataSetFormBean";
     private static final String ADD_CUSTOM_COLUMN_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomColumnFormBean";
     private static final String ADD_CUSTOM_DATA_FORM_BEAN_MODEL_ATTRIBUTE = "addCustomDataFormBean";
+    private static final String SORT = "sortFormAction";
 
     @Autowired
     private DataSetService dataSetService;
@@ -444,4 +446,11 @@ public class DataSetController {
     public SearchForm initSearchForm() {
         return new SearchForm();
     }
+
+    @ModelAttribute(SORT)
+    public SortForm initSortForm() {
+        return new SortForm();
+    }
+
+
 }
