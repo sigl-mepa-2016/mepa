@@ -2,10 +2,8 @@ package fr.epita.sigl.mepa.front.controller.API;
 
 import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
-import fr.epita.sigl.mepa.core.domain.User;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
-import fr.epita.sigl.mepa.core.service.UserService;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.DataSetWithData;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.ListSimpleDataSet;
@@ -32,7 +30,7 @@ public class APIController {
 
     @Autowired
     private DataService dataService;
-    
+
     /**
      * List of DataSet in database
      *
@@ -105,6 +103,7 @@ public class APIController {
 
     /**
      * Update DataSet, with specific id give in arg
+     *
      * @param dataSetID
      * @param dataSet
      * @param authorization
