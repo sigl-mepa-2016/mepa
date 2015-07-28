@@ -96,7 +96,8 @@ public class DataSetController {
         modelMap.addAttribute("datasets", allDataSets);
 
         modelMap.addAttribute("dataset", newDataSet);
-        return "/home/home";
+
+        return "redirect:/home/";
     }
 
     /**
@@ -141,7 +142,7 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        return "redirect:/home/";
     }
 
     @RequestMapping(value = {"/deleteData"})
@@ -195,7 +196,7 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        return "redirect:/home/";
     }
 
     @RequestMapping(value = {"/updateDataForm"})
