@@ -27,6 +27,8 @@ public class GraphController {
     @RequestMapping(value = "/{dataSetID}", method = RequestMethod.GET)
     public GraphInput getGraphConf(@PathVariable String dataSetID) {
          Graph graph = this.graphService.getById(dataSetID);
+        if (graph == null)
+            return null;
         return new GraphInput(graph.get_id().toString(), graph.getGrapheType(), graph.getGrapheColor1(), graph.getGrapheColor2(), graph.getGrapheJson());
     }
 
