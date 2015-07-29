@@ -20,7 +20,7 @@
                         <li><a href="${api}">API</a></li>
                         <c:choose>
                             <c:when test="${cookie.token != null && cookie.token != ''}">
-                                <li id="userConnectedText">User connected</li>
+                                <li></li>
                             </c:when>
                             <c:otherwise>
                                 <c:url var="loginUrl" value="/login"/>
@@ -30,7 +30,7 @@
                     </ul>
                     <c:choose>
                          <c:when test="${cookie.token != null && cookie.token != ''}">
-                             <p class="connected">User connected</p>
+                             <p class="connected" id="userConnectedText">User connected</p>
                          </c:when>
                          <c:otherwise>
                              <p class="connected">User not connected</p>
