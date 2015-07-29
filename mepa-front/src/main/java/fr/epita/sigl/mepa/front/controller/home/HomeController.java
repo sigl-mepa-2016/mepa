@@ -33,7 +33,10 @@ public class HomeController {
     private DataSetService dataSetService;
 
     @RequestMapping(value = {"/", "/home"})
-    public String home(ModelMap modelMap) {
+    public String home(HttpServletRequest request, ModelMap modelMap) {
+
+        String errorMessage = request.getParameter("errorMessage");
+        modelMap.addAttribute("errorMessage", errorMessage);
 
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
