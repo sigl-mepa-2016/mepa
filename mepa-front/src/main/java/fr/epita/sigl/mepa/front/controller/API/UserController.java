@@ -28,7 +28,7 @@ public class UserController {
     @RequestMapping(value = "/token", method = RequestMethod.GET, params = {"name", "password"})
     public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
         User user = userService.getByNameAndPassword(new User(name, password));
-        return (user != null) ? new SuccessMessage("token: " + user.get_id().toString()) : new ErrorMessage("Invalid password or user");
+        return (user != null) ? new SuccessMessage(user.get_id().toString()) : new ErrorMessage("Invalid password or user");
     }
 
     /**
@@ -81,5 +81,15 @@ public class UserController {
             return new ErrorMessage("Invalid ID");
         }
         return new SuccessMessage("Success Remove");
+    }
+
+    /**
+     *
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = "/isConnected", method = RequestMethod.GET)
+    public Pojo isConnected(@CookieValue(value = "token", defaultValue = "") String token) {
+        return checkToken(token);
     }
 }

@@ -92,62 +92,90 @@
                         </div>
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
+
                             // Recover java's ArrayList (need to convert elements to String)
                             var columns = new Array();
                             <c:forEach items="${fieldKeys}" var="col" varStatus="loop">
                                 columns.push("${col}");
                             </c:forEach>;
 
+
                             google.load('visualization', '1.0',{packages:["table"]});
                             google.setOnLoadCallback(initialize);
 
+                            function drawTable() {
+                                {
+                                    var div = document.getElementById('visualization_tab_div');
+                                    var data = getData();
+                                    var table = new google.visualization.Table(div);
+                                    table.draw(data, {
+                                        width: '100%',
+                                        allowHtml: true,
+                                        page: 'enable',
+                                        pageSize: 50
+                                    });
+                                    document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
+                                }
+                            }
+
+                            function getData() {
+                                var parameter = location.search.substring(1).split('&');
+                                var temp = [];
+
+                                // get the different parameters in the temp array in json format
+                                for (var i = 0; i < parameter.length; ++i){
+                                    var x = parameter[i].split("=");
+                                    temp[x[0]]=x[1];
+                                }
+                                var l = temp.datasetId;
+                                var urldata = '/mepa-front/api/dataSet/' + l + '/data'
+                                var jsondataset = $.ajax({
+                                    dataType: "json",
+                                    url :urldata,
+                                    async : false}) ;
+                                var b = JSON.parse(jsondataset.responseText);
+                                var data = new google.visualization.DataTable();
+                                var size = columns.length;
+
+                                for (var i = 0; i < columns.length; i++){
+                                    data.addColumn('string', columns[i]);
+                                }
+
+                                //columns only has the title of the columns, not the value inside
+                                for(var i = 0; i < b.data[columns[0]].value.length; i++){
+                                    data.addRows(1);
+                                }
+                                //i is column, j is row
+                                for (var i = 0; i < size; i++){
+                                    for (var j = 0; j < b.data[columns[0]].value.length;j++) {
+                                        data.setValue(j, i, b.data[columns[i]].value[j]);
+                                    }
+                                }
+                                return data;
+                            }
                             function initialize() {
 
-                                function drawTable() {
-                                    {
-                                        var div = document.getElementById('visualization_tab_div');
-                                        var data = getData();
-                                        var table = new google.visualization.Table(div);
-                                        table.draw(data,{width:'100%', allowHtml: true, page : 'enable', pageSize : 50  });
-                                        document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
-                                    }
-                                }
-                                function getData() {
-                                    var parameter = location.search.substring(1).split('&');
-                                    var temp = [];
-
-                                    // get the different parameters in the temp array in json format
-                                    for (var i = 0; i < parameter.length; ++i){
-                                        var x = parameter[i].split("=");
-                                        temp[x[0]]=x[1];
-                                    }
-                                    var l = temp.datasetId;
-                                    var urldata = '/mepa-front/api/dataSet/' + l + '/data'
-                                    var jsondataset = $.ajax({
-                                        dataType: "json",
-                                        url :urldata,
-                                        async : false}) ;
-                                    var b = JSON.parse(jsondataset.responseText);
-                                    var data = new google.visualization.DataTable();
-                                    var size = columns.length;
-
-                                    for (var i = 0; i < columns.length; i++){
-                                        data.addColumn('string', columns[i]);
-                                    }
-
-                                    //columns only has the title of the columns, not the value inside
-                                    for(var i = 0; i < b.data[columns[0]].value.length; i++){
-                                        data.addRows(1);
-                                    }
-                                    //i is column, j is row
-                                    for (var i = 0; i < size; i++){
-                                        for (var j = 0; j < b.data[columns[0]].value.length;j++) {
-                                            data.setValue(j, i, b.data[columns[i]].value[j]);
-                                        }
-                                    }
-                                    return data;
-                                }
                                 drawTable()
+                            }
+                            function updateTable(c){
+                                var checkVal = document.getElementById(c);
+                                console.log("updateTable : c is " + c + " entered with " + checkVal + " checked ? : " + checkVal.checked);
+                                if (!checkVal.checked) {
+                                    var i_col = columns.indexOf(c);
+                                    // remove value from array
+                                    console.log("updateTable : " + c + " removed");
+                                    columns.splice(i_col, 1);
+                                    drawTable();
+                                }
+                                else {
+                                    // true, we add it (again)
+                                    console.log("updateTable : " + c + " added again");
+                                    columns.push(c);
+                                    drawTable();
+                                }
+                            }
+                            function updateTable2(c){
+
                             }
                         </script>
                     </table>

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Data {
-    
+
     private ObjectId _id;
     private Map<String, List<String>> data;
 
