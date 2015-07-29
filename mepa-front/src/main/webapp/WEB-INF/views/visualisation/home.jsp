@@ -42,7 +42,6 @@
         else if(dataType == "3") {
             $("#carto-tab").addClass('active');
             $('#carto-view').addClass('in active');
-            alert('active');
         }
         else if(dataType == "4") {
             $("#info-tab").addClass('active');
@@ -93,7 +92,7 @@
                 <%-- Tabular view --%>
                     <div class="tab-pane fade" id="table-view">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                           <div class="panel panel-default">
+                           <div class="panel panel-default" id="admin">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title">
@@ -119,6 +118,11 @@
                             </c:forEach>;
 
 
+                            var admin = true;
+                            function getadmin(){
+
+                            }
+
                             google.load('visualization', '1.0',{packages:["table"]});
                             google.setOnLoadCallback(initialize);
 
@@ -133,6 +137,15 @@
                                         page: 'enable',
                                         pageSize: 50
                                     });
+                                    getadmin();
+                                    if (admin == false)
+                                    {
+                                        document.getElementById('admin').style.display="none";
+                                    }
+                                    else{
+                                        document.getElementById('admin').style.display="block";
+
+                                    }
                                     document.getElementById('line').innerHTML = "Number of line : " + data.getNumberOfRows();
                                 }
                             }
