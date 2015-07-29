@@ -157,7 +157,9 @@
                                 drawTable()
                             }
                             function updateTable(c){
-                                if ($("#".c).is(':checked') == false) {
+                                var checkVal = document.getElementById(c);
+                                console.log("updateTable : c is " + c + " entered with " + checkVal + " checked ? : " + checkVal.checked);
+                                if (!checkVal.checked) {
                                     var i_col = columns.indexOf(c);
                                     // remove value from array
                                     console.log("updateTable : " + c + " removed");
@@ -167,9 +169,12 @@
                                 else {
                                     // true, we add it (again)
                                     console.log("updateTable : " + c + " added again");
-                                    columns.add(c);
+                                    columns.push(c);
                                     drawTable();
                                 }
+                            }
+                            function updateTable2(c){
+
                             }
                         </script>
                     </table>
