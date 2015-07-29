@@ -117,7 +117,7 @@ function initialize() {
                     if (listAxe[horizontalAxe.value] == "TEXT" && val != "TEXT") {
                         $('#vertical-axe1').append('<option value=' + key + '>' + key + '</option>');
                     }
-                    else if (listAxe[horizontalAxe.value] != "TEXT") {
+                    else if (listAxe[horizontalAxe.value] != "TEXT" && val != "TEXT") {
                         $('#vertical-axe1').append('<option value=' + key + '>' + key + '</option>');
                     }
                 }
@@ -150,9 +150,7 @@ function addGraph() {
     graphCounter++;
     $("#line2").show();
     $("#add-chart").hide();
-
     $("#agregation-axe1").hide();
-
 
     document.getElementById('delete2').addEventListener('click', function() {
         graphCounter--;
@@ -160,7 +158,8 @@ function addGraph() {
         $("#agregation-axe1").show();
         $("#add-chart").show();
         verticalAxe2.value = "";
-        BuildDataTable();
+        if(verticalAxe1.value != "")
+            BuildDataTable();
     }, false);
 }
 
@@ -242,56 +241,9 @@ function max(array_elements) {
     return arrayOutput;
 }
 
-//Average function used for the agregation
-function moyenne(array_elements) {
-    array_elements.sort();
-
-    var arrayOutput = [];
-    var current = array_elements[0][0];
-    var sum = 0;
-    var cnt = 0;
-
-    for (var i = 0; i < array_elements.length; i++) {
-        if (array_elements[i][0] != current) {
-            arrayOutput.push([current, sum/cnt]);
-            cnt = 1;
-            sum = 0;
-        } else {
-            cnt ++;
-            sum = sum + array_elements[i][1];
-        }
-    }
-    arrayOutput.push([current, sum/cnt]);
-
-    return arrayOutput;
-}
-
-//Sum function used for the agregation
-function somme(array_elements) {
-    array_elements.sort();
-
-    var arrayOutput = [];
-    var current = array_elements[0][0];
-    var sum = 0;
-
-    for (var i = 0; i < array_elements.length; i++) {
-        if (array_elements[i][0] != current) {
-            arrayOutput.push([current, sum]);
-            current = array_elements[i][0];
-            sum = 0;
-        } else {
-            sum = sum + array_elements[i][1];
-        }
-    }
-    arrayOutput.push([current, sum]);
-
-    return arrayOutput;
-}
-
 function BuildDataTable() {
     $.ajax({
         url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
-        //url : '/api/dataSet/' + idDataSet + '/data.json',
         type : 'GET',
         dataType : 'json',
         success: function(dataSet) {
@@ -302,7 +254,6 @@ function BuildDataTable() {
             var v1 = verticalAxe1.value;
             var agreg1 = agregateFunc1.value;
             var v2 = verticalAxe2.value;
-            var agreg2 = agregateFunc2.value;
             var rows = [];
 
             if(listAxe[h1] == "TEXT")
@@ -319,38 +270,56 @@ function BuildDataTable() {
             if(listAxe[v1] == "DATE")
                 dataTable.addColumn('date', v1);
 
-            if(v2 != "" && v2 != null) {
+            var col1 = dataSet.data[h1].value;
+            var col2 = dataSet.data[v1].value;
+
+            for (var i = 0; i < col1.length;i++)
+            {
+                if(listAxe[h1] == "NUMBER")
+                {
+                    col1[i] = parseFloat(col1[i]);
+                }
+                if(listAxe[v1] == "NUMBER")
+                {
+                    col2[i] = parseFloat(col2[i]);
+                }
+            }
+
+            if(graphCounter == 2 && v2 != "" && v2 != v1) {
                 if (listAxe[v2] == "TEXT")
                     dataTable.addColumn('string', v2);
                 if (listAxe[v2] == "NUMBER")
                     dataTable.addColumn('number', v2);
                 if (listAxe[v2] == "DATE")
                     dataTable.addColumn('date', v2);
-            }
 
-            var col1 = dataSet.data[h1].value;
-            var col2 = dataSet.data[v1].value;
-            //var col3 = dataSet.data[v2].value;
+                var col3 = dataSet.data[v2].value;
 
-
-            if (agreg1 == "Count") {
-                rows = count(col1);
+                for (var i = 0; i < col3.length; i++)
+                {
+                    if(listAxe[v2] == "NUMBER")
+                    {
+                        col3[i] = parseFloat(col3[i]);
+                    }
+                }
+                while (col1.length != 0) {
+                    rows.push([col1.pop(), col2.pop(), col3.pop()]);
+                }
             }
             else {
-                while (col1.length != 0) {
-                    rows.push([col1.pop(), parseInt(col2.pop())]);
+                if (agreg1 == "Count") {
+                    rows = count(col1);
                 }
-                if (agreg1 == "Min") {
-                    rows = min(rows);
-                }
-                else if (agreg1 == "Max") {
-                    rows = max(rows);
-                }
-                else if (agreg1 == "Sum") {
-                    rows = somme(rows);
-                }
-                else if (agreg1 == "Average") {
-                    rows = moyenne(rows);
+                else {
+                    while (col1.length != 0) {
+                        rows.push([col1.pop(), col2.pop()]);
+                    }
+                    if (agreg1 == "Min") {
+                        rows = min(rows);
+                    }
+                    else if (agreg1 == "Max") {
+                        rows = max(rows);
+                    }
                 }
             }
             rows.sort();
@@ -373,7 +342,6 @@ function initializeHorizontalAxe() {
 
     $.ajax({
         url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
-        //url : '/api/dataSet/' + idDataSet + '.json',
         type : 'GET',
         dataType : 'json',
         success: function(data) {
@@ -391,44 +359,76 @@ function initializeHorizontalAxe() {
 
 //the admin will save the graph into the database.
 function saveGraphintoDB() {
-    //idDataSet
     var printedGraphType = graphType.value;
     var printedGraphColor1 = graphColor1;
     var printedGraphColor2 = graphColor2;
     var printedDataTable = dataTable;
 
-    //Requete API to store...
+    $.ajax({
+        url : '/mepa-front/api/SetGraph/' + idDataSet + '.json',
+        type : 'GET',
+        dataType : 'json',
+        success: function(graph) {
+
+        },
+        error: function() {
+            console.log("error while storing the graph with the API");
+        }
+    });
 }
 
 //get the graph from the database.
 function getGraphFromDB() {
-    //Get from database with idDataSet;
-    var printedGraphType = null;
-    var printedGraphColor1 = null;
-    var printedGraphColor2 = null;
-    var printedDataTable = null;
+    $.ajax({
+        url : '/mepa-front/api/GetGraph/' + idDataSet + '.json',
+        type : 'GET',
+        dataType : 'json',
+        success: function(graph) {
+            var printedGraphType = graph.grapheType;
+            var printedGraphColor1 = graph.grapheColor1;
+            var printedGraphColor2 = graph.grapheColor2;
+            var printedDataTable = graph.grapheJson;
 
-    chart.setChartType(printedGraphType);
-    chart.setOption('colors', [printedGraphColor1, printedGraphColor2]);
-    chart.setDataTable(printedDataTable);
-    chart.draw();
+            chart.setChartType(printedGraphType);
+            chart.setOption('colors', [printedGraphColor1, printedGraphColor2]);
+            chart.setDataTable(printedDataTable);
+            chart.draw();
+        },
+        error: function() {
+            console.log("error while getting the graph from API");
+        }
+    });
 }
 
 //Binding the button and the addGraph function when window is loaded
 window.addEventListener('load',function(){
-    if(true) {
+    $.ajax({
+        url : '/mepa-front/api/user/isConnected.Json',
+        type : 'GET',
+        dataType : 'json',
+        success: function(connection) {
+            console.log(connection);
+            if(true) {
+                $("#line2").hide();
+                initializeHorizontalAxe();
 
-        $("#line2").hide();
-        initializeHorizontalAxe();
+                document.getElementById('add-chart').addEventListener('click', function () {
+                    addGraph();
+                }, false);
 
-        document.getElementById('add-chart').addEventListener('click', function () {
-            addGraph();
-        }, false);
-    }
-    else
-    {
-        //remove HTML elements
-        $("#chart-view table").remove();
-
-    }
+                document.getElementById('save-graph').addEventListener('click', function () {
+                    saveGraphintoDB();
+                }, false);
+            }
+            else
+            {
+                //remove HTML elements
+                $("#chart-view table").remove();
+                getGraphFromDB();
+            }
+        },
+        error: function() {
+            console.log("error while getting the graph from API");
+        }
+    });
 });
