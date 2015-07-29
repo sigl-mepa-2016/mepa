@@ -7,11 +7,12 @@
 
     function setDataType(i) {
         dataType = i;
-        URL = URL.substring(0,URL.length-1)
+        URL = URL.substring(0,URL.length-1);
         URL = URL + dataType;
     }
 
     function openFBPopUp() {
+        console.log(URL);
         var FBPopUp = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(URL);
         window.open(FBPopUp,'MyWindow',width=100,height=100);
         return false;
