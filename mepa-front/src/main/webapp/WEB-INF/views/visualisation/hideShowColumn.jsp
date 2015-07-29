@@ -20,6 +20,7 @@
                 <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
                     <td>
                         <input type="checkbox" id="${column}" onchange="updateTable('${column}');" checked>
+                        <button onclick="updateTable2('${column}');" id="${column}" class="glyphicon glyphicon-chevron-right">
                     </td>
                 </c:forEach>
             </tr>

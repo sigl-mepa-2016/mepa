@@ -18,16 +18,23 @@
                         <li><a href="${homeUrl}">Home page</a></li>
                         <c:url var="api" value="/api/"/>
                         <li><a href="${api}">API</a></li>
+                        <c:choose>
+                            <c:when test="${cookie.token != null && cookie.token != ''}">
+                                <li id="userConnectedText">User connected</li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:url var="loginUrl" value="/login"/>
+                                <li><a href="${loginUrl}">Log in</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                     <c:choose>
-                        <c:when test="${cookie.token != null && cookie.token != ''}">
-                            <div style="color: #ffffff;" id="userConnectedText">User connected</div>
-                        </c:when>
-                        <c:otherwise>
-                            <div style="color: #ffffff;">User not connected</div>
-                            <c:url var="login" value="/login"/>
-                            <a href="${login}">Login</a>
-                        </c:otherwise>
+                         <c:when test="${cookie.token != null && cookie.token != ''}">
+                             <p class="connected">User connected</p>
+                         </c:when>
+                         <c:otherwise>
+                             <p class="connected">User not connected</p>
+                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
