@@ -32,30 +32,37 @@ public class DataSet implements Pojo {
         this.fieldMap = fieldMap;
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }
 
+    @XmlElement
     public String getOwner() {
         return owner;
     }
 
+    @XmlElement
     public String getTheme() {
         return theme;
     }
 
+    @XmlElement
     public Date getLastModified() {
         return lastModified;
     }
 
+    @XmlElement
     public Map<String, String> getFieldMap() {
         return fieldMap;
     }
 
+    @XmlElement
     public Boolean getIsCarto() {
         return isCarto;
     }
 
+    @XmlElement
     public Boolean getIsGraphic() {
         return isGraphic;
     }
