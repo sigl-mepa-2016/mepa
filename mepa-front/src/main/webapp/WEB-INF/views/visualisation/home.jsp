@@ -252,8 +252,6 @@
                                 <option>Count</option>
                                 <option>Min</option>
                                 <option>Max</option>
-                                <option>Sum</option>
-                                <option>Average</option>
                             </select>
                         </td>
                         <td>
