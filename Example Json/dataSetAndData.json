@@ -1,0 +1,41 @@
+GET
+URL: URL: /api/dataSet/
+
+GET
+URL: URL: /api/dataSet/{dataSetID}
+
+GET
+URL: URL: /api/dataSetWithData/{dataSetID}
+
+POST
+URL: /api/dataSet/
+Header:
+	Content-type: application/json
+	Authorization: 507f191e810c19729de860ea
+Body(raw):
+{
+	"name":"sigl Cambridge",
+	"owner":"lucas",
+	"theme":"EPITA",
+	"isCarto":true,
+	"isGraphic":true,
+	"fieldMap":{
+		"name":"TEXT",
+		"age":"NUMBER",
+		"stage":"TEXT"
+	}
+}
+	
+URL: /api/dataSet/{dataSetID}data
+Header:
+	Content-type: application/json
+	Authorization: 507f191e810c19729de860ea
+Body(raw):
+{
+  "data": 
+  {
+    "name": {"value": ["lucas","gauthier", "marin", "julien"]},
+    "age": {"value": ["22","22","22","22"]},
+    "stage": {"value": ["Microsoft","HP","SNCF","IBM"]}
+  }
+}

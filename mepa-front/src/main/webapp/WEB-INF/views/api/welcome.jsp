@@ -165,7 +165,7 @@
 
             <!-- Check Token -->
             <div class="panel panel-default">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
                     <div class="panel-heading" role="tab" id="headingEleven">
                         <h4 class="panel-title">
                             Check token
@@ -173,12 +173,13 @@
                     </div>
                 </a>
 
-                <div id="collapseEleven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
+                <div id="collapseEleven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEleven">
                     <div class="panel-body">
                         <%@ include file="CheckToken.jsp"%>
                     </div>
                 </div>
             </div>
+
             <!-- add User -->
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
@@ -198,15 +199,15 @@
 
             <!-- Remove User -->
             <div class="panel panel-default">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
                     <div class="panel-heading" role="tab" id="headingTwelve">
                         <h4 class="panel-title">
-                            add User
+                            Remove User
                         </h4>
                     </div>
                 </a>
 
-                <div id="collapseTwelve" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTen">
+                <div id="collapseTwelve" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwelve">
                     <div class="panel-body">
                         <%@ include file="RemoveUser.jsp"%>
                     </div>

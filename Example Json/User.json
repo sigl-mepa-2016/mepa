@@ -1,0 +1,23 @@
+POST
+URL: /api/user/addUser
+Header:
+	Content-type: application/json
+	Authorization: 507f191e810c19729de860ea
+Body(raw) (POST):
+{
+	"name":"sigl@mail.com",
+	"password": "sigl"
+}
+
+GET
+URL: /api/user/removeUser/{IDUSer}
+Header:
+	Content-type: application/json
+	Authorization: 507f191e810c19729de860ea
+
+
+GET
+URL: api/user/checkToken?token=507f191e810c19729de860ea
+
+GET	
+URL: api/user/token?name=sigl&password
