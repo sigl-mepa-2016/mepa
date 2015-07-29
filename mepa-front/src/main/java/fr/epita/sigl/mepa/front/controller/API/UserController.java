@@ -83,13 +83,4 @@ public class UserController {
         return new SuccessMessage("Success Remove");
     }
 
-    /**
-     *
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = "/isConnected", method = RequestMethod.GET)
-    public Pojo isConnected(@CookieValue(value = "token", defaultValue = "") String token) {
-        return checkToken(token);
-    }
 }
