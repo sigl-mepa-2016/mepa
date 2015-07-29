@@ -28,7 +28,8 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String checkLogin(@RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse response) {
+    public String checkLogin(@RequestParam(value = "inputEmail", defaultValue = "") String name, @RequestParam(value = "inputPassword", defaultValue = "") String password, HttpServletResponse response) {
+        LOG.debug("{}, {}", name, password);
         Pojo pojo = new UserController().getToken(name, password);
         if (pojo instanceof SuccessMessage) {
             response.addCookie(new Cookie("token", ((SuccessMessage) pojo).getMessage()));
