@@ -545,7 +545,7 @@ function drawMultipleMarkersOnMap() {
             async: false
         });
 
-        for (var i = 0; i < Object.keys(fieldValues).length - 1;  i++)
+        for (var i = 0; i < dataJson.data.latitude.value.length - 1;  i++)
         {
             var info = "";
 
@@ -571,9 +571,6 @@ function drawMultipleMarkersOnMap() {
     google.maps.event.addListener(map, 'click', function() {
         infowindow.close(map, this);
     });
-
-    //markerClusterer.clearMarkers();
-    //clearMarkers();
 }
 
 
