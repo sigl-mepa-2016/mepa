@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
@@ -59,6 +56,7 @@ public class DataSetController {
     @RequestMapping(value = {"/form"})
     public String showForm(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
+        //@CookieValue(value = "token", defaultValue = "") String token,
         Cookie[] cookies = request.getCookies();
         Cookie token = null;
         for (Cookie c : cookies)
@@ -66,9 +64,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/home/";
+                return "redirect:/home/";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/home/";
@@ -105,9 +103,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/home/";
+                return "redirect:/home/";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/home/";
@@ -177,9 +175,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/home/";
+                return "redirect:/home/";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/home/";
@@ -211,9 +209,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -244,9 +242,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/home/";
+                return "redirect:/home/";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/home/";
@@ -270,9 +268,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/home/";
+                return "redirect:/home/";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/home/";
@@ -310,9 +308,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -350,9 +348,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -395,9 +393,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -435,9 +433,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirAttr.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -474,9 +472,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirAttr.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -506,9 +504,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirAttr.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
@@ -564,9 +562,9 @@ public class DataSetController {
                 token = c;
 
         if (token != null) {
-            Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
             if (resultAuthorization instanceof ErrorMessage)
-                return "redirect:/dataSet/details";
+                return "redirect:/dataSet/details";*/
         } else {
             redirectAttributes.addAttribute("errorMessage", "You must be registered!");
             return "redirect:/dataSet/details";
