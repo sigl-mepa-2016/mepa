@@ -85,7 +85,14 @@
     </form:form>
 
     <!-- Tri -->
-
+    <c:url var="sortFormActionUrl" value="/search/Sort"/>
+    <form:form role="form" action="${sortFormActionUrl}" modelAttribute="sortFormAction" method="post">
+        <form:select path="sort">
+            <option value="date">Last Modification</option>
+            <option value="Title">Title</option>
+        </form:select>
+         <button type="submit" class="submit-button">Sort</button>
+    </form:form>
 
     <!-- Datasets -->
     <h2 class="white">Datasets in database</h2>

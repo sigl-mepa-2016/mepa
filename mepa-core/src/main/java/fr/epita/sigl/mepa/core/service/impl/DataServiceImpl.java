@@ -3,8 +3,10 @@ package fr.epita.sigl.mepa.core.service.impl;
 import fr.epita.sigl.mepa.core.dao.DataDao;
 import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.service.DataService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @Service
@@ -25,12 +27,12 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public void deleteData(String dataId) {
+    public void deleteData(ObjectId dataId) {
         this.dataDao.delete(dataId);
     }
 
     @Override
-    public Data getById(String id) {
+    public Data getById(ObjectId id) {
         return this.dataDao.getById(id);
     }
 }

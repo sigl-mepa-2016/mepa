@@ -1,6 +1,7 @@
 package fr.epita.sigl.mepa.core.service;
 
 import fr.epita.sigl.mepa.core.domain.Data;
+import org.bson.types.ObjectId;
 
 public interface DataService {
 
@@ -8,7 +9,7 @@ public interface DataService {
 
     void updateData(Data data);
 
-    void deleteData(String data);
+    void deleteData(ObjectId data);
 
-    Data getById(String id);
+    Data getById(ObjectId id);
 }

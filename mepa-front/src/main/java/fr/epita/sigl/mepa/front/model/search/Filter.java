@@ -53,7 +53,7 @@ public class Filter {
                 dateMap.put(date, 1);
             }
         }
-        listDataset = dataSets;
+        listDataset = sortByDate(dataSets);
         printAll(modelMap);
     }
 
@@ -116,5 +116,52 @@ public class Filter {
         return allDateDatasets;
     }
 
+
+    public static List<DataSet> sortByDate(List<DataSet> dataSets) {
+        int longueur = dataSets.size();
+        DataSet tampon;
+        boolean permut;
+
+        do {
+            // hypothèse : le tableau est trié
+            permut = false;
+            for (int i = 0; i < longueur - 1; i++) {
+                DataSet first = dataSets.get(i);
+                DataSet second = dataSets.get(i + 1);
+                // Teste si 2 éléments successifs sont dans le bon ordre ou non
+                if (first.getLastModified().before(second.getLastModified())) {
+                    // s'ils ne le sont pas, on échange leurs positions
+                    tampon = first;
+                    dataSets.set(i, second);
+                    dataSets.set(i + 1, tampon);
+                    permut = true;
+                }
+            }
+        } while (permut);
+        return dataSets;
+    }
+
+    public static List<DataSet> sortByTitle(List<DataSet> dataSets) {
+        int longueur = dataSets.size();
+        DataSet tampon;
+        boolean permut;
+        do {
+            // hypothèse : le tableau est trié
+            permut = false;
+            for (int i = 0; i < longueur - 1; i++) {
+                DataSet first = dataSets.get(i);
+                DataSet second = dataSets.get(i + 1);
+                // Teste si 2 éléments successifs sont dans le bon ordre ou non
+                if (first.getName().compareToIgnoreCase(second.getName()) > 0) {
+                    // s'ils ne le sont pas, on échange leurs positions
+                    tampon = first;
+                    dataSets.set(i, second);
+                    dataSets.set(i + 1, tampon);
+                    permut = true;
+                }
+            }
+        } while (permut);
+        return dataSets;
+    }
 }
 

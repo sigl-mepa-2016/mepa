@@ -4,6 +4,7 @@ import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class VisualisationController {
             String datasetId = request.getParameter("datasetId");
             String dataType = request.getParameter("dataType");
             int data_type = Integer.parseInt(dataType);
-            DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
-            Data data = this.dataService.getById(datasetId);
+            DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
+            Data data = this.dataService.getById(new ObjectId(datasetId));
             List<List<String>> dataList = new ArrayList<>();
             for (String column : data.getData().keySet()) {
                 dataList.add(data.getData().get(column));
