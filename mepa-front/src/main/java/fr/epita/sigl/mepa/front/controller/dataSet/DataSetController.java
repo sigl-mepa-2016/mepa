@@ -398,7 +398,7 @@ public class DataSetController {
                     List<String> dataList = data.getData().get(field);
                     if (null == dataList)
                         dataList = new ArrayList<>();
-                    String[] dataSplit = ";".split(line);
+                    String[] dataSplit = line.split(";");
                     dataList.add(dataSplit[i]);
                     data.getData().put(field, dataList);
                 }
@@ -407,7 +407,7 @@ public class DataSetController {
                 Map<String, List<String>> dataMap = new LinkedHashMap<>();
                 for (int i = 0; i < fields.length; ++i) {
                     List<String> value = new ArrayList<>();
-                    String[] dataSplit = ";".split(line);
+                    String[] dataSplit = line.split(";");
                     value.add(dataSplit[i]);
                     dataMap.put(fields[i].split("#")[0], value);
                 }
