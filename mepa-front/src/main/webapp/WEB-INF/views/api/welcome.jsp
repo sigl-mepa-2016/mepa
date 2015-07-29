@@ -151,7 +151,7 @@
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
                     <div class="panel-heading" role="tab" id="headingNine">
                         <h4 class="panel-title">
-                            Add Data to specific DataSet
+                            Get token
                         </h4>
                     </div>
                 </a>
@@ -164,7 +164,21 @@
             </div>
 
             <!-- Check Token -->
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                    <div class="panel-heading" role="tab" id="headingEleven">
+                        <h4 class="panel-title">
+                            Check token
+                        </h4>
+                    </div>
+                </a>
 
+                <div id="collapseEleven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
+                    <div class="panel-body">
+                        <%@ include file="CheckToken.jsp"%>
+                    </div>
+                </div>
+            </div>
             <!-- add User -->
             <div class="panel panel-default">
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
@@ -183,7 +197,21 @@
             </div>
 
             <!-- Remove User -->
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                    <div class="panel-heading" role="tab" id="headingTwelve">
+                        <h4 class="panel-title">
+                            add User
+                        </h4>
+                    </div>
+                </a>
 
+                <div id="collapseTwelve" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTen">
+                    <div class="panel-body">
+                        <%@ include file="RemoveUser.jsp"%>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
