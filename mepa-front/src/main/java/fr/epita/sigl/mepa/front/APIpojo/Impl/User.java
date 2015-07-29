@@ -3,6 +3,10 @@ package fr.epita.sigl.mepa.front.APIpojo.Impl;
 
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class User implements Pojo {
 
     private String name;
@@ -11,6 +15,7 @@ public class User implements Pojo {
     public User() {
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }
@@ -19,6 +24,7 @@ public class User implements Pojo {
         this.name = name;
     }
 
+    @XmlElement
     public String getPassword() {
         return password;
     }

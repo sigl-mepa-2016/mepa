@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.front.APIpojo.Impl;
 import fr.epita.sigl.mepa.core.domain.DataSetType;
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Data implements Pojo {
             this.data.put(entry.getKey(), new DataList(entry.getValue()));
     }
 
-
+    @XmlElement
     public Map<String, DataList> getData() {
         return data;
     }
@@ -119,6 +120,7 @@ class DataList {
     public DataList() {
     }
 
+    @XmlElement
     public List<String> getValue() {
         return value;
     }
