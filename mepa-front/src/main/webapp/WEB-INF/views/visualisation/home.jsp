@@ -44,6 +44,10 @@
             $('#carto-view').addClass('in active');
             alert('active');
         }
+        else if(dataType == "4") {
+            $("#info-tab").addClass('active');
+            $('#info-view').addClass('in active');
+        }
         else {
             $("#table-tab").addClass('active');
             $('#table-view').addClass('in active');
@@ -63,17 +67,33 @@
                 <img class="fb-share-button" onClick="openFBPopUp();" alt="" src="${logoFbURL}"/>
             </div>
             <ul class="nav nav-tabs">
+                <li id="info-tab"><a data-toggle="tab" href="#info-view" onclick="setDataType(4)">Info</a></li>
                 <li id="table-tab"><a data-toggle="tab" href="#table-view" onclick="setDataType(1)">Table</a></li>
                 <li id="chart-tab"><a data-toggle="tab" href="#chart-view" onclick="setDataType(2)">Chart</a></li>
                 <li id="carto-tab"><a data-toggle="tab" href="#carto-view" onclick="setDataType(3)">Map</a></li>
             </ul>
         </div>
         <div class="tab-content">
+                <%-- Info view --%>
+                <div id="info-view" class="tab-pane fade">
+                    <p>   <u>Theme</u> : ${dataset.theme}</p>
+                    <br/>
+                    <p>   <u>Name</u> : ${dataset.name}</p>
+                    <br/>
+                    <p>   <u>Owner</u> : ${dataset.owner}</p>
+                    <br/>
+                    <p>   <u>Date of last modification</u> : <fmt:formatDate value="${dataset.lastModified}" pattern="dd/MM/yyyy HH:mm:ss"/></p>
+                    <br/>
+                    <p>   <u>This dataset can be seen as a graph</u> : ${dataset.isGraphic}</p>
+                    <br/>
+                    <p>   <u>This dataset can be seen as a cartography</u> : ${dataset.isCarto}</p>
+                    <br/>
+                </div>
+                <%-- /Info view --%>
                 <%-- Tabular view --%>
                     <div class="tab-pane fade" id="table-view">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-                            <div class="panel panel-default">
+                           <div class="panel panel-default">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title">
@@ -309,6 +329,7 @@
             <link rel="stylesheet" href="${mapCssUrl}" type="text/css" />
             <script type="text/javascript" src="<spring:url value="/js/map.js"/>"></script>
             <%-- /Carto view --%>
+
         </div>
     </div>
 </div>
