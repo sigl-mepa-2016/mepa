@@ -42,7 +42,6 @@
         else if(dataType == "3") {
             $("#carto-tab").addClass('active');
             $('#carto-view').addClass('in active');
-            alert('active');
         }
         else if(dataType == "4") {
             $("#info-tab").addClass('active');
