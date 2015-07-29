@@ -1,0 +1,20 @@
+POST
+URL: /api/graph/
+Header:
+	Content-type: application/json
+	Authorization: 507f191e810c19729de860ea
+Body(raw) (POST):
+{
+    "id" : "55b8b41bd737e71d98e76f99",
+    "grapheType": "LineChart", 
+    "grapheColor1" : "ff8800", 
+    "grapheColor2" : "ff8800",
+    "grapheJson" : "{\"vp\": \"test\",\"ts\": \"test\"}"
+}
+
+GET
+URL: /api/graph/{DataSetID}
+
+
+
+
