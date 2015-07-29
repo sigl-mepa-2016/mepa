@@ -115,8 +115,8 @@ public class APIController {
      * @param authorization
      * @return
      */
-    @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.POST)
-    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet InputDataSet, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+    @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.POST)
+    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody(required = false) fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet InputDataSet, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         Pojo resultAuthorization = checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
@@ -134,7 +134,7 @@ public class APIController {
 
         Data data = this.dataService.getById(new ObjectId(dataSetID));
 
-        for (Map.Entry<String, List<String>> entry : ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data)oldDataSet).dataInList().entrySet())
+        for (Map.Entry<String, String> entry : ((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) oldDataSet).getFieldMap().entrySet())
             if (!updateDataSet.getFieldMap().containsKey(entry.getKey()))
                 data.getData().remove(entry.getKey());
 
