@@ -307,27 +307,27 @@
                     <div class="panel-body">
                         Arrondissements<br>
                         <div class="btn-group" role="group">
-                            <button id="tous" type="button" class="btn btn-default btn-xs">Tous</button><br><br>
+                            <button id="tous" type="button" class="btn btn-default btn-xs">Tous</button><br><br><br>
                             <button id="1er" type="button" class="btn btn-default btn-xs">1er</button>
                             <button id="2e" type="button" class="btn btn-default btn-xs">2e</button>
                             <button id="3e" type="button" class="btn btn-default btn-xs">3e</button>
-                            <button id="4e" type="button" class="btn btn-default btn-xs">4e</button><br>
+                            <button id="4e" type="button" class="btn btn-default btn-xs">4e</button><br><br>
                             <button id="5e" type="button" class="btn btn-default btn-xs">5e</button>
                             <button id="6e" type="button" class="btn btn-default btn-xs">6e</button>
                             <button id="7e" type="button" class="btn btn-default btn-xs">7e</button>
-                            <button id="8e" type="button" class="btn btn-default btn-xs">8e</button><br>
+                            <button id="8e" type="button" class="btn btn-default btn-xs">8e</button><br><br>
                             <button id="9e" type="button" class="btn btn-default btn-xs">9e</button>
                             <button id="10e" type="button" class="btn btn-default btn-xs">10e</button>
                             <button id="11e" type="button" class="btn btn-default btn-xs">11e</button>
-                            <button id="12e" type="button" class="btn btn-default btn-xs">12e</button><br>
+                            <button id="12e" type="button" class="btn btn-default btn-xs">12e</button><br><br>
                             <button id="13e" type="button" class="btn btn-default btn-xs">13e</button>
                             <button id="14e" type="button" class="btn btn-default btn-xs">14e</button>
                             <button id="15e" type="button" class="btn btn-default btn-xs">15e</button>
-                            <button id="16e" type="button" class="btn btn-default btn-xs">16e</button><br>
+                            <button id="16e" type="button" class="btn btn-default btn-xs">16e</button><br><br>
                             <button id="17e" type="button" class="btn btn-default btn-xs">17e</button>
                             <button id="18e" type="button" class="btn btn-default btn-xs">18e</button>
                             <button id="19e" type="button" class="btn btn-default btn-xs">19e</button>
-                            <button id="20e" type="button" class="btn btn-default btn-xs">20e</button><br>
+                            <button id="20e" type="button" class="btn btn-default btn-xs">20e</button><br><br>
                             <button id="seine" type="button" class="btn btn-default btn-xs">Seine</button>
                         </div>
                     </div>
