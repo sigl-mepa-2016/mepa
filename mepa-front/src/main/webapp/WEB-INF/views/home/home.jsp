@@ -4,6 +4,8 @@
 
 <div class="container">
 
+    <div style="color: #FF0000;">${errorMessage}</div>
+
     <!-- Home message-->
         <div class="welcome-content">
             <div class="welcome-content-inner">
