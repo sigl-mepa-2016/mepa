@@ -1,11 +1,11 @@
 <%@ include file="/WEB-INF/views/includes/common.jsp" %>
 
-        <form class="/login" id="login-form">
+        <form class="form-signin" action="/mepa-front/login" method="POST" id="login-form">
                 <div class="heading">Please sign in</div>
                          <label for="inputEmail" class="sr-only">Email address</label>
-                         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="inputEmail">
                          <label for="inputPassword" class="sr-only">Password</label>
-                         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="inputPassword">
                  <div class="checkbox">
                  <label>
                 <input type="checkbox" value="remember-me"> Remember me

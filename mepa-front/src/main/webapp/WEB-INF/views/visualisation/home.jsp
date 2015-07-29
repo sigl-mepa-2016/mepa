@@ -42,7 +42,6 @@
         else if(dataType == "3") {
             $("#carto-tab").addClass('active');
             $('#carto-view').addClass('in active');
-            alert('active');
         }
         else if(dataType == "4") {
             $("#info-tab").addClass('active');
@@ -92,6 +91,8 @@
                 <%-- /Info view --%>
                 <%-- Tabular view --%>
                     <div class="tab-pane fade" id="table-view">
+                        <c:choose>
+                        <c:when test="${cookie.token != null && cookie.token != ''}">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                            <div class="panel panel-default">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -109,6 +110,8 @@
                                 </div>
                             </div>
                         </div>
+                            </c:when>
+                            </c:choose>
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
 
