@@ -23,10 +23,19 @@
                                 <li>User connected</li>
                             </c:when>
                             <c:otherwise>
-                                <li>User Not connected</li>
+                                <c:url var="loginUrl" value="/login"/>
+                                <li><a href="${loginUrl}">Log in</a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
+                    <c:choose>
+                         <c:when test="${cookie.token != null && cookie.token != ''}">
+                             <p class="connected">User connected</p>
+                         </c:when>
+                         <c:otherwise>
+                             <p class="connected">User not connected</p>
+                         </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
