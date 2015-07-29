@@ -39,7 +39,7 @@ public class HomeController {
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
         // Update model attribute "datasets", to use it in JSP
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, datasets);
-        Filter.initFilter(modelMap, datasets);
+        Filter.initFilter(modelMap, datasets, "");
         return "/home/home";
     }
 

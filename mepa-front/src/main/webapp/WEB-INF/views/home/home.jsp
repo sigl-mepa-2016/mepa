@@ -88,8 +88,18 @@
     <c:url var="sortFormActionUrl" value="/search/Sort"/>
     <form:form role="form" action="${sortFormActionUrl}" modelAttribute="sortFormAction" method="post">
         <form:select path="sort">
-            <option value="date">Last Modification</option>
-            <option value="Title">Title</option>
+        <c:choose>
+            <c:when test="${sort_selected}">
+                <option value="date">Last Modification</option>
+                <option value="Title" selected>Title</option>
+            </c:when>
+            <c:otherwise>
+                <option value="date" selected>Last Modification</option>
+                <option value="Title">Title</option>
+            </c:otherwise>
+        </c:choose>
+
+
         </form:select>
          <button type="submit" class="submit-button">Sort</button>
     </form:form>

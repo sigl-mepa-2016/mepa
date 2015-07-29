@@ -49,7 +49,7 @@ public class SearchController {
         String searchString = parSearchForm.getSearch();
         List<DataSet> dataSets;
         // Get models data from database
-        if (Filter.listDataset.isEmpty()){
+        if (Filter.listDataset == null){
             dataSets = this.modelService.getAllDataSets();
         } else {
             dataSets = Filter.listDataset;
@@ -66,9 +66,10 @@ public class SearchController {
             }
         }
 
-        modelsResult = searchMultiWord(dataSets, searchString, modelsResult);
         Filter.listFilter.add("Search : " + searchString);
-        Filter.initFilter(modelMap, modelsResult);
+        List<DataSet> datasets = this.modelService.getAllDataSets();
+        modelsResult = computeAllFilter(datasets);
+        Filter.initFilter(modelMap, modelsResult, "");
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, modelsResult);
         return "/home/home";
@@ -78,7 +79,7 @@ public class SearchController {
     public String getCarto(HttpServletRequest request, ModelMap modelMap) {
         List<DataSet> dataSets;
         // Get models data from database
-        if (Filter.listDataset.isEmpty()){
+        if (Filter.listDataset  == null){
             dataSets = this.modelService.getAllDataSets();
         } else {
             dataSets = Filter.listDataset;
@@ -90,7 +91,7 @@ public class SearchController {
         } else {
             allCartoDatasets = dataSets;
         }
-        Filter.initFilter(modelMap, allCartoDatasets);
+        Filter.initFilter(modelMap, allCartoDatasets, "");
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allCartoDatasets);
         return "/home/home";
@@ -101,7 +102,7 @@ public class SearchController {
     public String getGraphic(HttpServletRequest request, ModelMap modelMap) {
         List<DataSet> dataSets;
         // Get models data from database
-        if (Filter.listDataset.isEmpty()){
+        if (Filter.listDataset  == null){
             dataSets = this.modelService.getAllDataSets();
         } else {
             dataSets = Filter.listDataset;
@@ -115,7 +116,7 @@ public class SearchController {
             allGraphicDatasets = dataSets;
         }
 
-        Filter.initFilter(modelMap, allGraphicDatasets);
+        Filter.initFilter(modelMap, allGraphicDatasets, "");
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allGraphicDatasets);
         return "/home/home";
@@ -128,7 +129,7 @@ public class SearchController {
 
         List<DataSet> dataSets;
         // Get models data from database
-        if (Filter.listDataset.isEmpty()){
+        if (Filter.listDataset  == null){
             dataSets = this.modelService.getAllDataSets();
         } else {
             dataSets = Filter.listDataset;
@@ -140,7 +141,7 @@ public class SearchController {
         } else {
             allThemeDatasets = dataSets;
         }
-        Filter.initFilter(modelMap, allThemeDatasets);
+        Filter.initFilter(modelMap, allThemeDatasets,"");
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allThemeDatasets);
         return "/home/home";
@@ -152,7 +153,7 @@ public class SearchController {
 
         List<DataSet> dataSets;
         // Get models data from database
-        if (Filter.listDataset.isEmpty()){
+        if (Filter.listDataset  == null){
             dataSets = this.modelService.getAllDataSets();
         } else {
             dataSets = Filter.listDataset;
@@ -165,7 +166,7 @@ public class SearchController {
         } else {
             allDateDatasets = dataSets;
         }
-        Filter.initFilter(modelMap, allDateDatasets);
+        Filter.initFilter(modelMap, allDateDatasets, "");
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, allDateDatasets);
         return "/home/home";
@@ -177,59 +178,64 @@ public class SearchController {
         String filterToCancel = request.getParameter("CancelFilter");
         Filter.listFilter.remove(filterToCancel);
         List<DataSet> datasets = this.modelService.getAllDataSets();
+        datasets = computeAllFilter(datasets);
+        Filter.initFilter(modelMap, datasets,"");
+        //mise a jour de la liste de models résultats
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, datasets);
+        return "/home/home";
+    }
+
+    public List<DataSet> computeAllFilter(List<DataSet> datasets){
         List<DataSet> newDataset = new ArrayList<>();
 
         for (String s : Filter.listFilter){
             LOG.debug("begin");
+            LOG.debug(s);
             newDataset.clear();
             for (DataSet d : datasets) {
                 LOG.debug(d.getName());
             }
             if (s.contains("Search : ")){
-                String searchString = s.substring(8);
+                String searchString = s.substring(9);
+                LOG.debug("search");
                 LOG.debug(searchString);
-                newDataset.addAll(datasets);
-                datasets = searchMultiWord(datasets, searchString, newDataset);
+                newDataset = searchMultiWord(datasets, searchString, newDataset);
 
             }else if (s.contains("Date : ")){
                 String date = s.substring(7);
                 LOG.debug(date);
-                datasets = Filter.DateFilter(datasets, newDataset, date);
-
+                newDataset = Filter.DateFilter(datasets, newDataset, date);
             }
             else if (s.contains("Theme : ")){
                 String theme = s.substring(8);
                 LOG.debug(theme);
-                datasets = Filter.ThemeFilter(datasets, newDataset, theme);
-
+                newDataset = Filter.ThemeFilter(datasets, newDataset, theme);
             }
             else if (s.contains("View : Graphic")){
                 LOG.debug("Graphic");
-                datasets = Filter.GraphicFilter(datasets, newDataset);
+                newDataset = Filter.GraphicFilter(datasets, newDataset);
 
             }
             else if (s.contains("View : Cartography")){
                 LOG.debug("Carto");
-                datasets = Filter.CartoFilter(datasets, newDataset);
+                newDataset = Filter.CartoFilter(datasets, newDataset);
             }
-            LOG.debug("after");
+            datasets.clear();
+            datasets.addAll(newDataset);
+            LOG.debug("AFTER");
             for (DataSet d : datasets) {
                 LOG.debug(d.getName());
             }
-            LOG.debug("end");
+            LOG.debug("END");
         }
-
-        Filter.initFilter(modelMap, datasets);
-        //mise a jour de la liste de models résultats
-        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, datasets);
-        return "/home/home";
+        return datasets;
     }
 
     @RequestMapping(value = { "/CancelAll" })
     public String getCancelAll(HttpServletRequest request, ModelMap modelMap) {
         List<DataSet> dataSets = this.modelService.getAllDataSets();
         Filter.listFilter.clear();
-        Filter.initFilter(modelMap, dataSets);
+        Filter.initFilter(modelMap, dataSets, "");
 
         //mise a jour de la liste de models résultats
         modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, dataSets);
@@ -240,21 +246,15 @@ public class SearchController {
     public String getSort(HttpServletRequest request, ModelMap modelMap, SortForm sortForm) {
         List<DataSet> dataSets;
         // Get models data from database
-        if (Filter.listDataset.isEmpty()){
+        if (Filter.listDataset  == null){
             dataSets = this.modelService.getAllDataSets();
         } else {
             dataSets = Filter.listDataset;
         }
         String sort = sortForm.getSort();
-        List<DataSet> sortedDatasets;
-        if (sort.equals("Title")){
-            sortedDatasets = Filter.sortByTitle(dataSets);
-        } else {
-            sortedDatasets = Filter.sortByDate(dataSets);
-        }
-        Filter.initFilter(modelMap, sortedDatasets);
+        Filter.initFilter(modelMap, dataSets, sort);
         //mise a jour de la liste de models résultats
-        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, sortedDatasets);
+        modelMap.addAttribute(MODELS_SEARCH_MODEL_ATTRIBUTE, Filter.listDataset);
         return "/home/home";
     }
 
