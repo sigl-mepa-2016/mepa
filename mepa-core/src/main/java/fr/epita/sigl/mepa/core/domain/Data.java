@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Data {
-
-    @MongoObjectId
+    
     private ObjectId _id;
     private Map<String, List<String>> data;
 

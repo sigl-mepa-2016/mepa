@@ -151,8 +151,6 @@
                         </script>
                     </table>
                         <div id="line"></div>
-                    <c:url var="customTable" value="/dataVisualisationTab/customVisualisationTab?datasetId=${dataset._id}"/>
-                    <a role="button" class="btn btn-default" href="${customTable}">Custom table</a>
                     </div>
             <%-- /Tabular view --%>
             <%-- Chart view --%>
