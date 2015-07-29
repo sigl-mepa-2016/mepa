@@ -112,12 +112,24 @@ function initialize() {
         if(horizontalAxe.value != "" && hozizontalBool == false) {
 
             $.each(listAxe, function (key, val) {
-                if(key != horizontalAxe.value)
-                    $('#vertical-axe1').append('<option value=' + key + '>' + key + '</option>');
+                if(key != horizontalAxe.value) {
+                    if (listAxe[horizontalAxe.value] == "TEXT" && val != "TEXT") {
+                        $('#vertical-axe1').append('<option value=' + key + '>' + key + '</option>');
+                    }
+                    else if (listAxe[horizontalAxe.value] != "TEXT") {
+                        $('#vertical-axe1').append('<option value=' + key + '>' + key + '</option>');
+                    }
+                }
             });
             $.each(listAxe, function (key, val) {
-                if(key != horizontalAxe.value)
-                    $('#vertical-axe2').append('<option value=' + key + '>' + key + '</option>');
+                if(key != horizontalAxe.value) {
+                    if (listAxe[horizontalAxe.value] == "TEXT" && val != "TEXT") {
+                        $('#vertical-axe2').append('<option value=' + key + '>' + key + '</option>');
+                    }
+                    else if (listAxe[horizontalAxe.value] != "TEXT") {
+                        $('#vertical-axe2').append('<option value=' + key + '>' + key + '</option>');
+                    }
+                }
             });
             hozizontalBool = true;
 
@@ -288,44 +300,52 @@ function BuildDataTable() {
             var agreg2 = agregateFunc2.value;
             var rows = [];
 
-            dataTable.addColumn('string', h1);
-            dataTable.addColumn('number', v1);
+            if(listAxe[h1] == "TEXT")
+                dataTable.addColumn('string', h1);
+            if(listAxe[h1] == "NUMBER")
+                dataTable.addColumn('number', h1);
+            if(listAxe[h1] == "DATE")
+                dataTable.addColumn('number', h1);
 
-            if(graphCounter == 2 && v2 != "" && v1 != "" && v1 != v2) {
-                dataTable.addColumn('number', v2);
+            if(listAxe[v1] == "TEXT")
+                dataTable.addColumn('string', v1);
+            if(listAxe[v1] == "NUMBER")
+                dataTable.addColumn('number', v1);
+            if(listAxe[v1] == "DATE")
+                dataTable.addColumn('date', v1);
 
-                var col1 = dataSet.data[h1];
-                var col2 = dataSet.data[v1];
-                var col3 = dataSet.data[v2];
+            if(v2 != "" && v2 != null) {
+                if (listAxe[v2] == "TEXT")
+                    dataTable.addColumn('string', v2);
+                if (listAxe[v2] == "NUMBER")
+                    dataTable.addColumn('number', v2);
+                if (listAxe[v2] == "DATE")
+                    dataTable.addColumn('date', v2);
+            }
 
-                while (col1.length != 0)
-                {
-                    rows.push([col1.pop(), parseInt(col2.pop()), parseInt(col3.pop())]);
-                }
+            var col1 = dataSet.data[h1].value;
+            var col2 = dataSet.data[v1].value;
+            //var col3 = dataSet.data[v2].value;
+
+
+            if (agreg1 == "Count") {
+                rows = count(col1);
             }
             else {
-                var col1 = dataSet.data[h1];
-                var col2 = dataSet.data[v1];
-
-                if (agreg1 == "Count") {
-                    rows = count(col1);
+                while (col1.length != 0) {
+                    rows.push([col1.pop(), parseInt(col2.pop())]);
                 }
-                else {
-                    while (col1.length != 0) {
-                        rows.push([col1.pop(), parseInt(col2.pop())]);
-                    }
-                    if (agreg1 == "Min") {
-                        rows = min(rows);
-                    }
-                    else if (agreg1 == "Max") {
-                        rows = max(rows);
-                    }
-                    else if (agreg1 == "Sum") {
-                        rows = somme(rows);
-                    }
-                    else if (agreg1 == "Average") {
-                        rows = moyenne(rows);
-                    }
+                if (agreg1 == "Min") {
+                    rows = min(rows);
+                }
+                else if (agreg1 == "Max") {
+                    rows = max(rows);
+                }
+                else if (agreg1 == "Sum") {
+                    rows = somme(rows);
+                }
+                else if (agreg1 == "Average") {
+                    rows = moyenne(rows);
                 }
             }
             rows.sort();
@@ -353,12 +373,6 @@ function initializeHorizontalAxe() {
         dataType : 'json',
         success: function(data) {
             listAxe = data.fieldMap;
-            /*
-            listAxe =  {"student name":"String",
-            "student age":"integer",
-            "Student Height":"integer",
-            "Student Grade":"integer"};
-            */
             $.each(listAxe, function(key, val)
             {
                 $('#horizontal-axe').append('<option value=' + key + '>' + key + '</option>');
@@ -370,12 +384,47 @@ function initializeHorizontalAxe() {
     });
 }
 
+//the admin will save the graph into the database.
+function saveGraphintoDB() {
+    //idDataSet
+    var printedGraphType = graphType.value;
+    var printedGraphColor1 = graphColor1;
+    var printedGraphColor2 = graphColor2;
+    var printedDataTable = dataTable;
+
+    //Requete API to store...
+}
+
+//get the graph from the database.
+function getGraphFromDB() {
+    //Get from database with idDataSet;
+    var printedGraphType = null;
+    var printedGraphColor1 = null;
+    var printedGraphColor2 = null;
+    var printedDataTable = null;
+
+    chart.setChartType(printedGraphType);
+    chart.setOption('colors', [printedGraphColor1, printedGraphColor2]);
+    chart.setDataTable(printedDataTable);
+    chart.draw();
+}
+
+
 //Binding the button and the addGraph function when window is loaded
 window.addEventListener('load',function(){
-    $("#line2").hide();
-    initializeHorizontalAxe();
+    if(false) {
 
-    document.getElementById('add-chart').addEventListener('click', function() {
-        addGraph();
-    }, false);
+        $("#line2").hide();
+        initializeHorizontalAxe();
+
+        document.getElementById('add-chart').addEventListener('click', function () {
+            addGraph();
+        }, false);
+    }
+    else
+    {
+        //remove HTML elements
+        $("#chart-view table").remove();
+
+    }
 });
