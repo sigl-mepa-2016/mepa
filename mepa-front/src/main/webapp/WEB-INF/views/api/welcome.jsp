@@ -113,16 +113,77 @@
             </div>
 
             <!-- Get data from specific DataSet -->
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    <div class="panel-heading" role="tab" id="headingSeven">
+                        <h4 class="panel-title">
+                            Get data from specific DataSet
+                        </h4>
+                    </div>
+                </a>
+
+                <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+                    <div class="panel-body">
+                        <%@ include file="DataFromSpecificDataSet.jsp"%>
+                    </div>
+                </div>
+            </div>
 
             <!-- Add Data to specific DataSet -->
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                    <div class="panel-heading" role="tab" id="headingEight">
+                        <h4 class="panel-title">
+                            Add Data to specific DataSet
+                        </h4>
+                    </div>
+                </a>
+
+                <div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
+                    <div class="panel-body">
+                        <%@ include file="AddDataToSpecificDataSet.jsp"%>
+                    </div>
+                </div>
+            </div>
 
             <!-- Get Token -->
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                    <div class="panel-heading" role="tab" id="headingNine">
+                        <h4 class="panel-title">
+                            Add Data to specific DataSet
+                        </h4>
+                    </div>
+                </a>
+
+                <div id="collapseNine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
+                    <div class="panel-body">
+                        <%@ include file="getToken.jsp"%>
+                    </div>
+                </div>
+            </div>
 
             <!-- Check Token -->
 
             <!-- add User -->
+            <div class="panel panel-default">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                    <div class="panel-heading" role="tab" id="headingTen">
+                        <h4 class="panel-title">
+                            add User
+                        </h4>
+                    </div>
+                </a>
+
+                <div id="collapseTen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTen">
+                    <div class="panel-body">
+                        <%@ include file="adduser.jsp"%>
+                    </div>
+                </div>
+            </div>
 
             <!-- Remove User -->
+
 
         </div>
     </div>
