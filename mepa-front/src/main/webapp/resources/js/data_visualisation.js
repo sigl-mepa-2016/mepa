@@ -244,7 +244,6 @@ function max(array_elements) {
 function BuildDataTable() {
     $.ajax({
         url : '/mepa-front/api/dataSet/' + idDataSet + '/data.json',
-        //url : '/api/dataSet/' + idDataSet + '/data.json',
         type : 'GET',
         dataType : 'json',
         success: function(dataSet) {
@@ -343,7 +342,6 @@ function initializeHorizontalAxe() {
 
     $.ajax({
         url : '/mepa-front/api/dataSet/' + idDataSet + '.json',
-        //url : '/api/dataSet/' + idDataSet + '.json',
         type : 'GET',
         dataType : 'json',
         success: function(data) {
@@ -361,44 +359,76 @@ function initializeHorizontalAxe() {
 
 //the admin will save the graph into the database.
 function saveGraphintoDB() {
-    //idDataSet
     var printedGraphType = graphType.value;
     var printedGraphColor1 = graphColor1;
     var printedGraphColor2 = graphColor2;
     var printedDataTable = dataTable;
 
-    //Requete API to store...
+    $.ajax({
+        url : '/mepa-front/api/SetGraph/' + idDataSet + '.json',
+        type : 'GET',
+        dataType : 'json',
+        success: function(graph) {
+
+        },
+        error: function() {
+            console.log("error while storing the graph with the API");
+        }
+    });
 }
 
 //get the graph from the database.
 function getGraphFromDB() {
-    //Get from database with idDataSet;
-    var printedGraphType = null;
-    var printedGraphColor1 = null;
-    var printedGraphColor2 = null;
-    var printedDataTable = null;
+    $.ajax({
+        url : '/mepa-front/api/GetGraph/' + idDataSet + '.json',
+        type : 'GET',
+        dataType : 'json',
+        success: function(graph) {
+            var printedGraphType = graph.grapheType;
+            var printedGraphColor1 = graph.grapheColor1;
+            var printedGraphColor2 = graph.grapheColor2;
+            var printedDataTable = graph.grapheJson;
 
-    chart.setChartType(printedGraphType);
-    chart.setOption('colors', [printedGraphColor1, printedGraphColor2]);
-    chart.setDataTable(printedDataTable);
-    chart.draw();
+            chart.setChartType(printedGraphType);
+            chart.setOption('colors', [printedGraphColor1, printedGraphColor2]);
+            chart.setDataTable(printedDataTable);
+            chart.draw();
+        },
+        error: function() {
+            console.log("error while getting the graph from API");
+        }
+    });
 }
 
 //Binding the button and the addGraph function when window is loaded
 window.addEventListener('load',function(){
-    if(true) {
+    $.ajax({
+        url : '/mepa-front/api/user/isConnected.Json',
+        type : 'GET',
+        dataType : 'json',
+        success: function(connection) {
+            console.log(connection);
+            if(true) {
+                $("#line2").hide();
+                initializeHorizontalAxe();
 
-        $("#line2").hide();
-        initializeHorizontalAxe();
+                document.getElementById('add-chart').addEventListener('click', function () {
+                    addGraph();
+                }, false);
 
-        document.getElementById('add-chart').addEventListener('click', function () {
-            addGraph();
-        }, false);
-    }
-    else
-    {
-        //remove HTML elements
-        $("#chart-view table").remove();
-
-    }
+                document.getElementById('save-graph').addEventListener('click', function () {
+                    saveGraphintoDB();
+                }, false);
+            }
+            else
+            {
+                //remove HTML elements
+                $("#chart-view table").remove();
+                getGraphFromDB();
+            }
+        },
+        error: function() {
+            console.log("error while getting the graph from API");
+        }
+    });
 });

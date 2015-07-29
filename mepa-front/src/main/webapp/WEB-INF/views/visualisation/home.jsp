@@ -231,6 +231,9 @@
                             </select>
                             <br/>
                         </td>
+                        <td>
+                            <input type="button" id="save-graph" value="Save Graph"/>
+                        </td>
                     </tr>
                     <tr>
                         <td>
