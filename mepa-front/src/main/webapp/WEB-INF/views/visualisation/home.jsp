@@ -23,9 +23,10 @@
         return false;
     }
 
-    function getEncodeURIComponent()
-    {
-        return encodeURIComponent(URL);
+    function openGPPopUp() {
+        var GPlusPopUp = "https://plus.google.com/share?url=" + encodeURIComponent(URL);
+        window.open(GPlusPopUp,'MyWindow',width=100,height=100);
+        return false;
     }
 
     $(document).ready(function() {
@@ -67,8 +68,10 @@
             <div class="btn-group pull-right">
                 <c:url var="logoFbURL" value="/img/fb.png"/>
                 <c:url var="logoTwURL" value="/img/tw.png"/>
+                <c:url var="logoGPlusURL" value="/img/gplus.png"/>
                 <img class="tw-share-button" onClick="openTWPopUp();" alt="" src="${logoTwURL}"/>
                 <img class="fb-share-button" onClick="openFBPopUp();" alt="" src="${logoFbURL}"/>
+                <img class="gplus-share-button" onClick="openGPPopUp();" alt="" src="${logoGPlusURL}"/>
             </div>
             <ul class="nav nav-tabs">
                 <li id="info-tab"><a data-toggle="tab" href="#info-view" onclick="setDataType(4)">Info</a></li>
@@ -96,8 +99,8 @@
                 <%-- /Info view --%>
                 <%-- Tabular view --%>
                     <div class="tab-pane fade" id="table-view">
-                        <%--<c:choose>--%>
-                        <%--<c:when test="${cookie.token != null && cookie.token != ''}">--%>
+                        <c:choose>
+                        <c:when test="${cookie.token != null && cookie.token != ''}">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                            <div class="panel panel-default">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -115,8 +118,8 @@
                                 </div>
                             </div>
                         </div>
-                            <%--</c:when>--%>
-                            <%--</c:choose>--%>
+                            </c:when>
+                            </c:choose>
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
 

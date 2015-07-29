@@ -147,6 +147,14 @@ a:hover, a:focus, a:active {color: rgb(239, 89, 57);}
     cursor:pointer;
 }
 
+.gplus-share-button
+{
+    float: right;
+    margin-right: 15px;
+    cursor:pointer;
+}
+
+
 .connected{
     vertical-align: middle;
     text-align: right;
