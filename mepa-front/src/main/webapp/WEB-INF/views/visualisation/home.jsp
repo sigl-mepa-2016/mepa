@@ -12,7 +12,6 @@
     }
 
     function openFBPopUp() {
-        console.log(URL);
         var FBPopUp = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(URL);
         window.open(FBPopUp,'MyWindow',width=100,height=100);
         return false;
