@@ -69,7 +69,6 @@
                 <c:url var="logoTwURL" value="/img/tw.png"/>
                 <img class="tw-share-button" onClick="openTWPopUp();" alt="" src="${logoTwURL}"/>
                 <img class="fb-share-button" onClick="openFBPopUp();" alt="" src="${logoFbURL}"/>
-                <g:plus action="share" annotation="bubble" href="getEncodeURIComponent()"></g:plus>
             </div>
             <ul class="nav nav-tabs">
                 <li id="info-tab"><a data-toggle="tab" href="#info-view" onclick="setDataType(4)">Info</a></li>
