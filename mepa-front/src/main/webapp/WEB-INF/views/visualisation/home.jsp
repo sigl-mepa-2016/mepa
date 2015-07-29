@@ -251,17 +251,6 @@
                     </tr>
                     <tr id="line2">
                         <td>
-                            <strong>Agregation function :</strong>
-                            <select id="agregation-axe2">
-                                <option></option>
-                                <option>Count</option>
-                                <option>Min</option>
-                                <option>Max</option>
-                                <option>Sum</option>
-                                <option>Average</option>
-                            </select>
-                        </td>
-                        <td>
                             <strong>Vertical Axe 2 :</strong>
                             <select id="vertical-axe2">
                                 <option></option>

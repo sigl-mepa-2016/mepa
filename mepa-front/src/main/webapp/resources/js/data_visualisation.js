@@ -37,7 +37,6 @@ var hozizontalBool = false;
 var verticalAxe1;
 var agregateFunc1;
 var verticalAxe2;
-var agregateFunc2;
 
 
 //Initializing elements when google visualisation is loaded
@@ -51,7 +50,6 @@ function initialize() {
     verticalAxe2 = document.getElementById('vertical-axe2');
 
     agregateFunc1 = document.getElementById('agregation-axe1');
-    agregateFunc2 = document.getElementById('agregation-axe2');
 
     graphType = document.getElementById('graph-type');
     pointsQuantity = document.getElementById('points-quantity');
@@ -97,10 +95,13 @@ function initialize() {
     }
 
     agregateFunc1.onchange = function () {
-        BuildDataTable();
-    }
-
-    agregateFunc2.onchange = function () {
+        if(agregateFunc1.value != "")
+        {
+            $("#add-chart").hide();
+        }
+        else {
+            $("#add-chart").show();
+        }
         BuildDataTable();
     }
 
@@ -150,9 +151,13 @@ function addGraph() {
     $("#line2").show();
     $("#add-chart").hide();
 
+    $("#agregation-axe1").hide();
+
+
     document.getElementById('delete2').addEventListener('click', function() {
         graphCounter--;
         $("#line2").hide();
+        $("#agregation-axe1").show();
         $("#add-chart").show();
         verticalAxe2.value = "";
         BuildDataTable();
@@ -409,10 +414,9 @@ function getGraphFromDB() {
     chart.draw();
 }
 
-
 //Binding the button and the addGraph function when window is loaded
 window.addEventListener('load',function(){
-    if(false) {
+    if(true) {
 
         $("#line2").hide();
         initializeHorizontalAxe();
