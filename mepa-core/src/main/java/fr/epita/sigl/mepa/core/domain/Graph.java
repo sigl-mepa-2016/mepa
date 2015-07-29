@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.core.domain;
 import org.bson.types.ObjectId;
 
 public class Graph {
+
     private ObjectId _id;
     private String grapheType;
     private String grapheColor1;

@@ -363,6 +363,9 @@ public class DataSetController {
         Object[] fields = dataSet.getFieldMap().keySet().toArray();
 
         for (int i = 0; i < fields.length; ++i) {
+            DataSetType type = DataSetType.valueOf(dataSet.getFieldMap().get(fields[i]));
+            if (false == DataSetType.checkType(fieldsValues[i], type))
+                return "redirect:/dataSet/details";
             String column = fields[i].toString();
             data.getData().get(column).remove(Integer.parseInt(paramMap.get("index")[0]));
             data.getData().get(column).add(Integer.parseInt(paramMap.get("index")[0]), fieldsValues[i]);
@@ -517,6 +520,9 @@ public class DataSetController {
         Data data = this.dataService.getById(new ObjectId(datasetId));
         if (null != data) {
             for (int i = 0; i < fields.length; ++i) {
+                DataSetType type = DataSetType.valueOf(dataSet.getFieldMap().get(fields[i]));
+                if (false == DataSetType.checkType(fieldsValues[i], type))
+                    return "redirect:/dataSet/details";
                 String column = fields[i].toString();
                 List<String> dataList = data.getData().get(column);
                 dataList.add(fieldsValues[i]);
@@ -526,6 +532,9 @@ public class DataSetController {
         } else {
             Map<String, List<String>> dataMap = new LinkedHashMap<>();
             for (int i = 0; i < fields.length; ++i) {
+                DataSetType type = DataSetType.valueOf(dataSet.getFieldMap().get(fields[i]));
+                if (false == DataSetType.checkType(fieldsValues[i], type))
+                    return "redirect:/dataSet/details";
                 List<String> value = new ArrayList<>();
                 value.add(fieldsValues[i]);
                 dataMap.put(fields[i].toString(), value);
@@ -537,7 +546,6 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        redirAttr.addAttribute("datasetId", datasetId);
         return "redirect:/dataSet/details";
     }
 
@@ -585,10 +593,17 @@ public class DataSetController {
                 if (!field.contains("#"))
                     return "redirect:/dataSet/details";
                 else
+<<<<<<< HEAD
                     if (field.split("#")[1].equals("TEXT") || field.split("#")[1].equals("NUMBER"))
                         dataset.addField(field.split("#")[0], field.split("#")[1]);
                     else
                         return "redirect:/dataSet/details";
+=======
+                if (field.split("#")[1].equals("TEXT") || field.split("#")[1].equals("NUMBER"))
+                    dataset.addField(field.split("#")[0], field.split("#")[1]);
+                else
+                    return "redirect:/dataSet/details";
+>>>>>>> 0fa5a7bb73a79841e746defa7c63d0442f38db3b
             }
             this.dataSetService.updateDataSet(dataset);
             dataset = this.dataSetService.getDataSetById(new ObjectId(datasetId));
@@ -606,6 +621,7 @@ public class DataSetController {
 
         String line;
         while (null != (line = reader.readLine())) {
+            boolean isCorrect = true;
             // Read CSV + update/create data
             if (null != data) {
                 for (int i = 0; i < fields.length; ++i) {
@@ -614,21 +630,36 @@ public class DataSetController {
                     if (null == dataList)
                         dataList = new ArrayList<>();
                     String[] dataSplit = line.split(";");
+
+                    DataSetType type = DataSetType.valueOf(dataset.getFieldMap().get(field));
+                    if (false == DataSetType.checkType(dataSplit[i], type))
+                        isCorrect = false;
+
                     dataList.add(dataSplit[i]);
                     data.getData().put(field, dataList);
                 }
-                this.dataService.updateData(data);
+                if (isCorrect)
+                    this.dataService.updateData(data);
+                else
+                    data = this.dataService.getById(new ObjectId(datasetId));
             } else {
                 Map<String, List<String>> dataMap = new LinkedHashMap<>();
                 for (int i = 0; i < fields.length; ++i) {
                     List<String> value = new ArrayList<>();
                     String[] dataSplit = line.split(";");
+
+                    DataSetType type = DataSetType.valueOf(dataset.getFieldMap().get(fields[i].split("#")[0]));
+                    if (false == DataSetType.checkType(dataSplit[i], type))
+                        isCorrect = false;
+
                     value.add(dataSplit[i]);
                     dataMap.put(fields[i].split("#")[0], value);
                 }
-                Data toCreate = new Data(datasetId, dataMap);
-                this.dataService.createData(toCreate);
-                data = toCreate;
+                if (isCorrect) {
+                    Data toCreate = new Data(datasetId, dataMap);
+                    this.dataService.createData(toCreate);
+                    data = toCreate;
+                }
             }
         }
         reader.close();

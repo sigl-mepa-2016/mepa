@@ -21,7 +21,7 @@
                     </ul>
                     <c:choose>
                         <c:when test="${cookie.token != null && cookie.token != ''}">
-                            <div style="color: #ffffff;">User connected</div>
+                            <div style="color: #ffffff;" id="userConnectedText">User connected</div>
                         </c:when>
                         <c:otherwise>
                             <div style="color: #ffffff;">User not connected</div>
