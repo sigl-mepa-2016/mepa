@@ -70,4 +70,15 @@
         <put-attribute name="body" value="/WEB-INF/views/visualisation/home.jsp" />
     </definition>
 
+    <!-- User -->
+    <definition name="user.definition" extends="base.definition">
+        <put-attribute name="title" value="login.title" />
+    </definition>
+    <definition name="login/login" extends="user.definition">
+        <put-attribute name="body" value="/WEB-INF/views/login/login.jsp" />
+    </definition>
+    <definition name="login/erreur" extends="user.definition">
+        <put-attribute name="body" value="/WEB-INF/views/login/erreur.jsp" />
+    </definition>
+
 </tiles-definitions>
