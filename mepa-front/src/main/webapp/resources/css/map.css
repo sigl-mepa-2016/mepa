@@ -1,3 +1,15 @@
+.carto-div-left {
+    margin-top: 2%;
+    max-width:75%;
+    float:left;
+}
+
+.carto-div-right {
+    margin-top: 2%;
+    width:85%;
+    float:right;
+}
+
 .map-canvas {
     height: 70%;
     width: 80%;
