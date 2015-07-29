@@ -42,7 +42,6 @@
         else if(dataType == "3") {
             $("#carto-tab").addClass('active');
             $('#carto-view').addClass('in active');
-            alert('active');
         }
         else if(dataType == "4") {
             $("#info-tab").addClass('active');
@@ -235,6 +234,9 @@
                             </select>
                             <br/>
                         </td>
+                        <td>
+                            <input type="button" id="save-graph" value="Save Graph"/>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -256,8 +258,6 @@
                                 <option>Count</option>
                                 <option>Min</option>
                                 <option>Max</option>
-                                <option>Sum</option>
-                                <option>Average</option>
                             </select>
                         </td>
                         <td>

@@ -21,12 +21,12 @@ public class Filter {
     public static int size;
     public static HashMap<String, Integer> themeMap;
     public static HashMap<String, Integer> dateMap;
-    public static List<DataSet> listDataset = new ArrayList<>();
+    public static List<DataSet> listDataset = null;
     protected static final String THEME_FILTER_ATTRIBUTE = "themeFilter";
     protected static final String DATE_FILTER_ATTRIBUTE = "dateFilter";
     protected static final String FILTER_ATTRIBUTE = "filters";
 
-    public static void initFilter(ModelMap modelMap, List<DataSet> dataSets) {
+    public static void initFilter(ModelMap modelMap, List<DataSet> dataSets, String sort) {
         List<DataSet> allCartoDatasets = new ArrayList<>();
         List<DataSet> allGraphicDatasets = new ArrayList<>();
         getCartoAndGraphicDataset(allCartoDatasets, allGraphicDatasets, dataSets);
@@ -44,7 +44,7 @@ public class Filter {
                 themeMap.put(theme, 1);
             }
             Date lastModified = dataSet.getLastModified();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
             String date = df.format(lastModified);
             if (dateMap.containsKey(date)) {
                 Integer numberOfOccurence = dateMap.get(date);
@@ -53,7 +53,13 @@ public class Filter {
                 dateMap.put(date, 1);
             }
         }
-        listDataset = sortByDate(dataSets);
+        if (sort.equals("Title")){
+            listDataset = sortByTitle(dataSets);
+            modelMap.addAttribute("sort_selected", true);
+        } else {
+            listDataset = sortByDate(dataSets);
+            modelMap.addAttribute("sort_selected", false);
+        }
         printAll(modelMap);
     }
 
@@ -107,7 +113,7 @@ public class Filter {
     public static List<DataSet> DateFilter(List<DataSet> dataSets, List<DataSet> allDateDatasets, String yearChoose) {
         for (DataSet dataSet : dataSets) {
             Date lastModified = dataSet.getLastModified();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
             String date = df.format(lastModified);
             if (yearChoose.equals(date)){
                 allDateDatasets.add(dataSet);
@@ -140,6 +146,8 @@ public class Filter {
         } while (permut);
         return dataSets;
     }
+
+
 
     public static List<DataSet> sortByTitle(List<DataSet> dataSets) {
         int longueur = dataSets.size();
