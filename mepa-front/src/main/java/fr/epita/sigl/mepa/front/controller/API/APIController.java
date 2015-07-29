@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.front.controller.API;
 
 import fr.epita.sigl.mepa.core.domain.Data;
 import fr.epita.sigl.mepa.core.domain.DataSet;
+import fr.epita.sigl.mepa.core.domain.DataSetType;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.DataSetWithData;
@@ -16,15 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class APIController {
-    private static String ADMIN_NAME = "admin";
-    private static String ADMIN_PASSWORD = "admin";
-    private static String ADMIN_TOKEN = "507f191e810c19729de860ea";
 
     private static final Logger LOG = LoggerFactory.getLogger(APIController.class);
 
@@ -59,7 +59,7 @@ public class APIController {
     public Pojo schemaDataSet(@PathVariable String dataSetID) {
         DataSet dataSet;
         try {
-            dataSet = dataSetService.getDataSetById(dataSetID);
+            dataSet = dataSetService.getDataSetById(new ObjectId(dataSetID));
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
@@ -82,7 +82,6 @@ public class APIController {
             return new DataSetWithData((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet, (fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data);
     }
 
-
     /**
      * Specific application/json in Content-type
      *
@@ -91,8 +90,8 @@ public class APIController {
      */
     @RequestMapping(value = "/dataSet", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
-        Pojo resultAuthorization = checkToken(authorization);
+    public Pojo addDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+        Pojo resultAuthorization = new UserController().checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
 
@@ -104,23 +103,54 @@ public class APIController {
         return (this.dataSetService.createDataSet(newdataSet)) ? new SuccessMessage("id: " + newdataSet.get_id().toString()) : new ErrorMessage("Missing Field");
     }
 
+    /**
+     * Update DataSet, with specific id give in arg
+     *
+     * @param dataSetID
+     * @param InputDataSet
+     * @param authorization
+     * @return
+     */
     @RequestMapping(value = "/dataSet/{dataSetId}", method = RequestMethod.POST)
-    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet dataSet, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
-        Pojo resultAuthorization = checkToken(authorization);
+    public Pojo updateDataSet(@PathVariable String dataSetID, @RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet InputDataSet, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+        Pojo resultAuthorization = new UserController().checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
 
-        if (!ObjectId.isValid(dataSetID))
-            return new ErrorMessage("Invalid ID");
+        Pojo oldDataSet = schemaDataSet(dataSetID);
+        if (oldDataSet instanceof ErrorMessage)
+            return new ErrorMessage("Invalid Id");
 
-        DataSet updateDataSet = new DataSet(dataSetID, dataSet.getName(), dataSet.getOwner(), dataSet.getTheme(), dataSet.getIsCarto(), dataSet.getIsGraphic(), new Date());
+        DataSet updateDataSet = new DataSet(dataSetID, InputDataSet.getName(), InputDataSet.getOwner(), InputDataSet.getTheme(), InputDataSet.getIsCarto(), InputDataSet.getIsGraphic(), new Date());
 
-        for (Map.Entry<String, String> entry : dataSet.getFieldMap().entrySet())
+        for (Map.Entry<String, String> entry : InputDataSet.getFieldMap().entrySet())
             if (!updateDataSet.addField(entry.getKey(), entry.getValue()))
-                return new ErrorMessage("Invalid Type in DataSet, only Text and Int are accepted");
+                return new ErrorMessage("Invalid Type in DataSet, only Text and NUMBER are accepted");
+
+
+        Data data = this.dataService.getById(new ObjectId(dataSetID));
+
+        for (Map.Entry<String, List<String>> entry : ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data)oldDataSet).getDataInList().entrySet())
+            if (!updateDataSet.getFieldMap().containsKey(entry.getKey()))
+                data.getData().remove(entry.getKey());
+
+        for (Map.Entry<String, String> entry : updateDataSet.getFieldMap().entrySet())
+        {
+            if (!updateDataSet.getFieldMap().containsKey(entry.getKey())) {
+                List<String> generateData = new ArrayList<>();
+                if (entry.getValue().equals(DataSetType.NUMBER.toString()))
+                    generateData.add("0");
+                else
+                    generateData.add("");
+                data.getData().put(entry.getKey(), generateData);
+            }
+        }
+
+        this.dataService.updateData(data);
 
         return (this.dataSetService.updateDataSet(updateDataSet)) ? new SuccessMessage("id: " + updateDataSet.get_id().toString()) : new ErrorMessage("Missing Field");
     }
+
 
     /**
      * Remove DataSet and Data in database
@@ -129,14 +159,15 @@ public class APIController {
      * @return Message Pojo
      */
     @RequestMapping(value = "/dataSet/{dataSetID}", method = RequestMethod.DELETE)
-    public Pojo deleteDataSet(@PathVariable String dataSetID, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
-        Pojo resultAuthorization = checkToken(authorization);
+    public Pojo deleteDataSet(@PathVariable String dataSetID, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+        Pojo resultAuthorization = new UserController().checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
 
         try {
-            this.dataSetService.deleteDataSet(dataSetID);
-            this.dataService.deleteData(dataSetID);
+            ObjectId dataSetObjectId = new ObjectId(dataSetID);
+            this.dataSetService.deleteDataSet(dataSetObjectId);
+            this.dataService.deleteData(dataSetObjectId);
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
@@ -153,7 +184,7 @@ public class APIController {
     public Pojo dataOfDataSet(@PathVariable String dataSetID) {
         Data data;
         try {
-            data = dataService.getById(dataSetID);
+            data = dataService.getById(new ObjectId(dataSetID));
         } catch (IllegalArgumentException e) {
             return new ErrorMessage("Invalid ID");
         }
@@ -171,18 +202,18 @@ public class APIController {
      * @return Pojo Message
      */
     @RequestMapping(value = "/dataSet/{dataSetID}/data", method = RequestMethod.POST)
-    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID, @RequestHeader(value="Authorization", defaultValue="") String authorization) {
+    public Pojo addDataOfDataSet(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.Data dataInput, @PathVariable String dataSetID, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
 
-        Pojo resultAuthorization = checkToken(authorization);
+        Pojo resultAuthorization = new UserController().checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)
             return resultAuthorization;
-
-        if (!dataInput.validInput())
-            return new ErrorMessage("invalid number of Input");
 
         Pojo dataSet = schemaDataSet(dataSetID);
         if (dataSet instanceof ErrorMessage)
             return new ErrorMessage("invalid id");
+
+        if (!dataInput.validInput((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
+            return new ErrorMessage("invalid number of Input");
 
         if (!dataInput.checkDataType((fr.epita.sigl.mepa.front.APIpojo.Impl.DataSet) dataSet))
             return new ErrorMessage("invalid type in Input");
@@ -195,18 +226,6 @@ public class APIController {
             this.dataService.updateData(new Data(dataSetID, ((fr.epita.sigl.mepa.front.APIpojo.Impl.Data) data).getDataInList()));
         }
         return new SuccessMessage("Success add Data in DataSet");
-    }
-
-    @RequestMapping(value = "/token", method = RequestMethod.GET, params = {"name", "password"})
-    public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
-        return (name.equals(ADMIN_NAME) && password.equals(ADMIN_PASSWORD)) ? new SuccessMessage("token: " + ADMIN_TOKEN) : new ErrorMessage("Invalid password or user");
-    }
-
-    @RequestMapping(value = "/checkToken", method = RequestMethod.GET, params = "token")
-    public Pojo checkToken(@RequestParam String token) {
-        if (token.isEmpty())
-            return new ErrorMessage("Missing Authentification");
-        return (token.equals(ADMIN_TOKEN)) ? new SuccessMessage("valid Token") : new ErrorMessage("Invalid Token");
     }
 
 }

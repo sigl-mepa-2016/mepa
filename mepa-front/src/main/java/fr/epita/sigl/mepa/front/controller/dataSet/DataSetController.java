@@ -10,6 +10,7 @@ import fr.epita.sigl.mepa.front.dataSet.AddCustomDataFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataSetFormBean;
 import fr.epita.sigl.mepa.front.model.search.SearchForm;
 import fr.epita.sigl.mepa.front.model.search.SortForm;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,14 +69,13 @@ public class DataSetController {
     }
 
     /**
-     * @param request
      * @param modelMap
      * @param addCustomDataSetFormBean
      * @param result
      * @return
      */
     @RequestMapping(value = {"/add"}, method = {RequestMethod.POST})
-    public String processForm(HttpServletRequest request, ModelMap modelMap,
+    public String processForm(ModelMap modelMap,
                               @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
                               BindingResult result) {
 
@@ -96,7 +96,8 @@ public class DataSetController {
         modelMap.addAttribute("datasets", allDataSets);
 
         modelMap.addAttribute("dataset", newDataSet);
-        return "/home/home";
+
+        return "redirect:/home/";
     }
 
     /**
@@ -108,13 +109,13 @@ public class DataSetController {
     public String showDetails(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
         modelMap.addAttribute("size", 0);
 
-        Data data = this.dataService.getById(datasetId);
+        Data data = this.dataService.getById(new ObjectId(datasetId));
         if (null != data) {
             List<List<String>> dataList = new ArrayList<>();
             for (String column : data.getData().keySet()) {
@@ -134,25 +135,25 @@ public class DataSetController {
     public String showDelete(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
 
-        this.dataSetService.deleteDataSet(datasetId);
+        this.dataSetService.deleteDataSet(new ObjectId(datasetId));
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        return "redirect:/home/";
     }
 
     @RequestMapping(value = {"/deleteData"})
     public String showDeleteData(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
         modelMap.addAttribute("dataset", dataSet);
 
-        Data data = this.dataService.getById(datasetId);
+        Data data = this.dataService.getById(new ObjectId(datasetId));
         for (String column : data.getData().keySet()) {
             data.getData().get(column).remove(Integer.parseInt(paramMap.get("index")[0]));
         }
@@ -170,7 +171,7 @@ public class DataSetController {
     public String showUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
 
         return "/dataSet/updateDatasetForm";
@@ -178,11 +179,10 @@ public class DataSetController {
 
     @RequestMapping(value = {"/update"}, method = {RequestMethod.POST})
     public String processUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap,
-                                           @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
-                                           BindingResult result) {
+                                           @Valid AddCustomDataSetFormBean addCustomDataSetFormBean) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
 
         dataSet.setName(addCustomDataSetFormBean.getName());
@@ -195,18 +195,18 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        return "/home/home";
+        return "redirect:/home/";
     }
 
     @RequestMapping(value = {"/updateDataForm"})
     public String showUpdateDataForm(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
         modelMap.addAttribute("dataset", dataSet);
 
-        Data data = this.dataService.getById(datasetId);
+        Data data = this.dataService.getById(new ObjectId(datasetId));
         Map<String, String> columnToValueMap = new LinkedHashMap<>();
         for (String column : data.getData().keySet()) {
             columnToValueMap.put(column, data.getData().get(column).get(Integer.parseInt(paramMap.get("index")[0])));
@@ -219,14 +219,14 @@ public class DataSetController {
 
     @RequestMapping(value = {"/updateData"}, method = {RequestMethod.POST})
     public String processUpdateDataForm(HttpServletRequest request, ModelMap modelMap,
-                                           @Valid AddCustomDataFormBean addCustomDataFormBean,
-                                           BindingResult result, RedirectAttributes redirAttr) {
+                                        @Valid AddCustomDataFormBean addCustomDataFormBean,
+                                        RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
 
-        Data data = this.dataService.getById(datasetId);
+        Data data = this.dataService.getById(new ObjectId(datasetId));
         String[] fieldsValues = paramMap.get("fields");
         Object[] fields = dataSet.getFieldMap().keySet().toArray();
 
@@ -250,7 +250,7 @@ public class DataSetController {
     public String showColumnForm(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
 
         Map<String, String> typeValueList = new LinkedHashMap<>();
@@ -264,10 +264,10 @@ public class DataSetController {
     @RequestMapping(value = {"/addColumn"}, method = {RequestMethod.POST})
     public String processColumnForm(HttpServletRequest request, ModelMap modelMap,
                                     @Valid AddCustomColumnFormBean addCustomColumnFormBean,
-                                    BindingResult result, RedirectAttributes redirAttr) {
+                                    RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
 
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
@@ -298,7 +298,7 @@ public class DataSetController {
     public String showDataForm(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
@@ -307,17 +307,17 @@ public class DataSetController {
 
     @RequestMapping(value = {"/addData"}, method = {RequestMethod.POST})
     public String processDataForm(HttpServletRequest request, ModelMap modelMap,
-                                    @Valid AddCustomDataFormBean addCustomDataFormBean,
-                                    BindingResult result, RedirectAttributes redirAttr) {
+                                  @Valid AddCustomDataFormBean addCustomDataFormBean,
+                                  RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
-        DataSet dataSet = this.dataSetService.getDataSetById(datasetId);
+        DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
 
         String[] fieldsValues = paramMap.get("fields");
         Object[] fields = dataSet.getFieldMap().keySet().toArray();
 
-        Data data = this.dataService.getById(datasetId);
+        Data data = this.dataService.getById(new ObjectId(datasetId));
         if (null != data) {
             for (int i = 0; i < fields.length; ++i) {
                 String column = fields[i].toString();
@@ -345,21 +345,21 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/uploadCSV"}, method = {RequestMethod.POST})
-    public String uploadCSV(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) throws IOException, ServletException {
+    public String uploadCSV(HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException, ServletException {
 
         Map<String, String[]> paramMap = request.getParameterMap();
         String datasetId = paramMap.get("datasetId")[0];
 
         redirectAttributes.addAttribute("datasetId", datasetId);
 
-        DataSet dataset = this.dataSetService.getDataSetById(datasetId);
-        Data data = this.dataService.getById(datasetId);
+        DataSet dataset = this.dataSetService.getDataSetById(new ObjectId(datasetId));
+        Data data = this.dataService.getById(new ObjectId(datasetId));
 
         Part part = request.getPart("file");
         InputStream fileContent = part.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(fileContent));
         String fieldlist = reader.readLine();
-        String[] fields = null;
+        String[] fields;
 
         if (null != fieldlist)
             fields = fieldlist.split(";");
@@ -370,13 +370,13 @@ public class DataSetController {
 
         if (datasetFields.length == 0) {
             for (String field : fields) {
-                if (false == field.contains("#"))
+                if (!field.contains("#"))
                     return "redirect:/dataSet/details";
                 else
                     dataset.addField(field.split("#")[0], field.split("#")[1]);
             }
             this.dataSetService.updateDataSet(dataset);
-            dataset = this.dataSetService.getDataSetById(datasetId);
+            dataset = this.dataSetService.getDataSetById(new ObjectId(datasetId));
             datasetFields = dataset.getFieldMap().keySet().toArray();
         }
 
@@ -385,11 +385,11 @@ public class DataSetController {
             String typeCSV = fields[i].split("#")[1];
             String fieldDataset = (String) datasetFields[i];
             String typeDataset = dataset.getFieldMap().get(fieldDataset);
-            if (false == fieldCSV.equals(fieldDataset) && false == typeCSV.equals(typeDataset))
+            if (!fieldCSV.equals(fieldDataset) && !typeCSV.equals(typeDataset))
                 return "redirect:/dataSet/details";
         }
 
-        String line = "";
+        String line;
         while (null != (line = reader.readLine())) {
             // Read CSV + update/create data
             if (null != data) {
@@ -398,7 +398,7 @@ public class DataSetController {
                     List<String> dataList = data.getData().get(field);
                     if (null == dataList)
                         dataList = new ArrayList<>();
-                    String[] dataSplit = line.split(";");
+                    String[] dataSplit = ";".split(line);
                     dataList.add(dataSplit[i]);
                     data.getData().put(field, dataList);
                 }
@@ -407,7 +407,7 @@ public class DataSetController {
                 Map<String, List<String>> dataMap = new LinkedHashMap<>();
                 for (int i = 0; i < fields.length; ++i) {
                     List<String> value = new ArrayList<>();
-                    String[] dataSplit = line.split(";");
+                    String[] dataSplit = ";".split(line);
                     value.add(dataSplit[i]);
                     dataMap.put(fields[i].split("#")[0], value);
                 }
