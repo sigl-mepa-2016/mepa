@@ -57,7 +57,7 @@ public class GraphController {
         return new SuccessMessage("success update");
     }
 
-    private Pojo checkToken( String token) {
+    private Pojo checkToken(String token) {
         if (token.isEmpty())
             return new ErrorMessage("Missing Authentification");
 

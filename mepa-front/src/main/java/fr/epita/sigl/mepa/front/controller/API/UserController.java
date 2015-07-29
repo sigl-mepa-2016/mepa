@@ -6,12 +6,17 @@ import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.SuccessMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
 
     public static String ADMIN_TOKEN = "507f191e810c19729de860ea";
 
@@ -58,9 +63,11 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public Pojo addUser(fr.epita.sigl.mepa.front.APIpojo.Impl.User inputUser, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+    public Pojo addUser(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.User inputUser, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         if (!authorization.equals(ADMIN_TOKEN))
             return new ErrorMessage("Invalid Admin Token");
+
+    LOG.debug("{}", inputUser);
         this.userService.create(new User(inputUser.getName(), inputUser.getPassword()));
         return new SuccessMessage("Success Add");
     }
