@@ -20,12 +20,13 @@ public class GraphController {
     @Autowired
     private GraphService graphService;
 
-    @RequestMapping(value = "/get/{dataSetID}", method = RequestMethod.GET)
-    public Graph getGraphConf(@PathVariable String dataSetID) {
-        return this.graphService.getById(dataSetID  );
+    @RequestMapping(value = "/{dataSetID}", method = RequestMethod.GET)
+    public GraphInput getGraphConf(@PathVariable String dataSetID) {
+         Graph graph = this.graphService.getById(dataSetID);
+        return new GraphInput(graph.get_id().toString(), graph.getGrapheType(), graph.getGrapheColor1(), graph.getGrapheColor2(), graph.getGrapheJson());
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public Pojo setGraphConf(@RequestBody GraphInput graphInput, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         Pojo resultAuthorization = new UserController().checkToken(authorization);
         if (resultAuthorization instanceof ErrorMessage)

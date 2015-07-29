@@ -2,6 +2,7 @@ package fr.epita.sigl.mepa.core.dao.impl;
 
 import fr.epita.sigl.mepa.core.dao.GraphDao;
 import fr.epita.sigl.mepa.core.domain.Graph;
+import org.bson.types.ObjectId;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,6 @@ public class GrapDapImpl extends Dao implements GraphDao {
 
     @Override
     public Graph getById(String id) {
-        return this.graphCollection.findOne("{_id: #}", id).as(Graph.class);
+        return this.graphCollection.findOne("{_id: #}", new ObjectId(id)).as(Graph.class);
     }
 }
