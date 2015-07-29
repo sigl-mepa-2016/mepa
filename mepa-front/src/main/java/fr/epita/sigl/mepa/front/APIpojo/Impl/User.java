@@ -32,4 +32,12 @@ public class User implements Pojo {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

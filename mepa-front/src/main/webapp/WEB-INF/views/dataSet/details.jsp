@@ -2,6 +2,8 @@
 
 <div class="container">
 
+    <div style="color: #FF0000;">${errorMessage}</div>
+
     <c:set var="id" value="${dataset._id}"/>
     <c:choose>
         <c:when  test="${empty dataset.fieldMap}">

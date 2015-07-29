@@ -357,106 +357,13 @@ function initializeHorizontalAxe() {
     });
 }
 
-//the admin will save the graph into the database.
-function saveGraphintoDB() {
-    var printedGraphType = graphType.value;
-    var printedGraphColor1 = graphColor1;
-    var printedGraphColor2 = graphColor2;
-    var printedDataTable = dataTable;
-
-    $.ajax({
-        url : '/mepa-front/api/graph/' + idDataSet,
-        type : 'GET',
-        dataType : 'json',
-        success: function(graph) {
-            if(graph != null)
-            {
-                //il y a déjà un graphe pour ce dataset
-                $.ajax({
-                        url : '/mepa-front/api/graph/update',
-                        type : 'POST',
-                        dataType : 'json',
-                        success: function(graph) {
-
-                        },
-                    error: function() {
-                        console.log("error while storing the graph with the API");
-                    }
-                });
-            }
-            else
-            {
-                //il n'y a pas encore de graph pour ce dataset
-                $.ajax({
-                    url : '/mepa-front/api/graph/',
-                    type : 'POST',
-                    dataType : 'json',
-                    success: function(graph) {
-
-                    },
-                    error: function() {
-                        console.log("error while storing the graph with the API");
-                    }
-                });
-            }
-        },
-        error: function() {
-            console.log("error while storing the graph with the API");
-        }
-    });
-
-
-     /*{
-     "id" : "55b8b41bd737e71d98e76f99",
-     "grapheType": "LineChart",
-     "grapheColor1" : "ff8800",
-     "grapheColor2" : "ff8800",
-     "grapheJson" : "{\"vp\": \"test\",\"ts\": \"test\"}"
-     }*/
-}
-
-//get the graph from the database.
-function getGraphFromDB() {
-    $.ajax({
-        url : '/mepa-front/api/graph/' + idDataSet,
-        type : 'GET',
-        dataType : 'json',
-        success: function(graph) {
-            var printedGraphType = graph.grapheType;
-            var printedGraphColor1 = graph.grapheColor1;
-            var printedGraphColor2 = graph.grapheColor2;
-            var printedDataTable = graph.grapheJson;
-
-            chart.setChartType(printedGraphType);
-            chart.setOption('colors', [printedGraphColor1, printedGraphColor2]);
-            chart.setDataTable(printedDataTable);
-            chart.draw();
-        },
-        error: function() {
-            console.log("error while getting the graph from API");
-        }
-    });
-}
-
 //Binding the button and the addGraph function when window is loaded
 window.addEventListener('load',function(){
 
-    if($("#userConnectedText").length == 0) {
         $("#line2").hide();
         initializeHorizontalAxe();
 
         document.getElementById('add-chart').addEventListener('click', function () {
             addGraph();
         }, false);
-
-        document.getElementById('save-graph').addEventListener('click', function () {
-            saveGraphintoDB();
-        }, false);
-    }
-    else
-    {
-        //remove HTML elements
-        $("#chart-view table").remove();
-        getGraphFromDB();
-    }
 });

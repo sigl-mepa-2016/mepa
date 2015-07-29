@@ -5,6 +5,9 @@ import fr.epita.sigl.mepa.core.domain.DataSet;
 import fr.epita.sigl.mepa.core.domain.DataSetType;
 import fr.epita.sigl.mepa.core.service.DataService;
 import fr.epita.sigl.mepa.core.service.DataSetService;
+import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
+import fr.epita.sigl.mepa.front.APIpojo.Pojo;
+import fr.epita.sigl.mepa.front.controller.API.UserController;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomColumnFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataFormBean;
 import fr.epita.sigl.mepa.front.dataSet.AddCustomDataSetFormBean;
@@ -17,13 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -53,7 +54,23 @@ public class DataSetController {
 
 
     @RequestMapping(value = {"/form"})
-    public String showForm(HttpServletRequest request, ModelMap modelMap) {
+    public String showForm(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+
+        //@CookieValue(value = "token", defaultValue = "") String token,
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/home/";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/home/";
+        }
 
         // Get models data from database
         List<DataSet> datasets = this.dataSetService.getAllDataSets();
@@ -75,9 +92,24 @@ public class DataSetController {
      * @return
      */
     @RequestMapping(value = {"/add"}, method = {RequestMethod.POST})
-    public String processForm(ModelMap modelMap,
+    public String processForm(HttpServletRequest request, ModelMap modelMap,
                               @Valid AddCustomDataSetFormBean addCustomDataSetFormBean,
-                              BindingResult result) {
+                              BindingResult result, RedirectAttributes redirectAttributes) {
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/home/";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/home/";
+        }
 
         if (result.hasErrors()) {
             // Error(s) in form bean validation
@@ -109,6 +141,8 @@ public class DataSetController {
     public String showDetails(HttpServletRequest request, ModelMap modelMap) {
 
         String datasetId = request.getParameter("datasetId");
+        String errorMessage = request.getParameter("errorMessage");
+        modelMap.addAttribute("errorMessage", errorMessage);
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
@@ -132,7 +166,22 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/delete"})
-    public String showDelete(HttpServletRequest request, ModelMap modelMap) {
+    public String showDelete(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/home/";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/home/";
+        }
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
@@ -146,10 +195,28 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/deleteData"})
-    public String showDeleteData(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirAttr) {
+    public String showDeleteData(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
+
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
+
         Map<String, String[]> paramMap = request.getParameterMap();
         modelMap.addAttribute("dataset", dataSet);
 
@@ -162,13 +229,26 @@ public class DataSetController {
         List<DataSet> allDataSets = this.dataSetService.getAllDataSets();
         modelMap.addAttribute(DATASETS_MODEL_ATTRIBUTE, allDataSets);
 
-        redirAttr.addAttribute("datasetId", datasetId);
-
         return "redirect:/dataSet/details";
     }
 
     @RequestMapping(value = {"/updateDatasetForm"})
-    public String showUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap) {
+    public String showUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/home/";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/home/";
+        }
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
@@ -179,7 +259,22 @@ public class DataSetController {
 
     @RequestMapping(value = {"/update"}, method = {RequestMethod.POST})
     public String processUpdateDatasetForm(HttpServletRequest request, ModelMap modelMap,
-                                           @Valid AddCustomDataSetFormBean addCustomDataSetFormBean) {
+                                           @Valid AddCustomDataSetFormBean addCustomDataSetFormBean, RedirectAttributes redirectAttributes) {
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/home/";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/home/";
+        }
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
@@ -199,10 +294,28 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/updateDataForm"})
-    public String showUpdateDataForm(HttpServletRequest request, ModelMap modelMap) {
+    public String showUpdateDataForm(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
+
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
+
         Map<String, String[]> paramMap = request.getParameterMap();
         modelMap.addAttribute("dataset", dataSet);
 
@@ -220,13 +333,28 @@ public class DataSetController {
     @RequestMapping(value = {"/updateData"}, method = {RequestMethod.POST})
     public String processUpdateDataForm(HttpServletRequest request, ModelMap modelMap,
                                         @Valid AddCustomDataFormBean addCustomDataFormBean,
-                                        RedirectAttributes redirAttr) {
+                                        RedirectAttributes redirectAttributes) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Map<String, String[]> paramMap = request.getParameterMap();
 
-        redirAttr.addAttribute("datasetId", datasetId);
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
 
         Data data = this.dataService.getById(new ObjectId(datasetId));
         String[] fieldsValues = paramMap.get("fields");
@@ -250,11 +378,28 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/columnForm"})
-    public String showColumnForm(HttpServletRequest request, ModelMap modelMap) {
+    public String showColumnForm(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         modelMap.addAttribute("dataset", dataSet);
+
+        redirectAttributes.addAttribute("datasetId", datasetId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
 
         Map<String, String> typeValueList = new LinkedHashMap<>();
         for (DataSetType dataSetType : DataSetType.values())
@@ -281,6 +426,21 @@ public class DataSetController {
 
         redirAttr.addAttribute("datasetId", datasetId);
 
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirAttr.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
+
         if (nameValues.length != typeValues.length)
             return "redirect:/dataSet/details";
 
@@ -298,10 +458,28 @@ public class DataSetController {
     }
 
     @RequestMapping(value = {"/dataForm"})
-    public String showDataForm(HttpServletRequest request, ModelMap modelMap) {
+    public String showDataForm(HttpServletRequest request, ModelMap modelMap, RedirectAttributes redirAttr) {
 
         String datasetId = request.getParameter("datasetId");
         DataSet dataSet = this.dataSetService.getDataSetById(new ObjectId(datasetId));
+
+        redirAttr.addAttribute("datasetId", datasetId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirAttr.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
+
         modelMap.addAttribute("dataset", dataSet);
         modelMap.addAttribute("fieldKeys", dataSet.getFieldMap().keySet());
 
@@ -318,6 +496,21 @@ public class DataSetController {
         Map<String, String[]> paramMap = request.getParameterMap();
 
         redirAttr.addAttribute("datasetId", datasetId);
+
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirAttr.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
 
         String[] fieldsValues = paramMap.get("fields");
         Object[] fields = dataSet.getFieldMap().keySet().toArray();
@@ -362,6 +555,21 @@ public class DataSetController {
 
         redirectAttributes.addAttribute("datasetId", datasetId);
 
+        Cookie[] cookies = request.getCookies();
+        Cookie token = null;
+        for (Cookie c : cookies)
+            if (c.getName().equals("token"))
+                token = c;
+
+        if (token != null) {
+            /*Pojo resultAuthorization = new UserController().checkToken(token.getValue());
+            if (resultAuthorization instanceof ErrorMessage)
+                return "redirect:/dataSet/details";*/
+        } else {
+            redirectAttributes.addAttribute("errorMessage", "You must be registered!");
+            return "redirect:/dataSet/details";
+        }
+
         DataSet dataset = this.dataSetService.getDataSetById(new ObjectId(datasetId));
         Data data = this.dataService.getById(new ObjectId(datasetId));
 
@@ -383,10 +591,10 @@ public class DataSetController {
                 if (!field.contains("#"))
                     return "redirect:/dataSet/details";
                 else
-                if (field.split("#")[1].equals("TEXT") || field.split("#")[1].equals("NUMBER"))
-                    dataset.addField(field.split("#")[0], field.split("#")[1]);
-                else
-                    return "redirect:/dataSet/details";
+                    if (field.split("#")[1].equals("TEXT") || field.split("#")[1].equals("NUMBER"))
+                        dataset.addField(field.split("#")[0], field.split("#")[1]);
+                    else
+                        return "redirect:/dataSet/details";
             }
             this.dataSetService.updateDataSet(dataset);
             dataset = this.dataSetService.getDataSetById(new ObjectId(datasetId));

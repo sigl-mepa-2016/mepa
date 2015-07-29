@@ -6,6 +6,8 @@ import fr.epita.sigl.mepa.front.APIpojo.Impl.ErrorMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Impl.SuccessMessage;
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private static String ADMIN_TOKEN = "507f191e810c19729de860ea";
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
+
+    public static String ADMIN_TOKEN = "507f191e810c19729de860ea";
 
     @Autowired
     private UserService userService;
@@ -27,6 +32,7 @@ public class UserController {
      */
     @RequestMapping(value = "/token", method = RequestMethod.GET, params = {"name", "password"})
     public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
+
         User user = userService.getByNameAndPassword(new User(name, password));
         return (user != null) ? new SuccessMessage(user.get_id().toString()) : new ErrorMessage("Invalid password or user");
     }
@@ -57,9 +63,11 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public Pojo addUser(fr.epita.sigl.mepa.front.APIpojo.Impl.User inputUser, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
+    public Pojo addUser(@RequestBody fr.epita.sigl.mepa.front.APIpojo.Impl.User inputUser, @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         if (!authorization.equals(ADMIN_TOKEN))
             return new ErrorMessage("Invalid Admin Token");
+
+    LOG.debug("{}", inputUser);
         this.userService.create(new User(inputUser.getName(), inputUser.getPassword()));
         return new SuccessMessage("Success Add");
     }
