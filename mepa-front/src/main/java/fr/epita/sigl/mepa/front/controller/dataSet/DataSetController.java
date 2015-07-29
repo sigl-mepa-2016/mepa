@@ -585,7 +585,10 @@ public class DataSetController {
                 if (!field.contains("#"))
                     return "redirect:/dataSet/details";
                 else
-                    dataset.addField(field.split("#")[0], field.split("#")[1]);
+                    if (field.split("#")[1].equals("TEXT") || field.split("#")[1].equals("NUMBER"))
+                        dataset.addField(field.split("#")[0], field.split("#")[1]);
+                    else
+                        return "redirect:/dataSet/details";
             }
             this.dataSetService.updateDataSet(dataset);
             dataset = this.dataSetService.getDataSetById(new ObjectId(datasetId));
