@@ -71,6 +71,24 @@
         <div class="tab-content">
                 <%-- Tabular view --%>
                     <div class="tab-pane fade" id="table-view">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                            <div class="panel panel-default">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            [ADMIN] Custom table
+                                        </h4>
+                                    </div>
+                                </a>
+
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <%@ include file="hideShowColumn.jsp"%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <table id="visualization_tab_div" class="table">
                         <script type="application/javascript">
                             // Recover java's ArrayList (need to convert elements to String)
