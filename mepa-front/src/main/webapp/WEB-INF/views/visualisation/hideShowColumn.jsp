@@ -19,7 +19,7 @@
             <tr>
                 <c:forEach items="${fieldKeys}" var="column" varStatus="loop2">
                     <td>
-                        <input type="checkbox" id="${column}" checked>
+                        <input type="checkbox" id="${column}" onchange="updateTable('${column}');" checked>
                     </td>
                 </c:forEach>
             </tr>
