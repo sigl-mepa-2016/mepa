@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private static String ADMIN_TOKEN = "507f191e810c19729de860ea";
+    public static String ADMIN_TOKEN = "507f191e810c19729de860ea";
 
     @Autowired
     private UserService userService;
@@ -27,6 +27,7 @@ public class UserController {
      */
     @RequestMapping(value = "/token", method = RequestMethod.GET, params = {"name", "password"})
     public Pojo getToken(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password) {
+
         User user = userService.getByNameAndPassword(new User(name, password));
         return (user != null) ? new SuccessMessage(user.get_id().toString()) : new ErrorMessage("Invalid password or user");
     }
