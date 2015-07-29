@@ -3,6 +3,7 @@ package fr.epita.sigl.mepa.front.APIpojo.Impl;
 import fr.epita.sigl.mepa.core.domain.DataSetType;
 import fr.epita.sigl.mepa.front.APIpojo.Pojo;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +24,12 @@ public class Data implements Pojo {
             this.data.put(entry.getKey(), new DataList(entry.getValue()));
     }
 
-
+    @XmlElement
     public Map<String, DataList> getData() {
         return data;
     }
 
-    public Map<String, List<String>> getDataInList() {
+    public Map<String, List<String>> dataInList() {
         Map<String, List<String>> returnData = new HashMap<>();
 
         for (Map.Entry<String, DataList> entry : this.data.entrySet())
@@ -53,7 +54,7 @@ public class Data implements Pojo {
             String fieldName = entrie.getKey();
             String fieldType = entrie.getValue();
 
-            for (String d : this.getDataInList().get(fieldName))
+            for (String d : this.dataInList().get(fieldName))
                 if (!DataSetType.checkType(d, DataSetType.valueOf(fieldType)))
                     return false;
         }
@@ -66,8 +67,8 @@ public class Data implements Pojo {
      * @param dataInput
      */
     public void mergeData(Data dataInput) {
-        for (Map.Entry<String, List<String>> entry : dataInput.getDataInList().entrySet()) {
-            List<String> actualData = this.getDataInList().get(entry.getKey());
+        for (Map.Entry<String, List<String>> entry : dataInput.dataInList().entrySet()) {
+            List<String> actualData = this.dataInList().get(entry.getKey());
             List<String> newData = entry.getValue();
             actualData.addAll(newData);
 
@@ -90,7 +91,7 @@ public class Data implements Pojo {
                     return false;
 
         int size = -1;
-        for (Map.Entry<String, List<String>> entry : this.getDataInList().entrySet()) {
+        for (Map.Entry<String, List<String>> entry : this.dataInList().entrySet()) {
             if (size == -1)
                 size = entry.getValue().size();
             else if (size != entry.getValue().size())
@@ -119,6 +120,7 @@ class DataList {
     public DataList() {
     }
 
+    @XmlElement
     public List<String> getValue() {
         return value;
     }
